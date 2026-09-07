@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LegacyCanvas | Banner Maker</title>
-    <!-- Fabric.js Kütüphanesini doğrudan internetten çekiyoruz -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <style>
         body { 
@@ -21,20 +20,34 @@
             background-color: #1a1a1a; 
             margin-top: 20px;
         }
-        .toolbar { margin-bottom: 20px; }
+        .toolbar { 
+            margin-bottom: 20px; 
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .toolbar-group {
+            border: 1px solid #333;
+            padding: 10px;
+            border-radius: 8px;
+            background: #151515;
+        }
         button { 
             background: #333; 
             color: white; 
             border: 1px solid #555; 
             padding: 10px 15px; 
-            margin: 5px; 
             cursor: pointer; 
             border-radius: 5px; 
             font-weight: bold; 
+            transition: 0.2s;
         }
-        button:hover { background: #444; }
+        button:hover { background: #555; }
         .delete-btn { background: #d9534f; }
+        .delete-btn:hover { background: #c9302c; }
         .download-btn { background: #5cb85c; }
+        .download-btn:hover { background: #4cae4c; }
     </style>
 </head>
 <body>
@@ -42,43 +55,77 @@
     <h1>LegacyCanvas Editör</h1>
     
     <div class="toolbar">
-        <button onclick="addText('Siyaset Gaming - CS 1.6')">➕ Siyaset Gaming Ekle</button>
-        <button onclick="addText('LegacyClan')">➕ LegacyClan Ekle</button>
-        <button onclick="changeBackground('#001f3f')">❄️ Kış Teması</button>
-        <button onclick="changeBackground('#8b0000')">🔴 Savaş Teması</button>
-        <button class="delete-btn" onclick="deleteSelected()">🗑️ Seçiliyi Sil</button>
-        <button class="download-btn" onclick="downloadBanner()">💾 Banneri İndir</button>
+        <div class="toolbar-group">
+            <button onclick="addText('Siyaset Gaming')">📝 Sunucu Adı</button>
+            <button onclick="addText('IP: 213.238.173.XX')">📝 IP Adresi</button>
+        </div>
+
+        <div class="toolbar-group">
+            <!-- URL'leri kendi sitene veya imgur'a yüklediğin şeffaf PNG'lerle değiştirebilirsin -->
+            <button onclick="addImage('https://cdn-icons-png.flaticon.com/512/324/324128.png', 0.15)">🦅 Kartal Logosu</button>
+            <button onclick="addImage('https://cdn-icons-png.flaticon.com/512/3132/3132791.png', 0.15)">⚡ Şimşek</button>
+            <button onclick="addImage('https://cdn-icons-png.flaticon.com/512/3074/3074064.png', 0.2)">🔫 CS Karakteri</button>
+        </div>
+
+        <div class="toolbar-group">
+            <button onclick="changeBackground('#001f3f')">❄️ Kış Arka Plan</button>
+            <button onclick="changeBackground('#8b0000')">🔴 Kan Kırmızı</button>
+            <button onclick="changeBackground('#1a1a1a')">⚫ Koyu Tema</button>
+        </div>
+
+        <div class="toolbar-group">
+            <button class="delete-btn" onclick="deleteSelected()">🗑️ Seçiliyi Sil</button>
+            <button class="download-btn" onclick="downloadBanner()">💾 Banneri İndir</button>
+        </div>
     </div>
 
-    <!-- TS3 ve CS 1.6 MOTD için uygun standart boyut -->
+    <!-- TS3 / CS 1.6 için standart banner alanı -->
     <canvas id="bannerCanvas" width="800" height="200"></canvas>
     
-    <p style="color: #aaa; margin-top: 15px;">İpucu: Yazılara çift tıklayarak düzenleyebilir, köşelerinden tutup büyütebilirsin.</p>
+    <p style="color: #aaa; margin-top: 15px;">İpucu: Objeleri seçip "Delete" tuşuyla silebilir, köşelerinden boyutlandırabilirsin.</p>
 
     <script>
-        // Canvas'ı başlat
         const canvas = new fabric.Canvas('bannerCanvas');
 
-        // Metin Ekleme Fonksiyonu
+        // Klavyeden Delete tuşu ile silme özelliği
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Delete') {
+                deleteSelected();
+            }
+        });
+
         function addText(textValue) {
             const text = new fabric.IText(textValue, {
-                left: 50,
-                top: 50,
+                left: 300,
+                top: 80,
                 fontFamily: 'Impact',
                 fill: '#ffffff',
-                fontSize: 40,
+                fontSize: 35,
                 shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.8)', blur: 5, offsetX: 3, offsetY: 3 })
             });
             canvas.add(text);
             canvas.setActiveObject(text);
         }
 
-        // Arka Plan Rengini Değiştirme
+        // Yeni Eklenen: Görsel/Logo Yükleme Fonksiyonu
+        function addImage(url, scale) {
+            fabric.Image.fromURL(url, function(img) {
+                img.scale(scale);
+                img.set({ 
+                    left: 50, 
+                    top: 20,
+                    // Görsellere hafif bir parlama efekti verelim
+                    shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.5)', blur: 10, offsetX: 0, offsetY: 0 })
+                });
+                canvas.add(img);
+                canvas.setActiveObject(img);
+            }, { crossOrigin: 'anonymous' }); // İndirme hatası vermemesi için hayati ayar
+        }
+
         function changeBackground(color) {
             canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
         }
 
-        // Seçili Objeyi Silme (Klavyedeki Delete tuşunu da bağlayabiliriz)
         function deleteSelected() {
             const activeObject = canvas.getActiveObject();
             if (activeObject) {
@@ -86,12 +133,11 @@
             }
         }
 
-        // Tasarımı PNG olarak indirme
         function downloadBanner() {
             const dataURL = canvas.toDataURL({ format: 'png', quality: 1.0 });
             const link = document.createElement('a');
             link.href = dataURL;
-            link.download = 'LegacyCanvas.png';
+            link.download = 'LegacyCanvas-Banner.png';
             link.click();
         }
     </script>
