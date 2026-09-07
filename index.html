@@ -3,140 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LegacyCanvas | Profesyonel Tasarım Platformu</title>
+    <title>LegacyCanvas | Profesyonel Grafik & Banner Stüdyosu</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;700;900&family=Teko:wght@600;700&family=Inter:wght@400;600;800&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #0d0f12; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { background-color: #0b0c10; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
         /* NAVBAR */
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: #15181e; padding: 12px 30px; border-bottom: 1px solid #232730; z-index: 100; }
-        .logo { font-size: 24px; font-weight: 900; color: #fff; cursor: pointer; letter-spacing: -0.5px; }
-        .logo span { color: #00d2ff; }
-        .nav-search { display: flex; align-items: center; background: #0d0f12; border: 1px solid #232730; border-radius: 8px; padding: 4px 15px; width: 380px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: #13151b; padding: 12px 30px; border-bottom: 1px solid #1f232d; z-index: 100; }
+        .logo { font-size: 22px; font-weight: 900; color: #fff; cursor: pointer; letter-spacing: -0.5px; }
+        .logo span { color: #00e5ff; }
+        .nav-search { display: flex; align-items: center; background: #0b0c10; border: 1px solid #1f232d; border-radius: 8px; padding: 4px 15px; width: 360px; }
         .nav-search input { background: transparent; border: none; color: white; width: 100%; padding: 8px; outline: none; font-size: 13px; }
         .user-actions { display: flex; gap: 12px; align-items: center; }
         
         /* BUTONLAR */
         .btn { padding: 9px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 13px; }
-        .btn-primary { background: linear-gradient(90deg, #00d2ff 0%, #0072ff 100%); color: white; }
+        .btn-primary { background: linear-gradient(90deg, #00e5ff 0%, #0072ff 100%); color: white; }
         .btn-primary:hover { opacity: 0.9; }
-        .btn-pro { background: linear-gradient(90deg, #f5af19 0%, #e65c00 100%); color: #fff; box-shadow: 0 4px 15px rgba(230, 92, 0, 0.3); }
-        .btn-dark { background: #232730; color: #ccc; border: 1px solid #323744; }
-        .btn-dark:hover { background: #323744; color: white; }
+        .btn-pro { background: linear-gradient(90deg, #ffb300 0%, #ff6f00 100%); color: #000; font-weight: 800; }
+        .btn-dark { background: #1f232d; color: #ccc; border: 1px solid #2d3240; }
+        .btn-dark:hover { background: #2d3240; color: white; }
 
-        /* GALERİ VE SOL MENÜ */
+        /* GALERİ VE YAN MENÜ */
         .dashboard { display: flex; height: 100%; flex: 1; overflow: hidden; }
-        .sidebar-filters { width: 240px; background: #15181e; padding: 20px; border-right: 1px solid #232730; overflow-y: auto; }
-        .filter-title { font-size: 11px; color: #656b79; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 8px 0; font-weight: 700; }
-        .filter-btn { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #9aa0ac; padding: 10px 12px; border-radius: 6px; cursor: pointer; margin-bottom: 4px; font-size: 13px; font-weight: 600; transition: 0.2s; }
-        .filter-btn:hover, .filter-btn.active { background: #232730; color: #00d2ff; }
+        .sidebar-filters { width: 250px; background: #13151b; padding: 20px; border-right: 1px solid #1f232d; overflow-y: auto; }
+        .filter-title { font-size: 11px; color: #5a6170; text-transform: uppercase; letter-spacing: 1px; margin: 18px 0 8px 0; font-weight: 800; }
+        .filter-btn { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #8e95a5; padding: 11px 14px; border-radius: 6px; cursor: pointer; margin-bottom: 4px; font-size: 13px; font-weight: 600; transition: 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: #1f232d; color: #00e5ff; }
         
-        .gallery-area { flex: 1; padding: 25px 35px; overflow-y: auto; background: #0d0f12; }
-        .gallery-header { font-size: 22px; font-weight: 800; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 22px; padding-bottom: 60px; }
+        .gallery-area { flex: 1; padding: 25px 35px; overflow-y: auto; background: #0b0c10; }
+        .gallery-header { font-size: 20px; font-weight: 800; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; padding-bottom: 80px; }
         
         /* ŞABLON KARTLARI */
-        .template-card { background: #15181e; border: 1px solid #232730; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; transition: 0.25s ease-in-out; display: flex; flex-direction: column; }
-        .template-card:hover { transform: translateY(-4px); border-color: #00d2ff; box-shadow: 0 8px 24px rgba(0,210,255,0.15); }
-        .template-img-container { height: 160px; width: 100%; background: #000; position: relative; overflow: hidden; }
-        .template-img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
-        .template-card:hover .template-img-container img { transform: scale(1.05); }
-        .template-info { padding: 14px; background: #15181e; }
-        .template-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #f0f2f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .template-category { font-size: 12px; color: #717786; }
-        .pro-badge-card { position: absolute; top: 10px; right: 10px; background: linear-gradient(90deg, #f5af19, #e65c00); color: #fff; font-size: 10px; font-weight: 900; padding: 3px 8px; border-radius: 4px; z-index: 2; }
-        .animated-badge { position: absolute; top: 10px; left: 10px; background: #eb3b5a; color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; z-index: 2; }
+        .template-card { background: #13151b; border: 1px solid #1f232d; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; transition: 0.25s; display: flex; flex-direction: column; }
+        .template-card:hover { transform: translateY(-4px); border-color: #00e5ff; box-shadow: 0 10px 25px rgba(0,229,255,0.12); }
+        .card-preview { height: 150px; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 15px; text-align: center; position: relative; }
+        .template-info { padding: 14px; background: #13151b; border-top: 1px solid #1f232d; }
+        .template-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #f0f2f5; }
+        .template-category { font-size: 12px; color: #626978; }
+        .badge-pro { position: absolute; top: 10px; right: 10px; background: #ffb300; color: #000; font-size: 10px; font-weight: 900; padding: 3px 7px; border-radius: 4px; }
 
-        /* EDİTÖR EKRANI */
+        /* EDİTÖR */
         .editor-container { display: none; height: 100%; flex: 1; position: relative; }
-        .editor-sidebar { width: 72px; background: #15181e; display: flex; flex-direction: column; align-items: center; padding-top: 15px; border-right: 1px solid #232730; }
-        .tool-icon { width: 54px; height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #828997; cursor: pointer; font-size: 10px; margin-bottom: 8px; border-radius: 8px; transition: 0.2s; }
-        .tool-icon:hover { color: white; background: #232730; }
-        .editor-panel { width: 260px; background: #191c24; border-right: 1px solid #232730; padding: 18px; display: none; flex-direction: column; gap: 10px; overflow-y: auto; }
-        .canvas-wrapper { flex: 1; background: #090a0d; display: flex; justify-content: center; align-items: center; overflow: auto; position: relative; padding: 40px; }
-        canvas { box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .editor-sidebar { width: 70px; background: #13151b; display: flex; flex-direction: column; align-items: center; padding-top: 15px; border-right: 1px solid #1f232d; }
+        .tool-icon { width: 50px; height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #767d8e; cursor: pointer; font-size: 10px; margin-bottom: 10px; border-radius: 8px; }
+        .tool-icon:hover { color: white; background: #1f232d; }
+        .editor-panel { width: 270px; background: #181a22; border-right: 1px solid #1f232d; padding: 18px; display: none; flex-direction: column; gap: 10px; overflow-y: auto; }
+        .canvas-wrapper { flex: 1; background: #07080a; display: flex; justify-content: center; align-items: center; overflow: auto; position: relative; padding: 40px; }
+        canvas { box-shadow: 0 15px 50px rgba(0,0,0,0.9); }
         .editor-topbar { position: absolute; top: 15px; right: 25px; display: flex; gap: 10px; z-index: 10; }
 
-        /* MODALLAR */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(6px); }
-        .modal-content { background: #15181e; padding: 30px; border-radius: 12px; width: 380px; border: 1px solid #232730; }
-        .modal-content input { width: 100%; padding: 11px; margin-bottom: 12px; background: #0d0f12; border: 1px solid #2e3340; color: white; border-radius: 6px; font-size: 13px; outline: none; }
-        .modal-content input:focus { border-color: #00d2ff; }
+        /* MODAL */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: #13151b; padding: 30px; border-radius: 12px; width: 380px; border: 1px solid #1f232d; }
+        .modal-content input { width: 100%; padding: 11px; margin-bottom: 12px; background: #0b0c10; border: 1px solid #2d3240; color: white; border-radius: 6px; font-size: 13px; outline: none; }
         .cc-row { display: flex; gap: 10px; }
-        .loader { display: none; border: 3px solid #232730; border-top: 3px solid #00d2ff; border-radius: 50%; width: 22px; height: 22px; animation: spin 0.8s linear infinite; margin: 10px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <!-- NAVBAR -->
     <div class="navbar">
-        <div class="logo" onclick="showDashboard()">Legacy<span>Canvas</span></div>
+        <div class="logo" onclick="showDashboard()">Legacy<span>Canvas</span> Pro</div>
         <div class="nav-search">
-            <input type="text" placeholder="Şablonlarda ara (Legacy Cafe, Kartal, Adana Kebap...)" onkeyup="searchTemplates(this.value)">
+            <input type="text" placeholder="24 şablon içinde ara... (Örn: Kebap, Kartal, Klan)" onkeyup="searchTemplates(this.value)">
         </div>
         <div class="user-actions" id="userPanel"></div>
     </div>
 
-    <!-- EKRAN 1: GALERİ (Dashboard) -->
+    <!-- DASHBOARD / GALERİ -->
     <div class="dashboard" id="dashboardScreen">
         <div class="sidebar-filters">
-            <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="openBlankEditor()">+ Boş Tasarım Aç</button>
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="openBlankEditor()">+ Boş Tuval Aç</button>
             
-            <div class="filter-title">Kategoriler</div>
-            <button class="filter-btn active" onclick="filterGallery('Tümü')">🌟 Tümü</button>
-            <button class="filter-btn" onclick="filterGallery('Oyunlar')">🎮 Oyun & Sunucu</button>
-            <button class="filter-btn" onclick="filterGallery('Kafe & Restoran')">☕ Kafe & Kebapçı</button>
-            <button class="filter-btn" onclick="filterGallery('Düğün & Davetiye')">💍 Düğün & Davetiye</button>
-            <button class="filter-btn" onclick="filterGallery('Sosyal Medya')">📱 Sosyal Medya</button>
+            <div class="filter-title">Kategoriler (24 Hazır Tasarım)</div>
+            <button class="filter-btn active" onclick="filterGallery('Tümü')">🌟 Tümü (24)</button>
+            <button class="filter-btn" onclick="filterGallery('Oyun')">🎮 CS / TS3 / Oyun (6)</button>
+            <button class="filter-btn" onclick="filterGallery('Kebap')">🥩 Kebapçı & Izgara (6)</button>
+            <button class="filter-btn" onclick="filterGallery('Kafe')">☕ Kafe & Barista (6)</button>
+            <button class="filter-btn" onclick="filterGallery('Davetiye')">💍 Düğün & Davetiye (6)</button>
         </div>
         
         <div class="gallery-area">
             <div class="gallery-header">
-                <span id="galleryTitle">Tüm Hazır Şablonlar</span>
+                <span id="galleryTitle">Tüm Profesyonel Şablonlar</span>
             </div>
             <div class="template-grid" id="templateGrid"></div>
         </div>
     </div>
 
-    <!-- EKRAN 2: GELİŞMİŞ EDİTÖR -->
+    <!-- GELİŞMİŞ EDİTÖR -->
     <div class="editor-container" id="editorScreen">
         <div class="editor-sidebar">
-            <div class="tool-icon" onclick="togglePanel('textPanel')"><span style="font-size:18px; margin-bottom:4px;">📝</span>Metin</div>
-            <div class="tool-icon" onclick="togglePanel('mediaPanel')"><span style="font-size:18px; margin-bottom:4px;">🖼️</span>Görsel</div>
-            <div class="tool-icon" onclick="togglePanel('bgPanel')"><span style="font-size:18px; margin-bottom:4px;">🎨</span>Arka Plan</div>
+            <div class="tool-icon" onclick="togglePanel('textPanel')"><span style="font-size:18px;">📝</span>Metin</div>
+            <div class="tool-icon" onclick="togglePanel('shapePanel')"><span style="font-size:18px;">🔶</span>Şekil</div>
+            <div class="tool-icon" onclick="togglePanel('bgPanel')"><span style="font-size:18px;">🎨</span>Zemin</div>
         </div>
 
         <div class="editor-panel" id="textPanel">
-            <h3 style="font-size: 13px; color:#717786;">Yazı Ekle</h3>
-            <button class="btn btn-dark" onclick="addCustomText('BAŞLIK', 42, 'Impact', '#ffffff')">Oyun Başlığı (Impact)</button>
-            <button class="btn btn-dark" onclick="addCustomText('ÖZEL MENÜ', 36, 'Montserrat', '#ffcc00')">Kafe/Fiyat Başlığı</button>
-            <button class="btn btn-dark" onclick="addCustomText('Düğün Davetiyesi', 32, 'Playfair Display', '#f39c12')">Davetiye Fontu</button>
+            <h3 style="font-size: 13px; color:#5a6170;">Yazı Ekle</h3>
+            <button class="btn btn-dark" onclick="addText('YENİ BAŞLIK', 40, 'Teko', '#00e5ff')">Oyun/Espor Başlığı (Teko)</button>
+            <button class="btn btn-dark" onclick="addText('ÖZEL MENÜ', 32, 'Montserrat', '#ffb300')">Restoran/Fiyat Başlığı</button>
+            <button class="btn btn-dark" onclick="addText('Düğün Töreni', 30, 'Cinzel', '#e0cfb3')">Lüks Davetiye Başlığı</button>
         </div>
-        
-        <div class="editor-panel" id="mediaPanel">
-            <h3 style="font-size: 13px; color:#717786;">Özel Logo Yükle</h3>
-            <button class="btn btn-primary" onclick="document.getElementById('imgUpload').click()">📁 Bilgisayardan Seç</button>
-            <input type="file" id="imgUpload" style="display: none;" accept="image/*">
-            <h3 style="font-size: 13px; color:#717786; margin-top:15px;">Özel Amblemler</h3>
-            <div style="display:flex; gap:10px;">
-                <img src="https://cdn-icons-png.flaticon.com/512/324/324128.png" width="45" style="cursor:pointer; background:#232730; padding:5px; border-radius:6px;" onclick="addOverlayImage(this.src, 0.2)">
-                <img src="https://cdn-icons-png.flaticon.com/512/3132/3132791.png" width="45" style="cursor:pointer; background:#232730; padding:5px; border-radius:6px;" onclick="addOverlayImage(this.src, 0.2)">
-            </div>
+
+        <div class="editor-panel" id="shapePanel">
+            <h3 style="font-size: 13px; color:#5a6170;">Grafik & Rozet Ekle</h3>
+            <button class="btn btn-dark" onclick="addBadge('İNDİRİM %30', '#ff1744')">Fırsat Rozeti Ekle</button>
+            <button class="btn btn-dark" onclick="addBorder()">Lüks Altın Çerçeve Ekle</button>
         </div>
 
         <div class="editor-panel" id="bgPanel">
-            <h3 style="font-size: 13px; color:#717786;">Arka Plan Rengi</h3>
-            <div style="display:flex; gap:8px; margin-bottom:15px;">
-                <div style="width:28px; height:28px; background:#000; cursor:pointer; border-radius:4px; border:1px solid #444;" onclick="changeBgColor('#000000')"></div>
-                <div style="width:28px; height:28px; background:#1a0000; cursor:pointer; border-radius:4px;" onclick="changeBgColor('#1a0000')"></div>
-                <div style="width:28px; height:28px; background:#0b192c; cursor:pointer; border-radius:4px;" onclick="changeBgColor('#0b192c')"></div>
-                <div style="width:28px; height:28px; background:#2c1810; cursor:pointer; border-radius:4px;" onclick="changeBgColor('#2c1810')"></div>
+            <h3 style="font-size: 13px; color:#5a6170;">Arka Plan Rengi</h3>
+            <div style="display:flex; gap:8px; margin-bottom: 12px;">
+                <div style="width:28px; height:28px; background:#0a0a0d; cursor:pointer; border-radius:4px; border:1px solid #333;" onclick="changeBg('#0a0a0d')"></div>
+                <div style="width:28px; height:28px; background:#1b0000; cursor:pointer; border-radius:4px;" onclick="changeBg('#1b0000')"></div>
+                <div style="width:28px; height:28px; background:#001220; cursor:pointer; border-radius:4px;" onclick="changeBg('#001220')"></div>
+                <div style="width:28px; height:28px; background:#1e140a; cursor:pointer; border-radius:4px;" onclick="changeBg('#1e140a')"></div>
             </div>
-            <button class="btn btn-dark" onclick="document.getElementById('bgUpload').click()">🖼️ Arka Plan Fotoğrafı Yükle</button>
+            <button class="btn btn-dark" onclick="document.getElementById('bgUpload').click()">🖼️ Kendi Resmini Yükle</button>
             <input type="file" id="bgUpload" style="display: none;" accept="image/*">
         </div>
 
@@ -150,147 +139,288 @@
         </div>
     </div>
 
-    <!-- MODAL: GİRİŞ -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content" style="text-align: center;">
-            <h2 style="margin-bottom:6px;">Giriş Yap</h2>
-            <p style="color:#717786; font-size:13px; margin-bottom:18px;">LegacyCanvas hesabınıza bağlanın.</p>
-            <input type="text" id="username" placeholder="Kullanıcı Adı">
-            <button class="btn btn-primary" style="width:100%;" onclick="login()">Giriş Yap</button>
-            <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="closeModal('loginModal')">Kapat</button>
-        </div>
-    </div>
-
-    <!-- MODAL: KREDİ KARTI / SANAL POS -->
+    <!-- SANAL POS MODALI -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
-            <div style="text-align: center; margin-bottom: 18px;">
-                <h2 style="color: #f5af19;">PRO Tasarım Kilidi</h2>
-                <p style="color:#888; font-size:12px; margin-top:4px;">Bu şablon ve tüm Pro kütüphane için ödeme yapın.</p>
-                <h1 style="margin-top: 8px; font-size: 26px;">300 TL</h1>
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h2 style="color: #ffb300;">PRO Şablon Kilidi</h2>
+                <p style="color:#777; font-size:12px; margin-top:4px;">Bu ajans şablonu ve tüm kütüphane için ödeme yapın.</p>
+                <h1 style="margin-top: 8px;">300 TL</h1>
             </div>
-            
-            <label style="font-size: 11px; color: #888;">Kart Sahibi</label>
-            <input type="text" id="ccName" placeholder="Ad Soyad">
-            
-            <label style="font-size: 11px; color: #888;">Kart Numarası</label>
+            <input type="text" id="ccName" placeholder="Kart Sahibinin Adı">
             <input type="text" id="ccNum" placeholder="0000 0000 0000 0000" maxlength="19">
-            
             <div class="cc-row">
-                <div style="flex: 1;">
-                    <label style="font-size: 11px; color: #888;">SKT</label>
-                    <input type="text" id="ccExp" placeholder="AA/YY" maxlength="5">
-                </div>
-                <div style="flex: 1;">
-                    <label style="font-size: 11px; color: #888;">CVC</label>
-                    <input type="text" id="ccCvc" placeholder="000" maxlength="3">
-                </div>
+                <input type="text" id="ccExp" placeholder="AA/YY" maxlength="5">
+                <input type="text" id="ccCvc" placeholder="CVC" maxlength="3">
             </div>
-
-            <div id="paymentLoader" class="loader"></div>
-            <button id="payBtn" class="btn btn-pro" style="width:100%; padding:12px; margin-top: 6px;" onclick="processPayment()">300 TL Öde ve Aç</button>
-            <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="closeModal('paymentModal')">İptal</button>
+            <button class="btn btn-pro" style="width:100%; padding:12px;" onclick="processPayment()">300 TL Öde ve Aç</button>
+            <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="closeModal('paymentModal')">Kapat</button>
         </div>
     </div>
 
     <script>
-        // --- GERÇEK GÖRSELLİ VE KATMANLI ŞABLON VERİTABANI ---
+        // --- 24 ADET GERÇEK GRAFİK KATMANLI ŞABLON ---
         const templates = [
-            // OYUN & SUNUCU
+            // OYUN / CS / TS3 (6 Adet)
             {
-                id: 1, cat: 'Oyunlar', name: 'Legacy Clan (Kartal & Şimşek)', pro: true, anim: true, w: 800, h: 200,
-                thumb: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1000&auto=format&fit=crop&q=80',
-                overlayImg: 'https://cdn-icons-png.flaticon.com/512/324/324128.png',
-                title: 'LEGACY CLAN', titleFont: 'Impact', titleColor: '#00d2ff',
-                subtitle: 'CS 1.6 & CS2 JAILBREAK • IP: 213.238.173.XX', subColor: '#ffffff'
+                id: 1, cat: 'Oyun', name: 'Legacy Kartal Espor Pro', pro: true, w: 800, h: 220,
+                previewBg: 'linear-gradient(135deg, #0b0c10, #002b49)', title: 'LEGACY CLAN', sub: 'CS 1.6 & CS2 JAILBREAK SERVER',
+                layers: [
+                    { type: 'rect', w: 800, h: 220, fill: '#0a0d14' },
+                    { type: 'rect', w: 790, h: 210, stroke: '#00e5ff', strokeWidth: 2, fill: 'transparent', left: 5, top: 5 },
+                    { type: 'rect', w: 260, h: 220, fill: '#002b49', left: 0, top: 0, opacity: 0.6 },
+                    { type: 'text', text: '⚡ LEGACY CLAN ⚡', font: 'Teko', size: 55, fill: '#00e5ff', left: 40, top: 40 },
+                    { type: 'text', text: 'TÜRKİYE PRO JAILBREAK SUNUCUSU', font: 'Montserrat', size: 16, fill: '#ffffff', left: 42, top: 105 },
+                    { type: 'badge', text: 'IP: 213.238.173.XX', fill: '#ff1744', left: 42, top: 145, w: 200, h: 32 }
+                ]
             },
             {
-                id: 2, cat: 'Oyunlar', name: 'Siyaset Gaming Jailbreak', pro: false, anim: false, w: 800, h: 200,
-                thumb: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1000&auto=format&fit=crop&q=80',
-                title: 'SİYASET GAMING', titleFont: 'Impact', titleColor: '#ff2a2a',
-                subtitle: 'KURALSIZLARIN TEK ADRESİ • TS3: siyaset', subColor: '#ffffff'
+                id: 2, cat: 'Oyun', name: 'Siyaset Gaming CS 1.6', pro: false, w: 800, h: 220,
+                previewBg: 'linear-gradient(135deg, #1b0000, #400000)', title: 'SİYASET GAMING', sub: 'KURALSIZLARIN TEK ADRESİ',
+                layers: [
+                    { type: 'rect', w: 800, h: 220, fill: '#140000' },
+                    { type: 'rect', w: 790, h: 210, stroke: '#ff1744', strokeWidth: 2, fill: 'transparent', left: 5, top: 5 },
+                    { type: 'text', text: 'SİYASET GAMING', font: 'Teko', size: 60, fill: '#ff1744', left: 50, top: 35 },
+                    { type: 'text', text: 'PRO OYUNCULARIN BULUŞMA NOKTASI • TS3 AKTİF', font: 'Montserrat', size: 15, fill: '#e0e0e0', left: 52, top: 105 },
+                    { type: 'badge', text: 'TS3: SİYASET', fill: '#222222', left: 52, top: 145, w: 160, h: 32 }
+                ]
             },
             {
-                id: 3, cat: 'Oyunlar', name: 'FiveM Los Santos Roleplay', pro: true, anim: false, w: 960, h: 540,
-                thumb: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&auto=format&fit=crop&q=80',
-                title: 'LOS SANTOS V', titleFont: 'Montserrat', titleColor: '#f1c40f',
-                subtitle: 'Gerçekçi Ekonomi & Hard RP • discord.gg/lsrp', subColor: '#eeeeee'
+                id: 3, cat: 'Oyun', name: 'MTA Turkish Drift Arena', pro: false, w: 800, h: 220,
+                previewBg: 'linear-gradient(135deg, #1a1000, #ff6f00)', title: 'MTA DRIFT ARENA', sub: 'YERLİ ARAÇLAR & YANLAMA',
+                layers: [
+                    { type: 'rect', w: 800, h: 220, fill: '#110b00' },
+                    { type: 'rect', w: 300, h: 6, fill: '#ff9100', left: 50, top: 105 },
+                    { type: 'text', text: 'MTA DRIFT ARENA', font: 'Teko', size: 62, fill: '#ff9100', left: 50, top: 30 },
+                    { type: 'text', text: 'TOFAŞ & MODİFİYE SUNUCUSU • GERÇEK SESLER', font: 'Montserrat', size: 14, fill: '#ffffff', left: 50, top: 125 },
+                    { type: 'badge', text: 'SLOT: 128 KİŞİLİK', fill: '#333333', left: 50, top: 155, w: 160, h: 28 }
+                ]
             },
             {
-                id: 4, cat: 'Oyunlar', name: 'Minecraft Skyblock Adaları', pro: false, anim: false, w: 600, h: 240,
-                thumb: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=1000&auto=format&fit=crop&q=80',
-                title: 'SKYBLOCK PRO', titleFont: 'Impact', titleColor: '#2ecc71',
-                subtitle: 'Yeni Sezon Başladı • play.legacycraft.com', subColor: '#ffffff'
+                id: 4, cat: 'Oyun', name: 'FiveM Los Santos RP', pro: true, w: 900, h: 300,
+                previewBg: 'linear-gradient(135deg, #1e0038, #5e0094)', title: 'LOS SANTOS ROLEPLAY', sub: 'HARD EKONOMİ & ADALETLİ YÖNETİM',
+                layers: [
+                    { type: 'rect', w: 900, h: 300, fill: '#0e001a' },
+                    { type: 'rect', w: 890, h: 290, stroke: '#c77dff', strokeWidth: 2, fill: 'transparent', left: 5, top: 5 },
+                    { type: 'text', text: 'LOS SANTOS RP', font: 'Montserrat', size: 48, fill: '#ffffff', left: 60, top: 50 },
+                    { type: 'text', text: 'AİLE & ÇETE ALIMLARI AÇIKTIR', font: 'Montserrat', size: 18, fill: '#c77dff', left: 62, top: 120 },
+                    { type: 'badge', text: 'discord.gg/legacyrp', fill: '#5e0094', left: 62, top: 170, w: 220, h: 40 }
+                ]
             },
             {
-                id: 5, cat: 'Oyunlar', name: 'MTA Turkish Drift & Freeroam', pro: false, anim: false, w: 800, h: 200,
-                thumb: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1000&auto=format&fit=crop&q=80',
-                title: 'MTA DRIFT ARENA', titleFont: 'Impact', titleColor: '#e67e22',
-                subtitle: 'Yerli Araç Modları & Kesintisiz Eğlence', subColor: '#ffffff'
-            },
-
-            // KAFE & KEBAPÇI
-            {
-                id: 6, cat: 'Kafe & Restoran', name: 'Legacy Cafe VIP Kahve Menüsü', pro: true, anim: false, w: 1080, h: 1080,
-                thumb: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80',
-                title: 'LEGACY COFFEE', titleFont: 'Montserrat', titleColor: '#ffffff',
-                subtitle: 'Özel Çekirdekler • Taze Kavrum • %20 İndirim', subColor: '#f39c12'
+                id: 5, cat: 'Oyun', name: 'Minecraft Skyblock Adaları', pro: false, w: 600, h: 240,
+                previewBg: 'linear-gradient(135deg, #002204, #007011)', title: 'SKYBLOCK V2', sub: 'ÖZEL MİNYONLAR VE BÖLGELER',
+                layers: [
+                    { type: 'rect', w: 600, h: 240, fill: '#031700' },
+                    { type: 'text', text: 'SKYBLOCK V2', font: 'Teko', size: 55, fill: '#00e676', left: 40, top: 30 },
+                    { type: 'text', text: 'YENİ SEZON SIFIRLANDI! SEN DE YERİNİ AL', font: 'Montserrat', size: 14, fill: '#ffffff', left: 42, top: 95 },
+                    { type: 'badge', text: 'PLAY.LEGACYMC.COM', fill: '#007011', left: 42, top: 140, w: 220, h: 35 }
+                ]
             },
             {
-                id: 7, cat: 'Kafe & Restoran', name: 'Meşhur Adana Zırh Kebabı', pro: true, anim: false, w: 1080, h: 1080,
-                thumb: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&auto=format&fit=crop&q=80',
-                title: 'MEŞHUR ADANA', titleFont: 'Impact', titleColor: '#ff3838',
-                subtitle: 'Közde Domates & Biber İle • Sipariş: 0555...', subColor: '#ffffff'
-            },
-            {
-                id: 8, cat: 'Kafe & Restoran', name: 'Lezzetli Dürüm & Ayran Menü', pro: false, anim: false, w: 800, h: 400,
-                thumb: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=1000&auto=format&fit=crop&q=80',
-                title: 'USTA DÜRÜMCÜ', titleFont: 'Impact', titleColor: '#f5cd79',
-                subtitle: 'Özel Soslu Hatay Dürümü • Açık Ayran Hediye', subColor: '#ffffff'
-            },
-            {
-                id: 9, cat: 'Kafe & Restoran', name: 'Gurme Burger & Patates', pro: false, anim: false, w: 1080, h: 1080,
-                thumb: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&auto=format&fit=crop&q=80',
-                title: 'GURME BURGER', titleFont: 'Montserrat', titleColor: '#ffffff',
-                subtitle: '%100 Dana Eti • Anne Patatesiyle', subColor: '#ff9f43'
-            },
-
-            // DÜĞÜN & DAVETİYE
-            {
-                id: 10, cat: 'Düğün & Davetiye', name: 'Zarif Çiçekli Nikah Davetiyesi', pro: false, anim: false, w: 1080, h: 1500,
-                thumb: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop&q=80',
-                title: 'BİZ EVLENİYORUZ', titleFont: 'Playfair Display', titleColor: '#2c3e50',
-                subtitle: 'Ömür Boyu Mutluluğa Adım Atarken Yanımızda Olun\n24 EYLÜL 2026', subColor: '#7f8c8d'
-            },
-            {
-                id: 11, cat: 'Düğün & Davetiye', name: 'Altın Varaklı Lüks Davetiye', pro: true, anim: false, w: 1080, h: 1500,
-                thumb: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&auto=format&fit=crop&q=80',
-                title: 'DÜĞÜN MERASİMİ', titleFont: 'Playfair Display', titleColor: '#d4af37',
-                subtitle: 'Sizleri de Bu Özel Günümüzde Aramızda Görmekten Onur Duyarız', subColor: '#f1f2f6'
+                id: 6, cat: 'Oyun', name: 'Discord Topluluk Afişi', pro: true, w: 600, h: 240,
+                previewBg: 'linear-gradient(135deg, #101428, #2a3a8c)', title: 'DISCORD NITRO CLUB', sub: 'SOHBET & OYUN ODALARI',
+                layers: [
+                    { type: 'rect', w: 600, h: 240, fill: '#141829' },
+                    { type: 'text', text: 'DISCORD NITRO CLUB', font: 'Montserrat', size: 30, fill: '#5865f2', left: 40, top: 40 },
+                    { type: 'text', text: 'HER HAFTA ÇEKİLİŞ • 7/24 SESLİ AKTİVİTE', font: 'Montserrat', size: 13, fill: '#ffffff', left: 42, top: 90 },
+                    { type: 'badge', text: 'KATILMAK İÇİN TIKLA', fill: '#5865f2', left: 42, top: 135, w: 180, h: 35 }
+                ]
             },
 
-            // SOSYAL MEDYA
+            // KEBAPÇI / ET / IZGARA (6 Adet)
             {
-                id: 12, cat: 'Sosyal Medya', name: 'Instagram Yaz Kampanyası', pro: false, anim: false, w: 1080, h: 1080,
-                thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80',
-                bgImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80',
-                title: 'BÜYÜK YAZ İNDİRİMİ', titleFont: 'Montserrat', titleColor: '#ffffff',
-                subtitle: 'Tüm Ürünlerde Geçerli %50 Fırsat!', subColor: '#ffeaa7'
+                id: 7, cat: 'Kebap', name: 'Meşhur Adana Zırh Kıyma', pro: true, w: 800, h: 400,
+                previewBg: 'linear-gradient(135deg, #2b0000, #800000)', title: 'MEŞHUR ADANA KEBAP', sub: 'ZIRH KIYMASI & KÖZDE LEZZET',
+                layers: [
+                    { type: 'rect', w: 800, h: 400, fill: '#190000' },
+                    { type: 'rect', w: 780, h: 380, stroke: '#d32f2f', strokeWidth: 2, fill: 'transparent', left: 10, top: 10 },
+                    { type: 'text', text: 'MEŞHUR ADANA KEBAP', font: 'Montserrat', size: 44, fill: '#ffffff', left: 60, top: 60 },
+                    { type: 'text', text: 'KÖZLENMİŞ BİBER VE DOMATES İLE SERVİS EDİLİR', font: 'Montserrat', size: 16, fill: '#ff8a80', left: 62, top: 130 },
+                    { type: 'badge', text: 'TEK PORSİYON: 220 TL', fill: '#d32f2f', left: 62, top: 190, w: 240, h: 45 },
+                    { type: 'text', text: 'Alo Paket: 0555 123 45 67', font: 'Montserrat', size: 16, fill: '#ffffff', left: 62, top: 260 }
+                ]
+            },
+            {
+                id: 8, cat: 'Kebap', name: 'Urfa Dürüm Fırsat Menüsü', pro: false, w: 800, h: 400,
+                previewBg: 'linear-gradient(135deg, #3d1b00, #b25900)', title: 'DEV URFA DÜRÜM', sub: 'DÜRÜM + AÇIK AYRAN',
+                layers: [
+                    { type: 'rect', w: 800, h: 400, fill: '#1c0c00' },
+                    { type: 'text', text: 'DEV URFA DÜRÜM MENÜ', font: 'Teko', size: 65, fill: '#ff9800', left: 50, top: 50 },
+                    { type: 'text', text: 'ÖZEL LAVAŞ • BOL YEŞİLLİK • AÇIK AYRAN', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 130 },
+                    { type: 'badge', text: 'MENÜ FİYATI: 140 TL', fill: '#ff9800', left: 52, top: 190, w: 220, h: 45 }
+                ]
+            },
+            {
+                id: 9, cat: 'Kebap', name: 'Kelle Paça & Beyran Çorbası', pro: false, w: 800, h: 400,
+                previewBg: 'linear-gradient(135deg, #241400, #734100)', title: 'GAZİANTEP BEYRANI', sub: 'BOL SARIMSAK & ACILI ŞİFA',
+                layers: [
+                    { type: 'rect', w: 800, h: 400, fill: '#140b00' },
+                    { type: 'text', text: 'ŞİFALI BEYRAN & PAÇA', font: 'Montserrat', size: 40, fill: '#ffb74d', left: 50, top: 60 },
+                    { type: 'text', text: '7/24 KEMİK SUYUNA GECE SERVİSİMİZ VARDIR', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 130 },
+                    { type: 'badge', text: 'GECE 04:00\'E KADAR AÇIK', fill: '#e65100', left: 52, top: 190, w: 260, h: 40 }
+                ]
+            },
+            {
+                id: 10, cat: 'Kebap', name: 'Karışık Izgara Aile Tepsisi', pro: true, w: 900, h: 450,
+                previewBg: 'linear-gradient(135deg, #1c0000, #4d0000)', title: 'KARIŞIK IZGARA', sub: '4 KİŞİLİK ZENGİN TEPSİ',
+                layers: [
+                    { type: 'rect', w: 900, h: 450, fill: '#140000' },
+                    { type: 'text', text: 'DEV AİLE IZGARA TEPSİSİ', font: 'Montserrat', size: 46, fill: '#ffffff', left: 60, top: 60 },
+                    { type: 'text', text: 'Adana, Tavuk Şiş, Kanat, Pirzola ve Fındık Lahmacun', font: 'Montserrat', size: 18, fill: '#ff5252', left: 62, top: 140 },
+                    { type: 'badge', text: 'DEV KAMPANYA: 850 TL', fill: '#b71c1c', left: 62, top: 210, w: 260, h: 50 }
+                ]
+            },
+            {
+                id: 11, cat: 'Kebap', name: 'Taş Fırın Lahmacun', pro: false, w: 800, h: 400,
+                previewBg: 'linear-gradient(135deg, #3b1e08, #8a430c)', title: 'ÇITIR LAHMACUN', sub: 'ODUN ATEŞİNDE TAŞ FIRIN',
+                layers: [
+                    { type: 'rect', w: 800, h: 400, fill: '#1a0b02' },
+                    { type: 'text', text: 'ÇITIR ÇITIR TAŞ FIRIN LAHMACUN', font: 'Teko', size: 55, fill: '#ffab40', left: 50, top: 60 },
+                    { type: 'text', text: '10 ALANA 2 BEDAVA KAMPANYASI BAŞLADI', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 130 },
+                    { type: 'badge', text: 'ADET: 45 TL', fill: '#ff6d00', left: 52, top: 185, w: 150, h: 40 }
+                ]
+            },
+            {
+                id: 12, cat: 'Kebap', name: 'Kayseri Yağlaması', pro: true, w: 800, h: 400,
+                previewBg: 'linear-gradient(135deg, #2e0808, #691717)', title: 'KAYSERİ YAĞLAMASI', sub: 'BOL KIYMALI & SARIMSAKLI YOĞURT',
+                layers: [
+                    { type: 'rect', w: 800, h: 400, fill: '#140303' },
+                    { type: 'text', text: 'ÖZEL KAYSERİ YAĞLAMASI', font: 'Montserrat', size: 40, fill: '#ff6b6b', left: 50, top: 60 },
+                    { type: 'text', text: 'İncecik açılmış kat kat lavaş ve enfes kıymalı sos', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 130 },
+                    { type: 'badge', text: 'GÜNÜN MENÜSÜ', fill: '#c92a2a', left: 52, top: 190, w: 180, h: 40 }
+                ]
+            },
+
+            // KAFE / BARISTA / RESTORAN (6 Adet)
+            {
+                id: 13, cat: 'Kafe', name: 'Legacy Cafe VIP Kahve', pro: true, w: 800, h: 500,
+                previewBg: 'linear-gradient(135deg, #1c140d, #422d1d)', title: 'LEGACY COFFEE', sub: '3. NESİL ÖZEL DEMLEME',
+                layers: [
+                    { type: 'rect', w: 800, h: 500, fill: '#120c07' },
+                    { type: 'rect', w: 780, h: 480, stroke: '#d4af37', strokeWidth: 1, fill: 'transparent', left: 10, top: 10 },
+                    { type: 'text', text: 'LEGACY COFFEE ROASTERS', font: 'Cinzel', size: 36, fill: '#d4af37', left: 50, top: 60 },
+                    { type: 'text', text: 'Etiyopya & Kolombiya Çekirdeklerinden Taze Çekilmiş', font: 'Montserrat', size: 15, fill: '#d7ccc8', left: 52, top: 130 },
+                    { type: 'badge', text: 'TÜM KAHVELERDE %20 İNDİRİM', fill: '#3e2723', left: 52, top: 190, w: 280, h: 40 }
+                ]
+            },
+            {
+                id: 14, cat: 'Kafe', name: 'Tatlı & Cheesecake Saati', pro: false, w: 800, h: 450,
+                previewBg: 'linear-gradient(135deg, #2e1a26, #693355)', title: 'SAN SEBASTIAN', sub: 'BELÇİKA ÇİKOLATALI',
+                layers: [
+                    { type: 'rect', w: 800, h: 450, fill: '#1a0d15' },
+                    { type: 'text', text: 'SAN SEBASTIAN CHEESECAKE', font: 'Montserrat', size: 38, fill: '#f8bbd0', left: 50, top: 60 },
+                    { type: 'text', text: 'Akışkan sıcak Belçika çikolatası eşliğinde...', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 130 },
+                    { type: 'badge', text: 'KAHVE YANINDA: 95 TL', fill: '#ad1457', left: 52, top: 190, w: 220, h: 40 }
+                ]
+            },
+            {
+                id: 15, cat: 'Kafe', name: 'Gurme Burger & Çıtır Patates', pro: true, w: 800, h: 450,
+                previewBg: 'linear-gradient(135deg, #211c00, #5c4e00)', title: 'SMASH BURGER', sub: '%100 DANA ETİ & CHEDDAR',
+                layers: [
+                    { type: 'rect', w: 800, h: 450, fill: '#141100' },
+                    { type: 'text', text: 'DOUBLE SMASH BURGER', font: 'Teko', size: 60, fill: '#ffd600', left: 50, top: 50 },
+                    { type: 'text', text: 'Karamelize soğan, trüflü mayonez ve baharatlı patates', font: 'Montserrat', size: 15, fill: '#ffffff', left: 52, top: 125 },
+                    { type: 'badge', text: 'MENÜ: 210 TL', fill: '#ffd600', left: 52, top: 180, w: 160, h: 42 }
+                ]
+            },
+            {
+                id: 16, cat: 'Kafe', name: 'Köy Kahvaltısı Serpme Menü', pro: false, w: 800, h: 450,
+                previewBg: 'linear-gradient(135deg, #102100, #315e02)', title: 'SERPME KÖY KAHVALTISI', sub: 'SINIRSIZ ÇAY DAHİL',
+                layers: [
+                    { type: 'rect', w: 800, h: 450, fill: '#0a1400' },
+                    { type: 'text', text: 'ORGANİK SERPME KAHVALTI', font: 'Montserrat', size: 38, fill: '#aed581', left: 50, top: 60 },
+                    { type: 'text', text: 'Doğal bal-kaymak, pişi, sahanda yumurta ve sınırsız çay', font: 'Montserrat', size: 15, fill: '#ffffff', left: 52, top: 130 },
+                    { type: 'badge', text: 'KİŞİ BAŞI: 250 TL', fill: '#558b2f', left: 52, top: 190, w: 200, h: 40 }
+                ]
+            },
+            {
+                id: 17, cat: 'Kafe', name: 'İtalyan Pizza Fırsatı', pro: false, w: 800, h: 450,
+                previewBg: 'linear-gradient(135deg, #2b1100, #732c00)', title: 'ODUN ATEŞİNDE PİZZA', sub: 'GERÇEK MOZZARELLA',
+                layers: [
+                    { type: 'rect', w: 800, h: 450, fill: '#170900' },
+                    { type: 'text', text: 'TAŞ FIRIN NAPOLİ PİZZASI', font: 'Teko', size: 55, fill: '#ff6e40', left: 50, top: 55 },
+                    { type: 'text', text: 'Hafta içi 12:00 - 16:00 arası 1 alana 1 bedava', font: 'Montserrat', size: 15, fill: '#ffffff', left: 52, top: 125 },
+                    { type: 'badge', text: 'GEL-AL KAMPANYASI', fill: '#d84315', left: 52, top: 180, w: 220, h: 40 }
+                ]
+            },
+            {
+                id: 18, cat: 'Kafe', name: 'Soğuk İçecekler & Mocktail', pro: true, w: 800, h: 450,
+                previewBg: 'linear-gradient(135deg, #00262b, #00606b)', title: 'FESTİVAL İÇECEKLERİ', sub: 'BUZ GİBİ SERİNLİK',
+                layers: [
+                    { type: 'rect', w: 800, h: 450, fill: '#001417' },
+                    { type: 'text', text: 'TAZE MEYVELİ MOCKTAIL & BUBBLE TEA', font: 'Montserrat', size: 32, fill: '#18ffff', left: 50, top: 60 },
+                    { type: 'text', text: 'Yaz sıcaklarına buz gibi ferahlatıcı lezzetler', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 130 },
+                    { type: 'badge', text: 'YAZ SEZONU MENÜSÜ', fill: '#00838f', left: 52, top: 190, w: 220, h: 40 }
+                ]
+            },
+
+            // DÜĞÜN / DAVETİYE / ETKİNLİK (6 Adet)
+            {
+                id: 19, cat: 'Davetiye', name: 'Lüks Altın Varaklı Düğün', pro: true, w: 800, h: 600,
+                previewBg: 'linear-gradient(135deg, #17140d, #423618)', title: 'BİZ EVLENİYORUZ', sub: 'ÖMÜR BOYU MUTLULUĞA',
+                layers: [
+                    { type: 'rect', w: 800, h: 600, fill: '#0f0d09' },
+                    { type: 'rect', w: 760, h: 560, stroke: '#d4af37', strokeWidth: 2, fill: 'transparent', left: 20, top: 20 },
+                    { type: 'text', text: 'BİZ EVLENİYORUZ', font: 'Cinzel', size: 40, fill: '#d4af37', left: 400, top: 90, originX: 'center' },
+                    { type: 'text', text: 'ZEYNEP & EMRE', font: 'Cinzel', size: 48, fill: '#ffffff', left: 400, top: 180, originX: 'center' },
+                    { type: 'text', text: 'Bu mutlu günümüzde sizleri de aramızda görmekten onur duyarız.\n\n24 EYLÜL 2026 • SAAT: 19:30\nGrand Balo Salonu / İstanbul', font: 'Montserrat', size: 16, fill: '#cfc6b8', left: 400, top: 290, originX: 'center', textAlign: 'center' }
+                ]
+            },
+            {
+                id: 20, cat: 'Davetiye', name: 'Geleneksel Kına Gecesi', pro: false, w: 800, h: 600,
+                previewBg: 'linear-gradient(135deg, #330012, #6e0227)', title: 'KINA GECEMİZE DAVET', sub: 'YÜKSEK YÜKSEK TEPELERE',
+                layers: [
+                    { type: 'rect', w: 800, h: 600, fill: '#1f000b' },
+                    { type: 'rect', w: 760, h: 560, stroke: '#ff4081', strokeWidth: 1, fill: 'transparent', left: 20, top: 20 },
+                    { type: 'text', text: 'KINA GECESİ', font: 'Cinzel', size: 44, fill: '#ff4081', left: 400, top: 100, originX: 'center' },
+                    { type: 'text', text: 'ELİF\'İN KINASI', font: 'Montserrat', size: 40, fill: '#ffffff', left: 400, top: 190, originX: 'center' },
+                    { type: 'text', text: 'Kınamıza buyrun kızlar, türkülerle ağlaşalım neşeyle oynayalım!\n\n12 EKİM 2026 • SAAT: 20:00', font: 'Montserrat', size: 16, fill: '#f8bbd0', left: 400, top: 300, originX: 'center', textAlign: 'center' }
+                ]
+            },
+            {
+                id: 21, cat: 'Davetiye', name: 'Sünnet Düğünü Merasimi', pro: false, w: 800, h: 600,
+                previewBg: 'linear-gradient(135deg, #001933, #003e80)', title: 'SÜNNET ŞÖLENİ', sub: 'MAŞALLAH DİYELİM',
+                layers: [
+                    { type: 'rect', w: 800, h: 600, fill: '#000f1f' },
+                    { type: 'text', text: 'MAŞALLAH', font: 'Cinzel', size: 36, fill: '#00b0ff', left: 400, top: 100, originX: 'center' },
+                    { type: 'text', text: 'OĞLUMUZ CAN\'IN SÜNNET MERASİMİ', font: 'Montserrat', size: 30, fill: '#ffffff', left: 400, top: 180, originX: 'center' },
+                    { type: 'text', text: 'Bu anlamlı günümüzde dostlarımızı aramızda görmekten mutluluk duyarız.\n\nKonvoy Saati: 14:00 • Mevlit & Yemek: 17:00', font: 'Montserrat', size: 16, fill: '#b3e5fc', left: 400, top: 280, originX: 'center', textAlign: 'center' }
+                ]
+            },
+            {
+                id: 22, cat: 'Davetiye', name: 'Sade Minimalist Nişan Kartı', pro: false, w: 800, h: 600,
+                previewBg: 'linear-gradient(135deg, #1f2421, #38423d)', title: 'NİŞAN TÖRENİ', sub: 'EVLİLİĞE İLK ADIM',
+                layers: [
+                    { type: 'rect', w: 800, h: 600, fill: '#141715' },
+                    { type: 'text', text: 'SÖZ & NİŞAN', font: 'Cinzel', size: 40, fill: '#a3b18a', left: 400, top: 120, originX: 'center' },
+                    { type: 'text', text: 'SEDA & CANER', font: 'Montserrat', size: 42, fill: '#ffffff', left: 400, top: 200, originX: 'center' },
+                    { type: 'text', text: 'Aile arasında gerçekleşecek yüzük takma törenimize davetlisiniz.', font: 'Montserrat', size: 15, fill: '#dad7cd', left: 400, top: 300, originX: 'center' }
+                ]
+            },
+            {
+                id: 23, cat: 'Davetiye', name: 'Mezuniyet Balosu Kutlaması', pro: true, w: 800, h: 500,
+                previewBg: 'linear-gradient(135deg, #120e24, #2a2057)', title: '2026 MEZUNİYET', sub: 'KEPLER HAVAYA',
+                layers: [
+                    { type: 'rect', w: 800, h: 500, fill: '#0a0814' },
+                    { type: 'text', text: '2026 MEZUNİYET BALOSU', font: 'Teko', size: 60, fill: '#7c4dff', left: 50, top: 60 },
+                    { type: 'text', text: 'Yılların emeğini unutulmaz bir geceyle taçlandırıyoruz!', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 135 },
+                    { type: 'badge', text: 'CANLI MÜZİK & AÇIK BÜFE', fill: '#651fff', left: 52, top: 195, w: 240, h: 42 }
+                ]
+            },
+            {
+                id: 24, cat: 'Davetiye', name: '1 Yaş Doğum Günü Partisi', pro: false, w: 800, h: 500,
+                previewBg: 'linear-gradient(135deg, #2b1f00, #614600)', title: '1 YAŞINDAYIM!', sub: 'İLK YAŞ GÜNÜ PASTASI',
+                layers: [
+                    { type: 'rect', w: 800, h: 500, fill: '#140f00' },
+                    { type: 'text', text: 'MERT 1 YAŞINDA!', font: 'Montserrat', size: 48, fill: '#ffd54f', left: 50, top: 60 },
+                    { type: 'text', text: 'Pastamızı üflerken sizleri de neşemize ortak olmaya bekliyoruz.', font: 'Montserrat', size: 16, fill: '#ffffff', left: 52, top: 140 },
+                    { type: 'badge', text: 'PALYAÇO VE OYUN ALANI MEVCUTTUR', fill: '#ff8f00', left: 52, top: 205, w: 320, h: 40 }
+                ]
             }
         ];
 
-        // --- KULLANICI / VERİTABANI YÖNETİMİ ---
+        // --- KULLANICI YÖNETİMİ ---
         let user = JSON.parse(localStorage.getItem('legacyUser')) || { isLoggedIn: false, username: '', isPro: false };
         let currentFilter = 'Tümü';
 
@@ -300,48 +430,44 @@
             const panel = document.getElementById('userPanel');
             if (user.isLoggedIn) {
                 panel.innerHTML = `
-                    <div style="font-size:13px;">Giriş yapıldı: <b>${user.username}</b></div>
-                    ${user.isPro ? '<span style="background:linear-gradient(90deg,#f5af19,#e65c00); color:#fff; padding:4px 8px; border-radius:4px; font-weight:800; font-size:11px;">PRO HESAP</span>' : '<button class="btn btn-pro" onclick="openModal(\'paymentModal\')">⭐ PRO Al (300 TL)</button>'}
+                    <div style="font-size:13px;">Giriş: <b>${user.username}</b></div>
+                    ${user.isPro ? '<span style="background:#ffb300; color:#000; padding:4px 8px; border-radius:4px; font-weight:900; font-size:11px;">PRO HESAP</span>' : '<button class="btn btn-pro" onclick="openModal(\'paymentModal\')">⭐ PRO Al (300 TL)</button>'}
                     <button class="btn btn-dark" onclick="logout()">Çıkış</button>
                 `;
             } else {
-                panel.innerHTML = `<button class="btn btn-primary" onclick="openModal('loginModal')">Giriş Yap</button>`;
+                panel.innerHTML = `<button class="btn btn-primary" onclick="quickLogin()">Giriş Yap</button>`;
             }
         }
-
-        function login() { 
-            const n = document.getElementById('username').value.trim(); 
-            if(n.length < 2) return alert("Geçerli isim girin!"); 
-            user.isLoggedIn = true; user.username = n; 
-            saveUser(); closeModal('loginModal'); 
+        function quickLogin() {
+            const n = prompt("Kullanıcı adınızı girin:");
+            if(n && n.trim().length > 1) { user.isLoggedIn = true; user.username = n.trim(); saveUser(); }
         }
-
         function logout() { user = { isLoggedIn: false, username: '', isPro: false }; saveUser(); showDashboard(); }
 
         // --- GALERİ RENDERLAMA ---
-        function renderGallery(filterCat, searchTerm = '') {
+        function renderGallery(filterCat, search = '') {
             const grid = document.getElementById('templateGrid');
             grid.innerHTML = '';
-            document.getElementById('galleryTitle').innerText = filterCat === 'Tümü' ? 'Tüm Hazır Şablonlar' : filterCat + ' Şablonları';
+            document.getElementById('galleryTitle').innerText = filterCat === 'Tümü' ? 'Tüm Profesyonel Tasarımlar (24)' : filterCat + ' Tasarımları';
 
             let list = filterCat === 'Tümü' ? templates : templates.filter(t => t.cat === filterCat);
-            if (searchTerm) {
-                list = list.filter(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            if (search) {
+                list = list.filter(t => (t.name + ' ' + t.sub).toLowerCase().includes(search.toLowerCase()));
             }
 
-            list.forEach(temp => {
+            list.forEach(t => {
                 const card = document.createElement('div');
                 card.className = 'template-card';
-                card.onclick = () => handleTemplateClick(temp);
+                card.onclick = () => handleTemplateClick(t);
                 card.innerHTML = `
-                    ${temp.pro ? '<div class="pro-badge-card">PRO</div>' : ''}
-                    ${temp.anim ? '<div class="animated-badge">🎬 HAREKETLİ</div>' : ''}
-                    <div class="template-img-container">
-                        <img src="${temp.thumb}" alt="${temp.name}">
+                    ${t.pro ? '<div class="badge-pro">PRO</div>' : ''}
+                    <div class="card-preview" style="background: ${t.previewBg}">
+                        <div style="font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 0.5px;">${t.title}</div>
+                        <div style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">${t.sub}</div>
                     </div>
                     <div class="template-info">
-                        <div class="template-title">${temp.name}</div>
-                        <div class="template-category">${temp.cat} • ${temp.w}x${temp.h}</div>
+                        <div class="template-title">${t.name}</div>
+                        <div class="template-category">${t.cat} • ${t.w}x${t.h}px</div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -362,17 +488,15 @@
             document.getElementById('editorScreen').style.display = 'none';
         }
 
-        function handleTemplateClick(temp) {
-            if (temp.pro && !user.isPro) {
-                return openModal('paymentModal');
-            }
-            openEditorWithTemplate(temp);
+        function handleTemplateClick(t) {
+            if (t.pro && !user.isPro) return openModal('paymentModal');
+            loadTemplateToCanvas(t);
         }
 
-        // --- GELİŞMİŞ EDİTÖR (Fabric.js Katman Yükleyici) ---
+        // --- FABRIC.JS KATMANLI ŞABLON RENDERLAYICI ---
         let canvas;
         function initCanvas() {
-            if(!canvas) canvas = new fabric.Canvas('bannerCanvas', { preserveObjectStacking: true });
+            if (!canvas) canvas = new fabric.Canvas('bannerCanvas', { preserveObjectStacking: true });
         }
 
         function openBlankEditor() {
@@ -382,60 +506,55 @@
             canvas.clear();
             canvas.setWidth(800);
             canvas.setHeight(400);
-            canvas.setBackgroundColor('#15181e', canvas.renderAll.bind(canvas));
+            canvas.setBackgroundColor('#0a0d14', canvas.renderAll.bind(canvas));
         }
 
-        function openEditorWithTemplate(temp) {
+        function loadTemplateToCanvas(t) {
             document.getElementById('dashboardScreen').style.display = 'none';
             document.getElementById('editorScreen').style.display = 'flex';
             initCanvas();
             canvas.clear();
-            canvas.setWidth(temp.w);
-            canvas.setHeight(temp.h);
+            canvas.setWidth(t.w);
+            canvas.setHeight(t.h);
 
-            // 1. Arka plan görselini tuvale tam sığdırarak yükle
-            fabric.Image.fromURL(temp.bgImg, function(img) {
-                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                    scaleX: canvas.width / img.width,
-                    scaleY: canvas.height / img.height
-                });
-
-                // 2. Varsa Şablon İkonunu Ekle (Örn: Kartal)
-                if (temp.overlayImg) {
-                    fabric.Image.fromURL(temp.overlayImg, function(oImg) {
-                        oImg.scale(0.25);
-                        oImg.set({ left: 30, top: (canvas.height/2) - (oImg.getScaledHeight()/2) });
-                        canvas.add(oImg);
-                    }, { crossOrigin: 'anonymous' });
+            t.layers.forEach(l => {
+                if (l.type === 'rect') {
+                    const rect = new fabric.Rect({
+                        left: l.left || 0, top: l.top || 0,
+                        width: l.w, height: l.h,
+                        fill: l.fill || 'transparent',
+                        stroke: l.stroke || null,
+                        strokeWidth: l.strokeWidth || 0,
+                        opacity: l.opacity !== undefined ? l.opacity : 1,
+                        selectable: false
+                    });
+                    canvas.add(rect);
+                } else if (l.type === 'text') {
+                    const txt = new fabric.IText(l.text, {
+                        left: l.left, top: l.top,
+                        fontFamily: l.font || 'Montserrat',
+                        fontSize: l.size,
+                        fill: l.fill,
+                        fontWeight: 'bold',
+                        originX: l.originX || 'left',
+                        textAlign: l.textAlign || 'left',
+                        shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.8)', blur: 8, offsetX: 2, offsetY: 2 })
+                    });
+                    canvas.add(txt);
+                } else if (l.type === 'badge') {
+                    const bg = new fabric.Rect({
+                        width: l.w, height: l.h, rx: 6, ry: 6, fill: l.fill
+                    });
+                    const bt = new fabric.IText(l.text, {
+                        fontSize: 14, fontFamily: 'Montserrat', fill: '#ffffff', fontWeight: 'bold',
+                        originX: 'center', originY: 'center', left: l.w / 2, top: l.h / 2
+                    });
+                    const group = new fabric.Group([bg, bt], { left: l.left, top: l.top });
+                    canvas.add(group);
                 }
+            });
 
-                // 3. Başlık Metni Katmanı
-                const titleText = new fabric.IText(temp.title, {
-                    left: temp.overlayImg ? 180 : (canvas.width / 2),
-                    top: (canvas.height / 2) - 40,
-                    fontFamily: temp.titleFont,
-                    fill: temp.titleColor,
-                    fontSize: temp.h > 400 ? 55 : 38,
-                    fontWeight: 'bold',
-                    originX: temp.overlayImg ? 'left' : 'center',
-                    shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.85)', blur: 10, offsetX: 2, offsetY: 2 })
-                });
-                canvas.add(titleText);
-
-                // 4. Alt Başlık / Fiyat / IP Katmanı
-                const subText = new fabric.IText(temp.subtitle, {
-                    left: temp.overlayImg ? 180 : (canvas.width / 2),
-                    top: (canvas.height / 2) + 15,
-                    fontFamily: 'Inter',
-                    fill: temp.subColor,
-                    fontSize: temp.h > 400 ? 24 : 15,
-                    originX: temp.overlayImg ? 'left' : 'center',
-                    shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.9)', blur: 8, offsetX: 1, offsetY: 1 })
-                });
-                canvas.add(subText);
-                canvas.setActiveObject(titleText);
-
-            }, { crossOrigin: 'anonymous' });
+            canvas.renderAll();
         }
 
         function togglePanel(panelId) {
@@ -443,40 +562,34 @@
             document.getElementById(panelId).style.display = 'flex';
         }
 
-        function addCustomText(txt, size, font, color) {
+        function addText(txt, size, font, color) {
             const t = new fabric.IText(txt, {
                 left: canvas.width / 2, top: canvas.height / 2,
-                fontFamily: font, fill: color, fontSize: size,
-                originX: 'center', originY: 'center',
+                fontFamily: font, fill: color, fontSize: size, originX: 'center', originY: 'center',
                 shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.7)', blur: 6 })
             });
             canvas.add(t); canvas.setActiveObject(t);
         }
 
-        function addOverlayImage(url, scale) {
-            fabric.Image.fromURL(url, (img) => {
-                img.scale(scale);
-                img.set({ left: 50, top: 50 });
-                canvas.add(img); canvas.setActiveObject(img);
-            }, { crossOrigin: 'anonymous' });
+        function addBadge(txt, color) {
+            const bg = new fabric.Rect({ width: 160, height: 40, rx: 5, ry: 5, fill: color });
+            const bt = new fabric.IText(txt, { fontSize: 14, fontFamily: 'Montserrat', fill: '#ffffff', fontWeight: 'bold', originX: 'center', originY: 'center', left: 80, top: 20 });
+            const g = new fabric.Group([bg, bt], { left: 50, top: 50 });
+            canvas.add(g); canvas.setActiveObject(g);
         }
 
-        function changeBgColor(color) {
+        function addBorder() {
+            const b = new fabric.Rect({
+                left: 15, top: 15, width: canvas.width - 30, height: canvas.height - 30,
+                fill: 'transparent', stroke: '#d4af37', strokeWidth: 2
+            });
+            canvas.add(b);
+        }
+
+        function changeBg(color) {
             canvas.backgroundImage = null;
             canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
         }
-
-        // Dosya Yükleme Olayları
-        document.getElementById('imgUpload').addEventListener('change', function(e) {
-            const f = e.target.files[0]; if(!f) return;
-            const r = new FileReader();
-            r.onload = (ev) => {
-                fabric.Image.fromURL(ev.target.result, (img) => {
-                    img.scaleToWidth(200); canvas.add(img); canvas.setActiveObject(img);
-                });
-            };
-            r.readAsDataURL(f); e.target.value = '';
-        });
 
         document.getElementById('bgUpload').addEventListener('change', function(e) {
             const f = e.target.files[0]; if(!f) return;
@@ -496,42 +609,23 @@
         function downloadBanner() {
             const a = document.createElement('a');
             a.href = canvas.toDataURL('png');
-            a.download = 'LegacyCanvas-Tasarim.png';
+            a.download = 'LegacyCanvas-Pro.png';
             a.click();
         }
 
-        // --- SANAL POS SİMÜLASYONU ---
-        document.getElementById('ccNum').addEventListener('input', function (e) {
-            e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
-        });
-        document.getElementById('ccExp').addEventListener('input', function (e) {
-            e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{2})/, '$1/').trim().substring(0,5);
-        });
-
+        // Ödeme
         function processPayment() {
-            if(!user.isLoggedIn) { closeModal('paymentModal'); return openModal('loginModal'); }
-            const num = document.getElementById('ccNum').value;
-            if(num.length < 19) return alert("Kart numarasını eksiksiz girin.");
-
-            document.getElementById('payBtn').style.display = 'none';
-            document.getElementById('paymentLoader').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('paymentLoader').style.display = 'none';
-                document.getElementById('payBtn').style.display = 'block';
-                user.isPro = true;
-                saveUser();
-                closeModal('paymentModal');
-                alert("Ödeme alındı! Tüm şablonların kilidi açıldı.");
-                renderGallery(currentFilter);
-            }, 1500);
+            const n = document.getElementById('ccNum').value;
+            if (n.length < 10) return alert("Kart numarasını girin.");
+            user.isPro = true; saveUser(); closeModal('paymentModal');
+            alert("Tebrikler! PRO kütüphanenin kilidi açıldı.");
+            renderGallery(currentFilter);
         }
 
-        // Modal Yönetimi
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Başlangıç Yüklemesi
+        // Başlat
         updateNavbar();
         renderGallery('Tümü');
     </script>
