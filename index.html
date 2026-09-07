@@ -6,66 +6,67 @@
     <title>LegacyCanvas | Profesyonel Tasarım Platformu</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600;800&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #0f1115; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { background-color: #0d0f12; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
         /* NAVBAR */
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: #181a20; padding: 15px 30px; border-bottom: 1px solid #2a2d35; z-index: 100; }
-        .logo { font-size: 24px; font-weight: 800; color: #fff; cursor: pointer; letter-spacing: -1px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: #15181e; padding: 12px 30px; border-bottom: 1px solid #232730; z-index: 100; }
+        .logo { font-size: 24px; font-weight: 900; color: #fff; cursor: pointer; letter-spacing: -0.5px; }
         .logo span { color: #00d2ff; }
-        .nav-search { display: flex; align-items: center; background: #0f1115; border: 1px solid #2a2d35; border-radius: 8px; padding: 5px 15px; width: 400px; }
-        .nav-search input { background: transparent; border: none; color: white; width: 100%; padding: 8px; outline: none; }
-        .user-actions { display: flex; gap: 15px; align-items: center; }
+        .nav-search { display: flex; align-items: center; background: #0d0f12; border: 1px solid #232730; border-radius: 8px; padding: 4px 15px; width: 380px; }
+        .nav-search input { background: transparent; border: none; color: white; width: 100%; padding: 8px; outline: none; font-size: 13px; }
+        .user-actions { display: flex; gap: 12px; align-items: center; }
         
         /* BUTONLAR */
-        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; font-size: 14px; }
-        .btn-primary { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; }
-        .btn-primary:hover { opacity: 0.8; }
-        .btn-pro { background: linear-gradient(90deg, #f6d365 0%, #fda085 100%); color: #000; box-shadow: 0 4px 15px rgba(246, 211, 101, 0.3); }
-        .btn-dark { background: #2a2d35; color: white; border: 1px solid #3e424d; }
-        .btn-dark:hover { background: #3e424d; }
+        .btn { padding: 9px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 13px; }
+        .btn-primary { background: linear-gradient(90deg, #00d2ff 0%, #0072ff 100%); color: white; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-pro { background: linear-gradient(90deg, #f5af19 0%, #e65c00 100%); color: #fff; box-shadow: 0 4px 15px rgba(230, 92, 0, 0.3); }
+        .btn-dark { background: #232730; color: #ccc; border: 1px solid #323744; }
+        .btn-dark:hover { background: #323744; color: white; }
 
         /* GALERİ VE SOL MENÜ */
         .dashboard { display: flex; height: 100%; flex: 1; overflow: hidden; }
-        .sidebar-filters { width: 250px; background: #181a20; padding: 20px; border-right: 1px solid #2a2d35; overflow-y: auto; }
-        .filter-title { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 0; font-weight: 600; }
-        .filter-btn { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #ccc; padding: 12px; border-radius: 6px; cursor: pointer; margin-bottom: 5px; font-size: 14px; transition: 0.2s; }
-        .filter-btn:hover, .filter-btn.active { background: #2a2d35; color: white; font-weight: 600; }
+        .sidebar-filters { width: 240px; background: #15181e; padding: 20px; border-right: 1px solid #232730; overflow-y: auto; }
+        .filter-title { font-size: 11px; color: #656b79; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 8px 0; font-weight: 700; }
+        .filter-btn { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #9aa0ac; padding: 10px 12px; border-radius: 6px; cursor: pointer; margin-bottom: 4px; font-size: 13px; font-weight: 600; transition: 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: #232730; color: #00d2ff; }
         
-        .gallery-area { flex: 1; padding: 30px; overflow-y: auto; background: #0f1115; }
-        .gallery-header { font-size: 24px; font-weight: 800; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding-bottom: 50px; }
+        .gallery-area { flex: 1; padding: 25px 35px; overflow-y: auto; background: #0d0f12; }
+        .gallery-header { font-size: 22px; font-weight: 800; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 22px; padding-bottom: 60px; }
         
         /* ŞABLON KARTLARI */
-        .template-card { background: #181a20; border: 1px solid #2a2d35; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; }
-        .template-card:hover { transform: translateY(-5px); border-color: #00d2ff; box-shadow: 0 10px 20px rgba(0,210,255,0.1); }
-        .template-img-container { height: 150px; width: 100%; background: #222; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
-        .template-info { padding: 15px; }
-        .template-title { font-weight: 600; font-size: 14px; margin-bottom: 5px; color: #fff; }
-        .template-category { font-size: 12px; color: #888; }
-        .pro-badge-card { position: absolute; top: 10px; right: 10px; background: #f1c40f; color: black; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 4px; z-index: 2; }
-        .animated-badge { position: absolute; top: 10px; left: 10px; background: #e74c3c; color: white; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 4px; z-index: 2; }
-        
-        /* EDİTÖR EKRANI */
-        .editor-container { display: none; height: 100%; flex: 1; }
-        .editor-sidebar { width: 80px; background: #181a20; display: flex; flex-direction: column; align-items: center; padding-top: 20px; border-right: 1px solid #2a2d35; }
-        .tool-icon { width: 60px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; cursor: pointer; font-size: 11px; margin-bottom: 10px; border-radius: 10px; }
-        .tool-icon:hover { color: white; background: #2a2d35; }
-        .editor-panel { width: 280px; background: #1e2028; border-right: 1px solid #2a2d35; padding: 20px; display: none; flex-direction: column; gap: 10px; overflow-y: auto; }
-        .canvas-wrapper { flex: 1; background: #0a0b0e; display: flex; justify-content: center; align-items: center; overflow: auto; position: relative; padding: 40px; }
-        canvas { box-shadow: 0 0 40px rgba(0,0,0,0.5); }
-        .editor-topbar { position: absolute; top: 20px; right: 30px; display: flex; gap: 10px; z-index: 10; }
+        .template-card { background: #15181e; border: 1px solid #232730; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; transition: 0.25s ease-in-out; display: flex; flex-direction: column; }
+        .template-card:hover { transform: translateY(-4px); border-color: #00d2ff; box-shadow: 0 8px 24px rgba(0,210,255,0.15); }
+        .template-img-container { height: 160px; width: 100%; background: #000; position: relative; overflow: hidden; }
+        .template-img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .template-card:hover .template-img-container img { transform: scale(1.05); }
+        .template-info { padding: 14px; background: #15181e; }
+        .template-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #f0f2f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .template-category { font-size: 12px; color: #717786; }
+        .pro-badge-card { position: absolute; top: 10px; right: 10px; background: linear-gradient(90deg, #f5af19, #e65c00); color: #fff; font-size: 10px; font-weight: 900; padding: 3px 8px; border-radius: 4px; z-index: 2; }
+        .animated-badge { position: absolute; top: 10px; left: 10px; background: #eb3b5a; color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; z-index: 2; }
 
-        /* ÖDEME VE GİRİŞ MODALLARI */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: #181a20; padding: 30px; border-radius: 12px; width: 400px; border: 1px solid #2a2d35; position: relative; }
-        .modal-header { text-align: center; margin-bottom: 20px; }
-        .modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; background: #0f1115; border: 1px solid #333; color: white; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; transition: border 0.3s; }
+        /* EDİTÖR EKRANI */
+        .editor-container { display: none; height: 100%; flex: 1; position: relative; }
+        .editor-sidebar { width: 72px; background: #15181e; display: flex; flex-direction: column; align-items: center; padding-top: 15px; border-right: 1px solid #232730; }
+        .tool-icon { width: 54px; height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #828997; cursor: pointer; font-size: 10px; margin-bottom: 8px; border-radius: 8px; transition: 0.2s; }
+        .tool-icon:hover { color: white; background: #232730; }
+        .editor-panel { width: 260px; background: #191c24; border-right: 1px solid #232730; padding: 18px; display: none; flex-direction: column; gap: 10px; overflow-y: auto; }
+        .canvas-wrapper { flex: 1; background: #090a0d; display: flex; justify-content: center; align-items: center; overflow: auto; position: relative; padding: 40px; }
+        canvas { box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .editor-topbar { position: absolute; top: 15px; right: 25px; display: flex; gap: 10px; z-index: 10; }
+
+        /* MODALLAR */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(6px); }
+        .modal-content { background: #15181e; padding: 30px; border-radius: 12px; width: 380px; border: 1px solid #232730; }
+        .modal-content input { width: 100%; padding: 11px; margin-bottom: 12px; background: #0d0f12; border: 1px solid #2e3340; color: white; border-radius: 6px; font-size: 13px; outline: none; }
         .modal-content input:focus { border-color: #00d2ff; }
         .cc-row { display: flex; gap: 10px; }
-        .loader { display: none; border: 3px solid #333; border-top: 3px solid #00d2ff; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 0 auto; }
+        .loader { display: none; border: 3px solid #232730; border-top: 3px solid #00d2ff; border-radius: 50%; width: 22px; height: 22px; animation: spin 0.8s linear infinite; margin: 10px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -75,7 +76,7 @@
     <div class="navbar">
         <div class="logo" onclick="showDashboard()">Legacy<span>Canvas</span></div>
         <div class="nav-search">
-            <input type="text" placeholder="Şablon ara... (Örn: Kebapçı, Düğün, CS2)">
+            <input type="text" placeholder="Şablonlarda ara (Legacy Cafe, Kartal, Adana Kebap...)" onkeyup="searchTemplates(this.value)">
         </div>
         <div class="user-actions" id="userPanel"></div>
     </div>
@@ -83,65 +84,65 @@
     <!-- EKRAN 1: GALERİ (Dashboard) -->
     <div class="dashboard" id="dashboardScreen">
         <div class="sidebar-filters">
-            <button class="btn btn-primary" style="width: 100%; margin-bottom: 20px;" onclick="openEditor('Boş Tasarım', 800, 200, false, null)">+ Sıfırdan Başla</button>
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="openBlankEditor()">+ Boş Tasarım Aç</button>
             
             <div class="filter-title">Kategoriler</div>
             <button class="filter-btn active" onclick="filterGallery('Tümü')">🌟 Tümü</button>
-            <button class="filter-btn" onclick="filterGallery('Oyunlar')">🎮 Oyunlar & Sunucu</button>
-            <button class="filter-btn" onclick="filterGallery('İşletme')">🏢 İşletme (Kafe, Restoran)</button>
+            <button class="filter-btn" onclick="filterGallery('Oyunlar')">🎮 Oyun & Sunucu</button>
+            <button class="filter-btn" onclick="filterGallery('Kafe & Restoran')">☕ Kafe & Kebapçı</button>
+            <button class="filter-btn" onclick="filterGallery('Düğün & Davetiye')">💍 Düğün & Davetiye</button>
             <button class="filter-btn" onclick="filterGallery('Sosyal Medya')">📱 Sosyal Medya</button>
-            <button class="filter-btn" onclick="filterGallery('Düğün & Etkinlik')">💍 Düğün & Davetiye</button>
         </div>
         
         <div class="gallery-area">
             <div class="gallery-header">
-                <span id="galleryTitle">Tüm Şablonlar</span>
+                <span id="galleryTitle">Tüm Hazır Şablonlar</span>
             </div>
-            <div class="template-grid" id="templateGrid">
-                <!-- Şablonlar buraya yüklenecek -->
-            </div>
+            <div class="template-grid" id="templateGrid"></div>
         </div>
     </div>
 
     <!-- EKRAN 2: GELİŞMİŞ EDİTÖR -->
     <div class="editor-container" id="editorScreen">
         <div class="editor-sidebar">
-            <div class="tool-icon" onclick="togglePanel('textPanel')"><span style="font-size:20px; margin-bottom:5px;">📝</span>Yazı</div>
-            <div class="tool-icon" onclick="togglePanel('mediaPanel')"><span style="font-size:20px; margin-bottom:5px;">🖼️</span>Görsel</div>
-            <div class="tool-icon" onclick="togglePanel('bgPanel')"><span style="font-size:20px; margin-bottom:5px;">🎨</span>Arka Plan</div>
+            <div class="tool-icon" onclick="togglePanel('textPanel')"><span style="font-size:18px; margin-bottom:4px;">📝</span>Metin</div>
+            <div class="tool-icon" onclick="togglePanel('mediaPanel')"><span style="font-size:18px; margin-bottom:4px;">🖼️</span>Görsel</div>
+            <div class="tool-icon" onclick="togglePanel('bgPanel')"><span style="font-size:18px; margin-bottom:4px;">🎨</span>Arka Plan</div>
         </div>
 
         <div class="editor-panel" id="textPanel">
-            <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Metin Ekle</h3>
-            <button class="btn btn-dark" onclick="addText('BÜYÜK BAŞLIK', 40, 'Impact')">Başlık Ekle</button>
-            <button class="btn btn-dark" onclick="addText('Alt Metin', 25, 'Arial')">Alt Metin Ekle</button>
+            <h3 style="font-size: 13px; color:#717786;">Yazı Ekle</h3>
+            <button class="btn btn-dark" onclick="addCustomText('BAŞLIK', 42, 'Impact', '#ffffff')">Oyun Başlığı (Impact)</button>
+            <button class="btn btn-dark" onclick="addCustomText('ÖZEL MENÜ', 36, 'Montserrat', '#ffcc00')">Kafe/Fiyat Başlığı</button>
+            <button class="btn btn-dark" onclick="addCustomText('Düğün Davetiyesi', 32, 'Playfair Display', '#f39c12')">Davetiye Fontu</button>
         </div>
         
         <div class="editor-panel" id="mediaPanel">
-            <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Görsel Yükle</h3>
-            <button class="btn btn-primary" onclick="document.getElementById('imgUpload').click()">📁 Bilgisayardan Yükle</button>
+            <h3 style="font-size: 13px; color:#717786;">Özel Logo Yükle</h3>
+            <button class="btn btn-primary" onclick="document.getElementById('imgUpload').click()">📁 Bilgisayardan Seç</button>
             <input type="file" id="imgUpload" style="display: none;" accept="image/*">
-            <h3 style="margin-top:20px; font-size: 14px; color:#888;">Hazır Simgeler</h3>
+            <h3 style="font-size: 13px; color:#717786; margin-top:15px;">Özel Amblemler</h3>
             <div style="display:flex; gap:10px;">
-                <img src="https://cdn-icons-png.flaticon.com/512/324/324128.png" width="40" style="cursor:pointer; background:#fff; padding:2px; border-radius:5px;" onclick="addImage(this.src)">
-                <img src="https://cdn-icons-png.flaticon.com/512/3132/3132791.png" width="40" style="cursor:pointer; background:#fff; padding:2px; border-radius:5px;" onclick="addImage(this.src)">
+                <img src="https://cdn-icons-png.flaticon.com/512/324/324128.png" width="45" style="cursor:pointer; background:#232730; padding:5px; border-radius:6px;" onclick="addOverlayImage(this.src, 0.2)">
+                <img src="https://cdn-icons-png.flaticon.com/512/3132/3132791.png" width="45" style="cursor:pointer; background:#232730; padding:5px; border-radius:6px;" onclick="addOverlayImage(this.src, 0.2)">
             </div>
         </div>
 
         <div class="editor-panel" id="bgPanel">
-            <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Arka Plan</h3>
-            <button class="btn btn-primary" onclick="document.getElementById('bgUpload').click()">🖼️ Görsel Yükle</button>
-            <input type="file" id="bgUpload" style="display: none;" accept="image/*">
-            <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
-                <div style="width:30px; height:30px; background:#000; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#000000')"></div>
-                <div style="width:30px; height:30px; background:#b71c1c; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#b71c1c')"></div>
-                <div style="width:30px; height:30px; background:#1a237e; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#1a237e')"></div>
-                <div style="width:30px; height:30px; background:#f5f5dc; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#f5f5dc')"></div>
+            <h3 style="font-size: 13px; color:#717786;">Arka Plan Rengi</h3>
+            <div style="display:flex; gap:8px; margin-bottom:15px;">
+                <div style="width:28px; height:28px; background:#000; cursor:pointer; border-radius:4px; border:1px solid #444;" onclick="changeBgColor('#000000')"></div>
+                <div style="width:28px; height:28px; background:#1a0000; cursor:pointer; border-radius:4px;" onclick="changeBgColor('#1a0000')"></div>
+                <div style="width:28px; height:28px; background:#0b192c; cursor:pointer; border-radius:4px;" onclick="changeBgColor('#0b192c')"></div>
+                <div style="width:28px; height:28px; background:#2c1810; cursor:pointer; border-radius:4px;" onclick="changeBgColor('#2c1810')"></div>
             </div>
+            <button class="btn btn-dark" onclick="document.getElementById('bgUpload').click()">🖼️ Arka Plan Fotoğrafı Yükle</button>
+            <input type="file" id="bgUpload" style="display: none;" accept="image/*">
         </div>
 
         <div class="canvas-wrapper">
             <div class="editor-topbar">
+                <button class="btn btn-dark" onclick="showDashboard()">⬅️ Şablonlara Dön</button>
                 <button class="btn btn-dark" onclick="deleteSelected()">🗑️ Sil</button>
                 <button class="btn btn-primary" onclick="downloadBanner()">💾 Resmi İndir</button>
             </div>
@@ -149,140 +150,194 @@
         </div>
     </div>
 
-    <!-- MODALLAR -->
+    <!-- MODAL: GİRİŞ -->
     <div id="loginModal" class="modal">
         <div class="modal-content" style="text-align: center;">
-            <h2>Giriş Yap</h2>
-            <p style="color:#888; font-size:13px; margin-bottom:20px;">Platforma hoşgeldiniz.</p>
+            <h2 style="margin-bottom:6px;">Giriş Yap</h2>
+            <p style="color:#717786; font-size:13px; margin-bottom:18px;">LegacyCanvas hesabınıza bağlanın.</p>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <button class="btn btn-primary" style="width:100%;" onclick="login()">Giriş Yap</button>
-            <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="closeModal('loginModal')">İptal</button>
+            <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="closeModal('loginModal')">Kapat</button>
         </div>
     </div>
 
-    <!-- SANAL POS / KREDİ KARTI MODALI -->
+    <!-- MODAL: KREDİ KARTI / SANAL POS -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 style="color: #f1c40f;">PRO Üyelik Satın Al</h2>
-                <p style="color:#888; font-size:13px; margin-top:5px;">Tüm işletme, oyun şablonları ve premium özellikler için güvenli ödeme.</p>
-                <h1 style="margin-top: 10px;">300 TL</h1>
+            <div style="text-align: center; margin-bottom: 18px;">
+                <h2 style="color: #f5af19;">PRO Tasarım Kilidi</h2>
+                <p style="color:#888; font-size:12px; margin-top:4px;">Bu şablon ve tüm Pro kütüphane için ödeme yapın.</p>
+                <h1 style="margin-top: 8px; font-size: 26px;">300 TL</h1>
             </div>
             
-            <div style="text-align: left;">
-                <label style="font-size: 12px; color: #888;">Kart Üzerindeki İsim</label>
-                <input type="text" id="ccName" placeholder="AD SOYAD">
-                
-                <label style="font-size: 12px; color: #888;">Kart Numarası</label>
-                <input type="text" id="ccNum" placeholder="0000 0000 0000 0000" maxlength="19">
-                
-                <div class="cc-row">
-                    <div style="flex: 1;">
-                        <label style="font-size: 12px; color: #888;">Son Kullanma (AA/YY)</label>
-                        <input type="text" id="ccExp" placeholder="MM/YY" maxlength="5">
-                    </div>
-                    <div style="flex: 1;">
-                        <label style="font-size: 12px; color: #888;">CVC / CVV</label>
-                        <input type="text" id="ccCvc" placeholder="123" maxlength="3">
-                    </div>
+            <label style="font-size: 11px; color: #888;">Kart Sahibi</label>
+            <input type="text" id="ccName" placeholder="Ad Soyad">
+            
+            <label style="font-size: 11px; color: #888;">Kart Numarası</label>
+            <input type="text" id="ccNum" placeholder="0000 0000 0000 0000" maxlength="19">
+            
+            <div class="cc-row">
+                <div style="flex: 1;">
+                    <label style="font-size: 11px; color: #888;">SKT</label>
+                    <input type="text" id="ccExp" placeholder="AA/YY" maxlength="5">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 11px; color: #888;">CVC</label>
+                    <input type="text" id="ccCvc" placeholder="000" maxlength="3">
                 </div>
             </div>
 
             <div id="paymentLoader" class="loader"></div>
-            
-            <button id="payBtn" class="btn btn-pro" style="width:100%; padding:15px; font-size:16px; margin-top: 10px;" onclick="processPayment()">300 TL Güvenli Öde</button>
-            <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="closeModal('paymentModal')">Vazgeç</button>
+            <button id="payBtn" class="btn btn-pro" style="width:100%; padding:12px; margin-top: 6px;" onclick="processPayment()">300 TL Öde ve Aç</button>
+            <button class="btn btn-dark" style="width:100%; margin-top:8px;" onclick="closeModal('paymentModal')">İptal</button>
         </div>
     </div>
 
     <script>
-        // --- ŞABLON VERİTABANI (Her Kategori İçin 9+ Şablon) ---
+        // --- GERÇEK GÖRSELLİ VE KATMANLI ŞABLON VERİTABANI ---
         const templates = [
-            // OYUNLAR (10 Adet)
-            { id: 1, cat: 'Oyunlar', name: 'Legacy Kartal (Hareketli)', pro: true, anim: true, w: 800, h: 200, bg: '#000000', txt: 'LEGACY CLAN\nŞimşek ve Kartal Gücü' },
-            { id: 2, cat: 'Oyunlar', name: 'CS2 Turnuva Afişi', pro: false, anim: false, w: 800, h: 200, bg: '#1a1a2e', txt: 'CS2 BÜYÜK TURNUVA\nKayıtlar Başladı' },
-            { id: 3, cat: 'Oyunlar', name: 'MTA Roleplay Yükleme Ekranı', pro: true, anim: false, w: 960, h: 540, bg: '#16222a', txt: 'HOŞGELDİNİZ\nKuralları Okuyun' },
-            { id: 4, cat: 'Oyunlar', name: 'TS3 Siyaset Gaming', pro: false, anim: false, w: 800, h: 200, bg: '#4b134f', txt: 'SİYASET GAMING TS3\nIP: ts3.siyaset...' },
-            { id: 5, cat: 'Oyunlar', name: 'Discord Nitro Afişi Neon', pro: true, anim: true, w: 600, h: 240, bg: '#0f2027', txt: 'DISCORD TOPLULUĞU\nBize Katıl!' },
-            { id: 6, cat: 'Oyunlar', name: 'FiveM Los Santos RP', pro: true, anim: false, w: 960, h: 540, bg: '#232526', txt: 'LOS SANTOS ROLEPLAY' },
-            { id: 7, cat: 'Oyunlar', name: 'Minecraft Skyblock İkonu', pro: false, anim: false, w: 512, h: 512, bg: '#2e7d32', txt: 'MC\nSKYBLOCK' },
-            { id: 8, cat: 'Oyunlar', name: 'Valorant E-Spor Takımı', pro: true, anim: false, w: 800, h: 200, bg: '#ff4655', txt: 'RADIANT E-SPORTS' },
-            { id: 9, cat: 'Oyunlar', name: 'Rust Klan Banner', pro: false, anim: false, w: 800, h: 200, bg: '#3e2723', txt: 'WIPE GÜNÜ\nKlanımıza Alım Var' },
-            { id: 10, cat: 'Oyunlar', name: 'Zula Turnuva Giriş', pro: false, anim: false, w: 800, h: 200, bg: '#1b5e20', txt: 'ZULA KLAN SAVAŞLARI' },
+            // OYUN & SUNUCU
+            {
+                id: 1, cat: 'Oyunlar', name: 'Legacy Clan (Kartal & Şimşek)', pro: true, anim: true, w: 800, h: 200,
+                thumb: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1000&auto=format&fit=crop&q=80',
+                overlayImg: 'https://cdn-icons-png.flaticon.com/512/324/324128.png',
+                title: 'LEGACY CLAN', titleFont: 'Impact', titleColor: '#00d2ff',
+                subtitle: 'CS 1.6 & CS2 JAILBREAK • IP: 213.238.173.XX', subColor: '#ffffff'
+            },
+            {
+                id: 2, cat: 'Oyunlar', name: 'Siyaset Gaming Jailbreak', pro: false, anim: false, w: 800, h: 200,
+                thumb: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1000&auto=format&fit=crop&q=80',
+                title: 'SİYASET GAMING', titleFont: 'Impact', titleColor: '#ff2a2a',
+                subtitle: 'KURALSIZLARIN TEK ADRESİ • TS3: siyaset', subColor: '#ffffff'
+            },
+            {
+                id: 3, cat: 'Oyunlar', name: 'FiveM Los Santos Roleplay', pro: true, anim: false, w: 960, h: 540,
+                thumb: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&auto=format&fit=crop&q=80',
+                title: 'LOS SANTOS V', titleFont: 'Montserrat', titleColor: '#f1c40f',
+                subtitle: 'Gerçekçi Ekonomi & Hard RP • discord.gg/lsrp', subColor: '#eeeeee'
+            },
+            {
+                id: 4, cat: 'Oyunlar', name: 'Minecraft Skyblock Adaları', pro: false, anim: false, w: 600, h: 240,
+                thumb: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=1000&auto=format&fit=crop&q=80',
+                title: 'SKYBLOCK PRO', titleFont: 'Impact', titleColor: '#2ecc71',
+                subtitle: 'Yeni Sezon Başladı • play.legacycraft.com', subColor: '#ffffff'
+            },
+            {
+                id: 5, cat: 'Oyunlar', name: 'MTA Turkish Drift & Freeroam', pro: false, anim: false, w: 800, h: 200,
+                thumb: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1000&auto=format&fit=crop&q=80',
+                title: 'MTA DRIFT ARENA', titleFont: 'Impact', titleColor: '#e67e22',
+                subtitle: 'Yerli Araç Modları & Kesintisiz Eğlence', subColor: '#ffffff'
+            },
 
-            // İŞLETME (Kafe & Kebapçı - 9 Adet)
-            { id: 11, cat: 'İşletme', name: 'Legacy Cafe VIP Menü', pro: true, anim: false, w: 1080, h: 1080, bg: '#3e2723', txt: 'LEGACY CAFE\nÖzel Kahve Çeşitleri' },
-            { id: 12, cat: 'İşletme', name: 'Meşhur Adana Kebap', pro: true, anim: false, w: 1080, h: 1080, bg: '#b71c1c', txt: 'ACILI KEBAP PORSİYON\n%20 İndirim' },
-            { id: 13, cat: 'İşletme', name: 'Urfa Dürüm Fırsatı', pro: false, anim: false, w: 1080, h: 1080, bg: '#d32f2f', txt: 'DEV DÜRÜM + AYRAN\nSadece 120 TL' },
-            { id: 14, cat: 'İşletme', name: 'Şirket İşe Alım İlanı', pro: false, anim: false, w: 800, h: 800, bg: '#0d47a1', txt: 'EKİBİMİZE KATILIN\nCV Gönderin' },
-            { id: 15, cat: 'İşletme', name: 'Kurumsal Toplantı Afişi', pro: true, anim: false, w: 1920, h: 1080, bg: '#263238', txt: '2026 STRATEJİ ZİRVESİ' },
-            { id: 16, cat: 'İşletme', name: 'E-Ticaret Efsane Cuma', pro: true, anim: true, w: 1200, h: 300, bg: '#000000', txt: 'EFSANE CUMA İNDİRİMLERİ' },
-            { id: 17, cat: 'İşletme', name: 'Oto Sanayi Tamir Bakım', pro: false, anim: false, w: 1080, h: 1080, bg: '#212121', txt: 'OTO TAMİR & BAKIM\nUsta Eller' },
-            { id: 18, cat: 'İşletme', name: 'Berber Fiyat Listesi', pro: false, anim: false, w: 1080, h: 1920, bg: '#111111', txt: 'VIP SAÇ KESİMİ\nSakal Şekillendirme' },
-            { id: 19, cat: 'İşletme', name: 'Emlak & Gayrimenkul İlanı', pro: true, anim: false, w: 1080, h: 1080, bg: '#006064', txt: 'SATILIK LÜKS DAİRE\nMerkezi Konum' },
+            // KAFE & KEBAPÇI
+            {
+                id: 6, cat: 'Kafe & Restoran', name: 'Legacy Cafe VIP Kahve Menüsü', pro: true, anim: false, w: 1080, h: 1080,
+                thumb: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80',
+                title: 'LEGACY COFFEE', titleFont: 'Montserrat', titleColor: '#ffffff',
+                subtitle: 'Özel Çekirdekler • Taze Kavrum • %20 İndirim', subColor: '#f39c12'
+            },
+            {
+                id: 7, cat: 'Kafe & Restoran', name: 'Meşhur Adana Zırh Kebabı', pro: true, anim: false, w: 1080, h: 1080,
+                thumb: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&auto=format&fit=crop&q=80',
+                title: 'MEŞHUR ADANA', titleFont: 'Impact', titleColor: '#ff3838',
+                subtitle: 'Közde Domates & Biber İle • Sipariş: 0555...', subColor: '#ffffff'
+            },
+            {
+                id: 8, cat: 'Kafe & Restoran', name: 'Lezzetli Dürüm & Ayran Menü', pro: false, anim: false, w: 800, h: 400,
+                thumb: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=1000&auto=format&fit=crop&q=80',
+                title: 'USTA DÜRÜMCÜ', titleFont: 'Impact', titleColor: '#f5cd79',
+                subtitle: 'Özel Soslu Hatay Dürümü • Açık Ayran Hediye', subColor: '#ffffff'
+            },
+            {
+                id: 9, cat: 'Kafe & Restoran', name: 'Gurme Burger & Patates', pro: false, anim: false, w: 1080, h: 1080,
+                thumb: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&auto=format&fit=crop&q=80',
+                title: 'GURME BURGER', titleFont: 'Montserrat', titleColor: '#ffffff',
+                subtitle: '%100 Dana Eti • Anne Patatesiyle', subColor: '#ff9f43'
+            },
 
-            // SOSYAL MEDYA (9 Adet)
-            { id: 20, cat: 'Sosyal Medya', name: 'Instagram Kare Post', pro: false, anim: false, w: 1080, h: 1080, bg: '#c13584', txt: 'GÜNÜN FOTOĞRAFI' },
-            { id: 21, cat: 'Sosyal Medya', name: 'Instagram Dik Story', pro: true, anim: false, w: 1080, h: 1920, bg: '#fd1d1d', txt: 'YENİ GÖNDERİ\nYukarı Kaydır' },
-            { id: 22, cat: 'Sosyal Medya', name: 'YouTube Kapak Fotoğrafı', pro: true, anim: false, w: 2560, h: 1440, bg: '#ff0000', txt: 'YENİ VİDEO YAYINDA!\nAbone Ol' },
-            { id: 23, cat: 'Sosyal Medya', name: 'Twitter (X) Header', pro: false, anim: false, w: 1500, h: 500, bg: '#1da1f2', txt: 'GÜNCEL HABERLER' },
-            { id: 24, cat: 'Sosyal Medya', name: 'TikTok Bitiş Ekranı', pro: true, anim: true, w: 1080, h: 1920, bg: '#000000', txt: 'TAKİP ETMEYİ UNUTMA' },
-            { id: 25, cat: 'Sosyal Medya', name: 'Twitch Çevrimdışı Ekranı', pro: true, anim: false, w: 1920, h: 1080, bg: '#6441a5', txt: 'ŞU AN ÇEVRİMDIŞIYIM\nDiscorda Gel' },
-            { id: 26, cat: 'Sosyal Medya', name: 'Facebook Sayfa Kapağı', pro: false, anim: false, w: 820, h: 312, bg: '#1877f2', txt: 'RESMİ SAYFAMIZ' },
-            { id: 27, cat: 'Sosyal Medya', name: 'LinkedIn Kurumsal Banner', pro: true, anim: false, w: 1584, h: 396, bg: '#0a66c2', txt: 'İŞ AĞIMIZA KATILIN' },
-            { id: 28, cat: 'Sosyal Medya', name: 'Pinterest Pin Şablonu', pro: false, anim: false, w: 1000, h: 1500, bg: '#bd081c', txt: '10 HARİKA İPUCU' },
+            // DÜĞÜN & DAVETİYE
+            {
+                id: 10, cat: 'Düğün & Davetiye', name: 'Zarif Çiçekli Nikah Davetiyesi', pro: false, anim: false, w: 1080, h: 1500,
+                thumb: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop&q=80',
+                title: 'BİZ EVLENİYORUZ', titleFont: 'Playfair Display', titleColor: '#2c3e50',
+                subtitle: 'Ömür Boyu Mutluluğa Adım Atarken Yanımızda Olun\n24 EYLÜL 2026', subColor: '#7f8c8d'
+            },
+            {
+                id: 11, cat: 'Düğün & Davetiye', name: 'Altın Varaklı Lüks Davetiye', pro: true, anim: false, w: 1080, h: 1500,
+                thumb: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&auto=format&fit=crop&q=80',
+                title: 'DÜĞÜN MERASİMİ', titleFont: 'Playfair Display', titleColor: '#d4af37',
+                subtitle: 'Sizleri de Bu Özel Günümüzde Aramızda Görmekten Onur Duyarız', subColor: '#f1f2f6'
+            },
 
-            // DÜĞÜN & ETKİNLİK (9 Adet)
-            { id: 29, cat: 'Düğün & Etkinlik', name: 'Klasik Zarif Davetiye', pro: false, anim: false, w: 1080, h: 1500, bg: '#f5f5dc', txt: 'DÜĞÜNÜMÜZE DAVETLİSİNİZ\nAhmet & Ayşe' },
-            { id: 30, cat: 'Düğün & Etkinlik', name: 'Çiçek Desenli Davetiye', pro: true, anim: false, w: 1080, h: 1500, bg: '#fce4ec', txt: 'MUTLU GÜNÜMÜZ\nAşkımızı Kutluyoruz' },
-            { id: 31, cat: 'Düğün & Etkinlik', name: 'Lüks Altın Yaldızlı Davetiye', pro: true, anim: false, w: 1080, h: 1500, bg: '#111111', txt: 'EVLENİYORUZ\nSizleri de Bekleriz' },
-            { id: 32, cat: 'Düğün & Etkinlik', name: 'Minimalist Modern Davetiye', pro: false, anim: false, w: 1080, h: 1500, bg: '#eceff1', txt: 'BİZ EVLENİYORUZ!' },
-            { id: 33, cat: 'Düğün & Etkinlik', name: 'Sünnet Düğünü Afişi', pro: false, anim: false, w: 1080, h: 1500, bg: '#e3f2fd', txt: 'OĞLUMUZUN SÜNNETİNE\nBEKLERİZ' },
-            { id: 34, cat: 'Düğün & Etkinlik', name: 'Kına Gecesi Kartı', pro: true, anim: false, w: 1080, h: 1080, bg: '#880e4f', txt: 'KINA GECESİ\nHep Birlikte Eğlenelim' },
-            { id: 35, cat: 'Düğün & Etkinlik', name: 'Nişan Merasimi Panosu', pro: false, anim: false, w: 1080, h: 1920, bg: '#fff3e0', txt: 'NİŞAN TÖRENİ\nHoşgeldiniz' },
-            { id: 36, cat: 'Düğün & Etkinlik', name: 'Çocuk Doğum Günü', pro: false, anim: false, w: 1080, h: 1080, bg: '#fff9c4', txt: '1 YAŞINDA!\nDoğum Günü Partisi' },
-            { id: 37, cat: 'Düğün & Etkinlik', name: 'Mezuniyet Balosu Afişi', pro: true, anim: false, w: 1080, h: 1920, bg: '#000000', txt: '2026 MEZUNİYET BALOSU\nUnutulmaz Bir Gece' }
+            // SOSYAL MEDYA
+            {
+                id: 12, cat: 'Sosyal Medya', name: 'Instagram Yaz Kampanyası', pro: false, anim: false, w: 1080, h: 1080,
+                thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80',
+                bgImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80',
+                title: 'BÜYÜK YAZ İNDİRİMİ', titleFont: 'Montserrat', titleColor: '#ffffff',
+                subtitle: 'Tüm Ürünlerde Geçerli %50 Fırsat!', subColor: '#ffeaa7'
+            }
         ];
 
-        // --- KULLANICI YÖNETİMİ ---
+        // --- KULLANICI / VERİTABANI YÖNETİMİ ---
         let user = JSON.parse(localStorage.getItem('legacyUser')) || { isLoggedIn: false, username: '', isPro: false };
-        
+        let currentFilter = 'Tümü';
+
         function saveUser() { localStorage.setItem('legacyUser', JSON.stringify(user)); updateNavbar(); }
-        
+
         function updateNavbar() {
             const panel = document.getElementById('userPanel');
             if (user.isLoggedIn) {
                 panel.innerHTML = `
-                    <div style="font-size:14px;">Merhaba, <b>${user.username}</b></div>
-                    ${user.isPro ? '<span style="background:#f1c40f; color:#000; padding:5px 10px; border-radius:5px; font-weight:bold; font-size:12px;">PRO ÜYE</span>' : '<button class="btn btn-pro" onclick="openModal(\'paymentModal\')">⭐ PRO Al</button>'}
+                    <div style="font-size:13px;">Giriş yapıldı: <b>${user.username}</b></div>
+                    ${user.isPro ? '<span style="background:linear-gradient(90deg,#f5af19,#e65c00); color:#fff; padding:4px 8px; border-radius:4px; font-weight:800; font-size:11px;">PRO HESAP</span>' : '<button class="btn btn-pro" onclick="openModal(\'paymentModal\')">⭐ PRO Al (300 TL)</button>'}
                     <button class="btn btn-dark" onclick="logout()">Çıkış</button>
                 `;
             } else {
                 panel.innerHTML = `<button class="btn btn-primary" onclick="openModal('loginModal')">Giriş Yap</button>`;
             }
         }
-        function login() { const n = document.getElementById('username').value; if(n.length<3)return; user.isLoggedIn=true; user.username=n; saveUser(); closeModal('loginModal'); }
+
+        function login() { 
+            const n = document.getElementById('username').value.trim(); 
+            if(n.length < 2) return alert("Geçerli isim girin!"); 
+            user.isLoggedIn = true; user.username = n; 
+            saveUser(); closeModal('loginModal'); 
+        }
+
         function logout() { user = { isLoggedIn: false, username: '', isPro: false }; saveUser(); showDashboard(); }
 
-        // --- GALERİ RENDER MANTIĞI ---
-        function renderGallery(filterCat) {
+        // --- GALERİ RENDERLAMA ---
+        function renderGallery(filterCat, searchTerm = '') {
             const grid = document.getElementById('templateGrid');
             grid.innerHTML = '';
-            document.getElementById('galleryTitle').innerText = filterCat === 'Tümü' ? 'Tüm Şablonlar' : filterCat + ' Şablonları';
-            
-            const filtered = filterCat === 'Tümü' ? templates : templates.filter(t => t.cat === filterCat);
-            
-            filtered.forEach(temp => {
+            document.getElementById('galleryTitle').innerText = filterCat === 'Tümü' ? 'Tüm Hazır Şablonlar' : filterCat + ' Şablonları';
+
+            let list = filterCat === 'Tümü' ? templates : templates.filter(t => t.cat === filterCat);
+            if (searchTerm) {
+                list = list.filter(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            }
+
+            list.forEach(temp => {
                 const card = document.createElement('div');
                 card.className = 'template-card';
                 card.onclick = () => handleTemplateClick(temp);
-                
-                // Arka plan rengine göre CSS ayarı (placehold.co yerine CSS gradients kullanıyoruz daha şık durması için)
                 card.innerHTML = `
                     ${temp.pro ? '<div class="pro-badge-card">PRO</div>' : ''}
                     ${temp.anim ? '<div class="animated-badge">🎬 HAREKETLİ</div>' : ''}
-                    <div class="template-img-container" style="background: linear-gradient(135deg, #111, ${temp.bg});">
-                        <div style="color: rgba(255,255,255,0.7); font-weight: 800; text-align: center; font-size: 18px; padding: 10px;">${temp.txt.replace('\n', '<br>')}</div>
+                    <div class="template-img-container">
+                        <img src="${temp.thumb}" alt="${temp.name}">
                     </div>
                     <div class="template-info">
                         <div class="template-title">${temp.name}</div>
@@ -294,10 +349,13 @@
         }
 
         function filterGallery(category) {
+            currentFilter = category;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
             renderGallery(category);
         }
+
+        function searchTemplates(val) { renderGallery(currentFilter, val); }
 
         function showDashboard() {
             document.getElementById('dashboardScreen').style.display = 'flex';
@@ -305,12 +363,144 @@
         }
 
         function handleTemplateClick(temp) {
-            if (temp.pro && !user.isPro) return openModal('paymentModal');
-            openEditor(temp.name, temp.w, temp.h, true, temp);
+            if (temp.pro && !user.isPro) {
+                return openModal('paymentModal');
+            }
+            openEditorWithTemplate(temp);
         }
 
-        // --- SANAL POS / ÖDEME SİMÜLASYONU ---
-        // Kart numarasını formata sokma (her 4 rakamda bir boşluk)
+        // --- GELİŞMİŞ EDİTÖR (Fabric.js Katman Yükleyici) ---
+        let canvas;
+        function initCanvas() {
+            if(!canvas) canvas = new fabric.Canvas('bannerCanvas', { preserveObjectStacking: true });
+        }
+
+        function openBlankEditor() {
+            document.getElementById('dashboardScreen').style.display = 'none';
+            document.getElementById('editorScreen').style.display = 'flex';
+            initCanvas();
+            canvas.clear();
+            canvas.setWidth(800);
+            canvas.setHeight(400);
+            canvas.setBackgroundColor('#15181e', canvas.renderAll.bind(canvas));
+        }
+
+        function openEditorWithTemplate(temp) {
+            document.getElementById('dashboardScreen').style.display = 'none';
+            document.getElementById('editorScreen').style.display = 'flex';
+            initCanvas();
+            canvas.clear();
+            canvas.setWidth(temp.w);
+            canvas.setHeight(temp.h);
+
+            // 1. Arka plan görselini tuvale tam sığdırarak yükle
+            fabric.Image.fromURL(temp.bgImg, function(img) {
+                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                    scaleX: canvas.width / img.width,
+                    scaleY: canvas.height / img.height
+                });
+
+                // 2. Varsa Şablon İkonunu Ekle (Örn: Kartal)
+                if (temp.overlayImg) {
+                    fabric.Image.fromURL(temp.overlayImg, function(oImg) {
+                        oImg.scale(0.25);
+                        oImg.set({ left: 30, top: (canvas.height/2) - (oImg.getScaledHeight()/2) });
+                        canvas.add(oImg);
+                    }, { crossOrigin: 'anonymous' });
+                }
+
+                // 3. Başlık Metni Katmanı
+                const titleText = new fabric.IText(temp.title, {
+                    left: temp.overlayImg ? 180 : (canvas.width / 2),
+                    top: (canvas.height / 2) - 40,
+                    fontFamily: temp.titleFont,
+                    fill: temp.titleColor,
+                    fontSize: temp.h > 400 ? 55 : 38,
+                    fontWeight: 'bold',
+                    originX: temp.overlayImg ? 'left' : 'center',
+                    shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.85)', blur: 10, offsetX: 2, offsetY: 2 })
+                });
+                canvas.add(titleText);
+
+                // 4. Alt Başlık / Fiyat / IP Katmanı
+                const subText = new fabric.IText(temp.subtitle, {
+                    left: temp.overlayImg ? 180 : (canvas.width / 2),
+                    top: (canvas.height / 2) + 15,
+                    fontFamily: 'Inter',
+                    fill: temp.subColor,
+                    fontSize: temp.h > 400 ? 24 : 15,
+                    originX: temp.overlayImg ? 'left' : 'center',
+                    shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.9)', blur: 8, offsetX: 1, offsetY: 1 })
+                });
+                canvas.add(subText);
+                canvas.setActiveObject(titleText);
+
+            }, { crossOrigin: 'anonymous' });
+        }
+
+        function togglePanel(panelId) {
+            document.querySelectorAll('.editor-panel').forEach(p => p.style.display = 'none');
+            document.getElementById(panelId).style.display = 'flex';
+        }
+
+        function addCustomText(txt, size, font, color) {
+            const t = new fabric.IText(txt, {
+                left: canvas.width / 2, top: canvas.height / 2,
+                fontFamily: font, fill: color, fontSize: size,
+                originX: 'center', originY: 'center',
+                shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.7)', blur: 6 })
+            });
+            canvas.add(t); canvas.setActiveObject(t);
+        }
+
+        function addOverlayImage(url, scale) {
+            fabric.Image.fromURL(url, (img) => {
+                img.scale(scale);
+                img.set({ left: 50, top: 50 });
+                canvas.add(img); canvas.setActiveObject(img);
+            }, { crossOrigin: 'anonymous' });
+        }
+
+        function changeBgColor(color) {
+            canvas.backgroundImage = null;
+            canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
+        }
+
+        // Dosya Yükleme Olayları
+        document.getElementById('imgUpload').addEventListener('change', function(e) {
+            const f = e.target.files[0]; if(!f) return;
+            const r = new FileReader();
+            r.onload = (ev) => {
+                fabric.Image.fromURL(ev.target.result, (img) => {
+                    img.scaleToWidth(200); canvas.add(img); canvas.setActiveObject(img);
+                });
+            };
+            r.readAsDataURL(f); e.target.value = '';
+        });
+
+        document.getElementById('bgUpload').addEventListener('change', function(e) {
+            const f = e.target.files[0]; if(!f) return;
+            const r = new FileReader();
+            r.onload = (ev) => {
+                fabric.Image.fromURL(ev.target.result, (img) => {
+                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                        scaleX: canvas.width / img.width, scaleY: canvas.height / img.height
+                    });
+                });
+            };
+            r.readAsDataURL(f); e.target.value = '';
+        });
+
+        window.addEventListener('keydown', (e) => { if (e.key === 'Delete') deleteSelected(); });
+        function deleteSelected() { const o = canvas.getActiveObject(); if(o) canvas.remove(o); }
+        function downloadBanner() {
+            const a = document.createElement('a');
+            a.href = canvas.toDataURL('png');
+            a.download = 'LegacyCanvas-Tasarim.png';
+            a.click();
+        }
+
+        // --- SANAL POS SİMÜLASYONU ---
         document.getElementById('ccNum').addEventListener('input', function (e) {
             e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
         });
@@ -320,104 +510,24 @@
 
         function processPayment() {
             if(!user.isLoggedIn) { closeModal('paymentModal'); return openModal('loginModal'); }
-            
             const num = document.getElementById('ccNum').value;
-            const exp = document.getElementById('ccExp').value;
-            const cvc = document.getElementById('ccCvc').value;
-            
-            if(num.length < 19 || exp.length < 5 || cvc.length < 3) {
-                return alert("Lütfen kart bilgilerini eksiksiz girin.");
-            }
+            if(num.length < 19) return alert("Kart numarasını eksiksiz girin.");
 
-            // Ödeme animasyonu başlat
             document.getElementById('payBtn').style.display = 'none';
             document.getElementById('paymentLoader').style.display = 'block';
 
-            // 2 Saniye sonra ödemeyi onayla
             setTimeout(() => {
                 document.getElementById('paymentLoader').style.display = 'none';
                 document.getElementById('payBtn').style.display = 'block';
-                
                 user.isPro = true;
                 saveUser();
                 closeModal('paymentModal');
-                alert("Ödeme Başarılı! LegacyCanvas PRO özelliklerine artık sahipsiniz.");
-                renderGallery('Tümü'); // Kilitleri açmak için yenile
-                
-                // Formu temizle
-                document.getElementById('ccNum').value = '';
-                document.getElementById('ccExp').value = '';
-                document.getElementById('ccCvc').value = '';
-                document.getElementById('ccName').value = '';
-            }, 2000);
+                alert("Ödeme alındı! Tüm şablonların kilidi açıldı.");
+                renderGallery(currentFilter);
+            }, 1500);
         }
 
-        // --- GELİŞMİŞ EDİTÖR (Fabric.js) ---
-        let canvas;
-        function initCanvas() {
-            if(!canvas) canvas = new fabric.Canvas('bannerCanvas', { preserveObjectStacking: true });
-        }
-
-        function openEditor(title, w, h, isTemplate, templateData) {
-            document.getElementById('dashboardScreen').style.display = 'none';
-            document.getElementById('editorScreen').style.display = 'flex';
-            
-            initCanvas();
-            canvas.clear();
-            canvas.setWidth(w);
-            canvas.setHeight(h);
-            
-            if (isTemplate && templateData) {
-                canvas.setBackgroundColor(templateData.bg, canvas.renderAll.bind(canvas));
-                
-                // Hareketli banner bildirimi
-                if(templateData.anim) {
-                    addText("🎬 [Hareketli/Animasyon Efekti İndirmede Aktif Olacaktır]", 16, 'Arial', 10, 10);
-                }
-                addText(templateData.txt, 40, 'Impact', w/4, h/3);
-            } else {
-                canvas.setBackgroundColor('#ffffff', canvas.renderAll.bind(canvas));
-            }
-        }
-
-        function togglePanel(panelId) {
-            document.querySelectorAll('.editor-panel').forEach(p => p.style.display = 'none');
-            document.getElementById(panelId).style.display = 'flex';
-        }
-
-        function addText(txt, size, font, left=50, top=50) {
-            const t = new fabric.IText(txt, { left: left, top: top, fontFamily: font, fill: '#ffffff', fontSize: size, shadow: new fabric.Shadow({color:'rgba(0,0,0,0.5)', blur:5}) });
-            canvas.add(t); canvas.setActiveObject(t);
-        }
-        
-        function addImage(url) {
-            fabric.Image.fromURL(url, (img) => {
-                img.scale(0.2); img.set({ left: 50, top: 50 });
-                canvas.add(img); canvas.setActiveObject(img);
-            }, { crossOrigin: 'anonymous' });
-        }
-
-        function changeBgColor(color) { canvas.backgroundImage = null; canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas)); }
-
-        // Dosya Yüklemeleri
-        document.getElementById('imgUpload').addEventListener('change', function(e) {
-            const f = e.target.files[0]; if(!f) return; const r = new FileReader();
-            r.onload = (ev) => { fabric.Image.fromURL(ev.target.result, (img) => { img.scaleToWidth(200); canvas.add(img); }); };
-            r.readAsDataURL(f); e.target.value = '';
-        });
-
-        document.getElementById('bgUpload').addEventListener('change', function(e) {
-            const f = e.target.files[0]; if(!f) return; const r = new FileReader();
-            r.onload = (ev) => { fabric.Image.fromURL(ev.target.result, (img) => {
-                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), { scaleX: canvas.width/img.width, scaleY: canvas.height/img.height });
-            });}; r.readAsDataURL(f); e.target.value = '';
-        });
-
-        window.addEventListener('keydown', (e) => { if (e.key === 'Delete') deleteSelected(); });
-        function deleteSelected() { const o = canvas.getActiveObject(); if(o) canvas.remove(o); }
-        function downloadBanner() { const a = document.createElement('a'); a.href = canvas.toDataURL('png'); a.download = 'LegacyCanvas.png'; a.click(); }
-
-        // Modallar
+        // Modal Yönetimi
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
