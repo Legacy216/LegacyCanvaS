@@ -6,147 +6,144 @@
     <title>LegacyCanvas | Profesyonel Tasarım Platformu</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #0f1115; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        /* ÜST MENÜ (NAVBAR) */
+        /* NAVBAR */
         .navbar { display: flex; justify-content: space-between; align-items: center; background: #181a20; padding: 15px 30px; border-bottom: 1px solid #2a2d35; z-index: 100; }
-        .logo { font-size: 24px; font-weight: 900; color: #fff; cursor: pointer; letter-spacing: -1px; }
+        .logo { font-size: 24px; font-weight: 800; color: #fff; cursor: pointer; letter-spacing: -1px; }
         .logo span { color: #00d2ff; }
         .nav-search { display: flex; align-items: center; background: #0f1115; border: 1px solid #2a2d35; border-radius: 8px; padding: 5px 15px; width: 400px; }
         .nav-search input { background: transparent; border: none; color: white; width: 100%; padding: 8px; outline: none; }
         .user-actions { display: flex; gap: 15px; align-items: center; }
         
         /* BUTONLAR */
-        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 14px; }
+        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; font-size: 14px; }
         .btn-primary { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; }
         .btn-primary:hover { opacity: 0.8; }
-        .btn-pro { background: linear-gradient(90deg, #f6d365 0%, #fda085 100%); color: #000; }
+        .btn-pro { background: linear-gradient(90deg, #f6d365 0%, #fda085 100%); color: #000; box-shadow: 0 4px 15px rgba(246, 211, 101, 0.3); }
         .btn-dark { background: #2a2d35; color: white; border: 1px solid #3e424d; }
         .btn-dark:hover { background: #3e424d; }
 
-        /* ANA SAYFA - ŞABLON GALERİSİ */
+        /* GALERİ VE SOL MENÜ */
         .dashboard { display: flex; height: 100%; flex: 1; overflow: hidden; }
         .sidebar-filters { width: 250px; background: #181a20; padding: 20px; border-right: 1px solid #2a2d35; overflow-y: auto; }
-        .filter-title { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 0; }
-        .filter-btn { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #ccc; padding: 10px; border-radius: 6px; cursor: pointer; margin-bottom: 5px; }
-        .filter-btn:hover, .filter-btn.active { background: #2a2d35; color: white; font-weight: bold; }
+        .filter-title { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 0; font-weight: 600; }
+        .filter-btn { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #ccc; padding: 12px; border-radius: 6px; cursor: pointer; margin-bottom: 5px; font-size: 14px; transition: 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: #2a2d35; color: white; font-weight: 600; }
         
         .gallery-area { flex: 1; padding: 30px; overflow-y: auto; background: #0f1115; }
-        .gallery-header { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
-        .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .gallery-header { font-size: 24px; font-weight: 800; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding-bottom: 50px; }
         
         /* ŞABLON KARTLARI */
-        .template-card { background: #181a20; border: 1px solid #2a2d35; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; transition: 0.3s; }
+        .template-card { background: #181a20; border: 1px solid #2a2d35; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; }
         .template-card:hover { transform: translateY(-5px); border-color: #00d2ff; box-shadow: 0 10px 20px rgba(0,210,255,0.1); }
-        .template-img { width: 100%; height: 160px; object-fit: cover; background: #222; }
+        .template-img-container { height: 150px; width: 100%; background: #222; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
         .template-info { padding: 15px; }
-        .template-title { font-weight: 700; font-size: 15px; margin-bottom: 5px; }
+        .template-title { font-weight: 600; font-size: 14px; margin-bottom: 5px; color: #fff; }
         .template-category { font-size: 12px; color: #888; }
-        .pro-badge-card { position: absolute; top: 10px; right: 10px; background: #f1c40f; color: black; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
+        .pro-badge-card { position: absolute; top: 10px; right: 10px; background: #f1c40f; color: black; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 4px; z-index: 2; }
+        .animated-badge { position: absolute; top: 10px; left: 10px; background: #e74c3c; color: white; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 4px; z-index: 2; }
         
-        /* EDİTÖR EKRANI (Canva/PosterMyWall Tarzı) */
+        /* EDİTÖR EKRANI */
         .editor-container { display: none; height: 100%; flex: 1; }
         .editor-sidebar { width: 80px; background: #181a20; display: flex; flex-direction: column; align-items: center; padding-top: 20px; border-right: 1px solid #2a2d35; }
         .tool-icon { width: 60px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; cursor: pointer; font-size: 11px; margin-bottom: 10px; border-radius: 10px; }
         .tool-icon:hover { color: white; background: #2a2d35; }
-        .tool-icon.ai { color: #b76bff; }
-        
         .editor-panel { width: 280px; background: #1e2028; border-right: 1px solid #2a2d35; padding: 20px; display: none; flex-direction: column; gap: 10px; overflow-y: auto; }
-        
         .canvas-wrapper { flex: 1; background: #0a0b0e; display: flex; justify-content: center; align-items: center; overflow: auto; position: relative; padding: 40px; }
         canvas { box-shadow: 0 0 40px rgba(0,0,0,0.5); }
-        
         .editor-topbar { position: absolute; top: 20px; right: 30px; display: flex; gap: 10px; z-index: 10; }
 
-        /* Modallar */
+        /* ÖDEME VE GİRİŞ MODALLARI */
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: #181a20; padding: 40px; border-radius: 12px; width: 400px; text-align: center; border: 1px solid #2a2d35; }
-        .modal-content input { width: 100%; padding: 12px; margin: 15px 0; background: #0f1115; border: 1px solid #333; color: white; border-radius: 6px; }
+        .modal-content { background: #181a20; padding: 30px; border-radius: 12px; width: 400px; border: 1px solid #2a2d35; position: relative; }
+        .modal-header { text-align: center; margin-bottom: 20px; }
+        .modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; background: #0f1115; border: 1px solid #333; color: white; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; transition: border 0.3s; }
+        .modal-content input:focus { border-color: #00d2ff; }
+        .cc-row { display: flex; gap: 10px; }
+        .loader { display: none; border: 3px solid #333; border-top: 3px solid #00d2ff; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- ÜST MENÜ -->
+    <!-- NAVBAR -->
     <div class="navbar">
         <div class="logo" onclick="showDashboard()">Legacy<span>Canvas</span></div>
         <div class="nav-search">
-            <input type="text" placeholder="Tasarım ara (Örn: CS2, Restoran, Logo...)">
+            <input type="text" placeholder="Şablon ara... (Örn: Kebapçı, Düğün, CS2)">
         </div>
-        <div class="user-actions" id="userPanel">
-            <!-- JS ile doldurulacak -->
-        </div>
+        <div class="user-actions" id="userPanel"></div>
     </div>
 
-    <!-- EKRAN 1: ANA SAYFA & GALERİ -->
+    <!-- EKRAN 1: GALERİ (Dashboard) -->
     <div class="dashboard" id="dashboardScreen">
         <div class="sidebar-filters">
-            <button class="btn btn-primary" style="width: 100%; margin-bottom: 20px;" onclick="openEditor('Boş Tasarım', 800, 200, false, null)">+ Sıfırdan Tasarla</button>
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 20px;" onclick="openEditor('Boş Tasarım', 800, 200, false, null)">+ Sıfırdan Başla</button>
             
-            <div class="filter-title">Sektörler & Kategoriler</div>
-            <button class="filter-btn active" onclick="filterGallery('Tümü')">Tümü</button>
-            <button class="filter-btn" onclick="filterGallery('Oyun & Sunucu')">🎮 Oyun & Sunucu</button>
-            <button class="filter-btn" onclick="filterGallery('Kafe & Restoran')">☕ Kafe & Restoran</button>
-            <button class="filter-btn" onclick="filterGallery('Kurumsal Şirket')">🏢 Kurumsal Şirket</button>
+            <div class="filter-title">Kategoriler</div>
+            <button class="filter-btn active" onclick="filterGallery('Tümü')">🌟 Tümü</button>
+            <button class="filter-btn" onclick="filterGallery('Oyunlar')">🎮 Oyunlar & Sunucu</button>
+            <button class="filter-btn" onclick="filterGallery('İşletme')">🏢 İşletme (Kafe, Restoran)</button>
             <button class="filter-btn" onclick="filterGallery('Sosyal Medya')">📱 Sosyal Medya</button>
+            <button class="filter-btn" onclick="filterGallery('Düğün & Etkinlik')">💍 Düğün & Davetiye</button>
         </div>
         
         <div class="gallery-area">
-            <div class="gallery-header">Sizin İçin Önerilen Şablonlar</div>
+            <div class="gallery-header">
+                <span id="galleryTitle">Tüm Şablonlar</span>
+            </div>
             <div class="template-grid" id="templateGrid">
-                <!-- Şablonlar JS ile buraya basılacak -->
+                <!-- Şablonlar buraya yüklenecek -->
             </div>
         </div>
     </div>
 
     <!-- EKRAN 2: GELİŞMİŞ EDİTÖR -->
     <div class="editor-container" id="editorScreen">
-        <!-- Araç Çubuğu (Sol İnce Menü) -->
         <div class="editor-sidebar">
-            <div class="tool-icon" onclick="togglePanel('textPanel')"><span>📝</span>Yazı</div>
-            <div class="tool-icon" onclick="togglePanel('mediaPanel')"><span>🖼️</span>Medya</div>
-            <div class="tool-icon" onclick="togglePanel('bgPanel')"><span>🎨</span>Arka Plan</div>
-            <div class="tool-icon ai" onclick="useAI()"><span>🤖</span>Yapay Zeka</div>
+            <div class="tool-icon" onclick="togglePanel('textPanel')"><span style="font-size:20px; margin-bottom:5px;">📝</span>Yazı</div>
+            <div class="tool-icon" onclick="togglePanel('mediaPanel')"><span style="font-size:20px; margin-bottom:5px;">🖼️</span>Görsel</div>
+            <div class="tool-icon" onclick="togglePanel('bgPanel')"><span style="font-size:20px; margin-bottom:5px;">🎨</span>Arka Plan</div>
         </div>
 
-        <!-- Araç Detay Paneli -->
         <div class="editor-panel" id="textPanel">
             <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Metin Ekle</h3>
-            <button class="btn btn-dark" onclick="addText('BÜYÜK BAŞLIK', 50, 'Impact')">Büyük Başlık Ekle</button>
-            <button class="btn btn-dark" onclick="addText('Alt Başlık', 30, 'Arial')">Alt Başlık Ekle</button>
-            <button class="btn btn-dark" onclick="addText('İletişim: 0555...', 20, 'Arial')">İletişim Bilgisi Ekle</button>
+            <button class="btn btn-dark" onclick="addText('BÜYÜK BAŞLIK', 40, 'Impact')">Başlık Ekle</button>
+            <button class="btn btn-dark" onclick="addText('Alt Metin', 25, 'Arial')">Alt Metin Ekle</button>
         </div>
         
         <div class="editor-panel" id="mediaPanel">
-            <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Görsel & Logo Yükle</h3>
+            <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Görsel Yükle</h3>
             <button class="btn btn-primary" onclick="document.getElementById('imgUpload').click()">📁 Bilgisayardan Yükle</button>
             <input type="file" id="imgUpload" style="display: none;" accept="image/*">
-            
-            <h3 style="margin-top:20px; font-size: 14px; color:#888;">Hazır Objeler</h3>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <img src="https://cdn-icons-png.flaticon.com/512/324/324128.png" width="50" style="cursor:pointer; background:#2a2d35; padding:5px; border-radius:5px;" onclick="addImage(this.src)">
-                <img src="https://cdn-icons-png.flaticon.com/512/3132/3132791.png" width="50" style="cursor:pointer; background:#2a2d35; padding:5px; border-radius:5px;" onclick="addImage(this.src)">
+            <h3 style="margin-top:20px; font-size: 14px; color:#888;">Hazır Simgeler</h3>
+            <div style="display:flex; gap:10px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/324/324128.png" width="40" style="cursor:pointer; background:#fff; padding:2px; border-radius:5px;" onclick="addImage(this.src)">
+                <img src="https://cdn-icons-png.flaticon.com/512/3132/3132791.png" width="40" style="cursor:pointer; background:#fff; padding:2px; border-radius:5px;" onclick="addImage(this.src)">
             </div>
         </div>
 
         <div class="editor-panel" id="bgPanel">
-            <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Arka Plan Seçimi</h3>
-            <button class="btn btn-primary" onclick="document.getElementById('bgUpload').click()">🖼️ Kendi Arka Planın</button>
+            <h3 style="margin-bottom:15px; font-size: 14px; color:#888;">Arka Plan</h3>
+            <button class="btn btn-primary" onclick="document.getElementById('bgUpload').click()">🖼️ Görsel Yükle</button>
             <input type="file" id="bgUpload" style="display: none;" accept="image/*">
-            <div style="display:flex; gap:10px; margin-top:15px;">
-                <div style="width:40px; height:40px; background:#000; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#000000')"></div>
-                <div style="width:40px; height:40px; background:#8b0000; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#8b0000')"></div>
-                <div style="width:40px; height:40px; background:#001f3f; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#001f3f')"></div>
+            <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+                <div style="width:30px; height:30px; background:#000; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#000000')"></div>
+                <div style="width:30px; height:30px; background:#b71c1c; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#b71c1c')"></div>
+                <div style="width:30px; height:30px; background:#1a237e; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#1a237e')"></div>
+                <div style="width:30px; height:30px; background:#f5f5dc; cursor:pointer; border-radius:5px;" onclick="changeBgColor('#f5f5dc')"></div>
             </div>
         </div>
 
-        <!-- Canvas Alanı -->
         <div class="canvas-wrapper">
             <div class="editor-topbar">
-                <button class="btn btn-dark" onclick="deleteSelected()">🗑️ Sil (Del)</button>
-                <button class="btn btn-primary" onclick="downloadBanner()">💾 İndir (PNG)</button>
+                <button class="btn btn-dark" onclick="deleteSelected()">🗑️ Sil</button>
+                <button class="btn btn-primary" onclick="downloadBanner()">💾 Resmi İndir</button>
             </div>
             <canvas id="bannerCanvas"></canvas>
         </div>
@@ -154,38 +151,101 @@
 
     <!-- MODALLAR -->
     <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 5px;">Giriş Yap</h2>
-            <p style="color:#888; font-size:13px; margin-bottom:20px;">Tasarım dünyasına katılın.</p>
+        <div class="modal-content" style="text-align: center;">
+            <h2>Giriş Yap</h2>
+            <p style="color:#888; font-size:13px; margin-bottom:20px;">Platforma hoşgeldiniz.</p>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
-            <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="login()">Giriş Yap / Kayıt Ol</button>
+            <button class="btn btn-primary" style="width:100%;" onclick="login()">Giriş Yap</button>
             <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="closeModal('loginModal')">İptal</button>
         </div>
     </div>
 
-    <div id="proModal" class="modal">
+    <!-- SANAL POS / KREDİ KARTI MODALI -->
+    <div id="paymentModal" class="modal">
         <div class="modal-content">
-            <h2 style="color: #f1c40f; margin-bottom: 10px;">PRO Üyelik</h2>
-            <p style="color:#ddd; font-size:14px; margin-bottom:20px;">Tüm Şirket, Kafe ve Oyun şablonlarına eriş. Sınırsız AI kullanımı kazan.</p>
-            <h1 style="margin-bottom: 20px;">300 TL <span style="font-size:12px; color:#888;">/ Sınırsız</span></h1>
-            <button class="btn btn-pro" style="width:100%; padding:15px; font-size:16px;" onclick="buyPro()">Şimdi Yükselt</button>
-            <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="closeModal('proModal')">Kapat</button>
+            <div class="modal-header">
+                <h2 style="color: #f1c40f;">PRO Üyelik Satın Al</h2>
+                <p style="color:#888; font-size:13px; margin-top:5px;">Tüm işletme, oyun şablonları ve premium özellikler için güvenli ödeme.</p>
+                <h1 style="margin-top: 10px;">300 TL</h1>
+            </div>
+            
+            <div style="text-align: left;">
+                <label style="font-size: 12px; color: #888;">Kart Üzerindeki İsim</label>
+                <input type="text" id="ccName" placeholder="AD SOYAD">
+                
+                <label style="font-size: 12px; color: #888;">Kart Numarası</label>
+                <input type="text" id="ccNum" placeholder="0000 0000 0000 0000" maxlength="19">
+                
+                <div class="cc-row">
+                    <div style="flex: 1;">
+                        <label style="font-size: 12px; color: #888;">Son Kullanma (AA/YY)</label>
+                        <input type="text" id="ccExp" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="font-size: 12px; color: #888;">CVC / CVV</label>
+                        <input type="text" id="ccCvc" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+            </div>
+
+            <div id="paymentLoader" class="loader"></div>
+            
+            <button id="payBtn" class="btn btn-pro" style="width:100%; padding:15px; font-size:16px; margin-top: 10px;" onclick="processPayment()">300 TL Güvenli Öde</button>
+            <button class="btn btn-dark" style="width:100%; margin-top:10px;" onclick="closeModal('paymentModal')">Vazgeç</button>
         </div>
     </div>
 
     <script>
-        // --- 1. VERİTABANI & ŞABLONLAR ---
+        // --- ŞABLON VERİTABANI (Her Kategori İçin 9+ Şablon) ---
         const templates = [
-            { id: 1, category: 'Oyun & Sunucu', name: 'CS 1.6 Efsane MOTD', pro: false, width: 800, height: 200, color: '#111', text: 'Siyaset Gaming\nIP: 213...' },
-            { id: 2, category: 'Oyun & Sunucu', name: 'FiveM Roleplay Giriş', pro: true, width: 960, height: 540, color: '#1a0b2e', text: 'LOS SANTOS RP' },
-            { id: 3, category: 'Kafe & Restoran', name: 'Premium Coffee Menü', pro: true, width: 1080, height: 1080, color: '#3e2723', text: 'Kahve & Tatlı\n%20 İndirim' },
-            { id: 4, category: 'Kafe & Restoran', name: 'Fast Food İndirim', pro: false, width: 800, height: 400, color: '#d32f2f', text: 'Süper Burger Menü' },
-            { id: 5, category: 'Kurumsal Şirket', name: 'Şirket İşe Alım Afişi', pro: true, width: 800, height: 600, color: '#0d47a1', text: 'Ekibimize Katılın!' },
-            { id: 6, category: 'Kurumsal Şirket', name: 'E-Ticaret Banner', pro: false, width: 1200, height: 300, color: '#ff6f00', text: 'Büyük Yaz İndirimi Başladı' }
+            // OYUNLAR (10 Adet)
+            { id: 1, cat: 'Oyunlar', name: 'Legacy Kartal (Hareketli)', pro: true, anim: true, w: 800, h: 200, bg: '#000000', txt: 'LEGACY CLAN\nŞimşek ve Kartal Gücü' },
+            { id: 2, cat: 'Oyunlar', name: 'CS2 Turnuva Afişi', pro: false, anim: false, w: 800, h: 200, bg: '#1a1a2e', txt: 'CS2 BÜYÜK TURNUVA\nKayıtlar Başladı' },
+            { id: 3, cat: 'Oyunlar', name: 'MTA Roleplay Yükleme Ekranı', pro: true, anim: false, w: 960, h: 540, bg: '#16222a', txt: 'HOŞGELDİNİZ\nKuralları Okuyun' },
+            { id: 4, cat: 'Oyunlar', name: 'TS3 Siyaset Gaming', pro: false, anim: false, w: 800, h: 200, bg: '#4b134f', txt: 'SİYASET GAMING TS3\nIP: ts3.siyaset...' },
+            { id: 5, cat: 'Oyunlar', name: 'Discord Nitro Afişi Neon', pro: true, anim: true, w: 600, h: 240, bg: '#0f2027', txt: 'DISCORD TOPLULUĞU\nBize Katıl!' },
+            { id: 6, cat: 'Oyunlar', name: 'FiveM Los Santos RP', pro: true, anim: false, w: 960, h: 540, bg: '#232526', txt: 'LOS SANTOS ROLEPLAY' },
+            { id: 7, cat: 'Oyunlar', name: 'Minecraft Skyblock İkonu', pro: false, anim: false, w: 512, h: 512, bg: '#2e7d32', txt: 'MC\nSKYBLOCK' },
+            { id: 8, cat: 'Oyunlar', name: 'Valorant E-Spor Takımı', pro: true, anim: false, w: 800, h: 200, bg: '#ff4655', txt: 'RADIANT E-SPORTS' },
+            { id: 9, cat: 'Oyunlar', name: 'Rust Klan Banner', pro: false, anim: false, w: 800, h: 200, bg: '#3e2723', txt: 'WIPE GÜNÜ\nKlanımıza Alım Var' },
+            { id: 10, cat: 'Oyunlar', name: 'Zula Turnuva Giriş', pro: false, anim: false, w: 800, h: 200, bg: '#1b5e20', txt: 'ZULA KLAN SAVAŞLARI' },
+
+            // İŞLETME (Kafe & Kebapçı - 9 Adet)
+            { id: 11, cat: 'İşletme', name: 'Legacy Cafe VIP Menü', pro: true, anim: false, w: 1080, h: 1080, bg: '#3e2723', txt: 'LEGACY CAFE\nÖzel Kahve Çeşitleri' },
+            { id: 12, cat: 'İşletme', name: 'Meşhur Adana Kebap', pro: true, anim: false, w: 1080, h: 1080, bg: '#b71c1c', txt: 'ACILI KEBAP PORSİYON\n%20 İndirim' },
+            { id: 13, cat: 'İşletme', name: 'Urfa Dürüm Fırsatı', pro: false, anim: false, w: 1080, h: 1080, bg: '#d32f2f', txt: 'DEV DÜRÜM + AYRAN\nSadece 120 TL' },
+            { id: 14, cat: 'İşletme', name: 'Şirket İşe Alım İlanı', pro: false, anim: false, w: 800, h: 800, bg: '#0d47a1', txt: 'EKİBİMİZE KATILIN\nCV Gönderin' },
+            { id: 15, cat: 'İşletme', name: 'Kurumsal Toplantı Afişi', pro: true, anim: false, w: 1920, h: 1080, bg: '#263238', txt: '2026 STRATEJİ ZİRVESİ' },
+            { id: 16, cat: 'İşletme', name: 'E-Ticaret Efsane Cuma', pro: true, anim: true, w: 1200, h: 300, bg: '#000000', txt: 'EFSANE CUMA İNDİRİMLERİ' },
+            { id: 17, cat: 'İşletme', name: 'Oto Sanayi Tamir Bakım', pro: false, anim: false, w: 1080, h: 1080, bg: '#212121', txt: 'OTO TAMİR & BAKIM\nUsta Eller' },
+            { id: 18, cat: 'İşletme', name: 'Berber Fiyat Listesi', pro: false, anim: false, w: 1080, h: 1920, bg: '#111111', txt: 'VIP SAÇ KESİMİ\nSakal Şekillendirme' },
+            { id: 19, cat: 'İşletme', name: 'Emlak & Gayrimenkul İlanı', pro: true, anim: false, w: 1080, h: 1080, bg: '#006064', txt: 'SATILIK LÜKS DAİRE\nMerkezi Konum' },
+
+            // SOSYAL MEDYA (9 Adet)
+            { id: 20, cat: 'Sosyal Medya', name: 'Instagram Kare Post', pro: false, anim: false, w: 1080, h: 1080, bg: '#c13584', txt: 'GÜNÜN FOTOĞRAFI' },
+            { id: 21, cat: 'Sosyal Medya', name: 'Instagram Dik Story', pro: true, anim: false, w: 1080, h: 1920, bg: '#fd1d1d', txt: 'YENİ GÖNDERİ\nYukarı Kaydır' },
+            { id: 22, cat: 'Sosyal Medya', name: 'YouTube Kapak Fotoğrafı', pro: true, anim: false, w: 2560, h: 1440, bg: '#ff0000', txt: 'YENİ VİDEO YAYINDA!\nAbone Ol' },
+            { id: 23, cat: 'Sosyal Medya', name: 'Twitter (X) Header', pro: false, anim: false, w: 1500, h: 500, bg: '#1da1f2', txt: 'GÜNCEL HABERLER' },
+            { id: 24, cat: 'Sosyal Medya', name: 'TikTok Bitiş Ekranı', pro: true, anim: true, w: 1080, h: 1920, bg: '#000000', txt: 'TAKİP ETMEYİ UNUTMA' },
+            { id: 25, cat: 'Sosyal Medya', name: 'Twitch Çevrimdışı Ekranı', pro: true, anim: false, w: 1920, h: 1080, bg: '#6441a5', txt: 'ŞU AN ÇEVRİMDIŞIYIM\nDiscorda Gel' },
+            { id: 26, cat: 'Sosyal Medya', name: 'Facebook Sayfa Kapağı', pro: false, anim: false, w: 820, h: 312, bg: '#1877f2', txt: 'RESMİ SAYFAMIZ' },
+            { id: 27, cat: 'Sosyal Medya', name: 'LinkedIn Kurumsal Banner', pro: true, anim: false, w: 1584, h: 396, bg: '#0a66c2', txt: 'İŞ AĞIMIZA KATILIN' },
+            { id: 28, cat: 'Sosyal Medya', name: 'Pinterest Pin Şablonu', pro: false, anim: false, w: 1000, h: 1500, bg: '#bd081c', txt: '10 HARİKA İPUCU' },
+
+            // DÜĞÜN & ETKİNLİK (9 Adet)
+            { id: 29, cat: 'Düğün & Etkinlik', name: 'Klasik Zarif Davetiye', pro: false, anim: false, w: 1080, h: 1500, bg: '#f5f5dc', txt: 'DÜĞÜNÜMÜZE DAVETLİSİNİZ\nAhmet & Ayşe' },
+            { id: 30, cat: 'Düğün & Etkinlik', name: 'Çiçek Desenli Davetiye', pro: true, anim: false, w: 1080, h: 1500, bg: '#fce4ec', txt: 'MUTLU GÜNÜMÜZ\nAşkımızı Kutluyoruz' },
+            { id: 31, cat: 'Düğün & Etkinlik', name: 'Lüks Altın Yaldızlı Davetiye', pro: true, anim: false, w: 1080, h: 1500, bg: '#111111', txt: 'EVLENİYORUZ\nSizleri de Bekleriz' },
+            { id: 32, cat: 'Düğün & Etkinlik', name: 'Minimalist Modern Davetiye', pro: false, anim: false, w: 1080, h: 1500, bg: '#eceff1', txt: 'BİZ EVLENİYORUZ!' },
+            { id: 33, cat: 'Düğün & Etkinlik', name: 'Sünnet Düğünü Afişi', pro: false, anim: false, w: 1080, h: 1500, bg: '#e3f2fd', txt: 'OĞLUMUZUN SÜNNETİNE\nBEKLERİZ' },
+            { id: 34, cat: 'Düğün & Etkinlik', name: 'Kına Gecesi Kartı', pro: true, anim: false, w: 1080, h: 1080, bg: '#880e4f', txt: 'KINA GECESİ\nHep Birlikte Eğlenelim' },
+            { id: 35, cat: 'Düğün & Etkinlik', name: 'Nişan Merasimi Panosu', pro: false, anim: false, w: 1080, h: 1920, bg: '#fff3e0', txt: 'NİŞAN TÖRENİ\nHoşgeldiniz' },
+            { id: 36, cat: 'Düğün & Etkinlik', name: 'Çocuk Doğum Günü', pro: false, anim: false, w: 1080, h: 1080, bg: '#fff9c4', txt: '1 YAŞINDA!\nDoğum Günü Partisi' },
+            { id: 37, cat: 'Düğün & Etkinlik', name: 'Mezuniyet Balosu Afişi', pro: true, anim: false, w: 1080, h: 1920, bg: '#000000', txt: '2026 MEZUNİYET BALOSU\nUnutulmaz Bir Gece' }
         ];
 
-        // --- 2. KULLANICI SİSTEMİ ---
-        let user = JSON.parse(localStorage.getItem('legacyUser')) || { isLoggedIn: false, username: '', isPro: false, aiUsage: 0 };
+        // --- KULLANICI YÖNETİMİ ---
+        let user = JSON.parse(localStorage.getItem('legacyUser')) || { isLoggedIn: false, username: '', isPro: false };
         
         function saveUser() { localStorage.setItem('legacyUser', JSON.stringify(user)); updateNavbar(); }
         
@@ -193,8 +253,8 @@
             const panel = document.getElementById('userPanel');
             if (user.isLoggedIn) {
                 panel.innerHTML = `
-                    <div style="font-size:14px;">Hoşgeldin, <b>${user.username}</b></div>
-                    ${user.isPro ? '<span class="pro-badge-card" style="position:static;">PRO</span>' : '<button class="btn btn-pro" onclick="openModal(\'proModal\')">⭐ PRO Al</button>'}
+                    <div style="font-size:14px;">Merhaba, <b>${user.username}</b></div>
+                    ${user.isPro ? '<span style="background:#f1c40f; color:#000; padding:5px 10px; border-radius:5px; font-weight:bold; font-size:12px;">PRO ÜYE</span>' : '<button class="btn btn-pro" onclick="openModal(\'paymentModal\')">⭐ PRO Al</button>'}
                     <button class="btn btn-dark" onclick="logout()">Çıkış</button>
                 `;
             } else {
@@ -202,32 +262,33 @@
             }
         }
         function login() { const n = document.getElementById('username').value; if(n.length<3)return; user.isLoggedIn=true; user.username=n; saveUser(); closeModal('loginModal'); }
-        function logout() { user = { isLoggedIn: false, username: '', isPro: false, aiUsage: 0 }; saveUser(); showDashboard(); }
-        function buyPro() { if(!user.isLoggedIn)return alert("Giriş yapın!"); user.isPro=true; saveUser(); closeModal('proModal'); alert("PRO oldunuz!"); renderGallery('Tümü'); }
+        function logout() { user = { isLoggedIn: false, username: '', isPro: false }; saveUser(); showDashboard(); }
 
-        // --- 3. GALERİ VE ARAYÜZ YÖNETİMİ ---
-        function renderGallery(filterCategory) {
+        // --- GALERİ RENDER MANTIĞI ---
+        function renderGallery(filterCat) {
             const grid = document.getElementById('templateGrid');
             grid.innerHTML = '';
+            document.getElementById('galleryTitle').innerText = filterCat === 'Tümü' ? 'Tüm Şablonlar' : filterCat + ' Şablonları';
             
-            const filtered = filterCategory === 'Tümü' ? templates : templates.filter(t => t.category === filterCategory);
+            const filtered = filterCat === 'Tümü' ? templates : templates.filter(t => t.cat === filterCat);
             
             filtered.forEach(temp => {
-                // Şablon görseli olarak placehold.co kullanıyoruz (renklere göre otomatik resim)
-                const imgColor = temp.color.replace('#','');
-                const imgSrc = `https://placehold.co/400x200/${imgColor}/ffffff?text=${encodeURIComponent(temp.name)}`;
-                
                 const card = document.createElement('div');
                 card.className = 'template-card';
+                card.onclick = () => handleTemplateClick(temp);
+                
+                // Arka plan rengine göre CSS ayarı (placehold.co yerine CSS gradients kullanıyoruz daha şık durması için)
                 card.innerHTML = `
                     ${temp.pro ? '<div class="pro-badge-card">PRO</div>' : ''}
-                    <img class="template-img" src="${imgSrc}">
+                    ${temp.anim ? '<div class="animated-badge">🎬 HAREKETLİ</div>' : ''}
+                    <div class="template-img-container" style="background: linear-gradient(135deg, #111, ${temp.bg});">
+                        <div style="color: rgba(255,255,255,0.7); font-weight: 800; text-align: center; font-size: 18px; padding: 10px;">${temp.txt.replace('\n', '<br>')}</div>
+                    </div>
                     <div class="template-info">
                         <div class="template-title">${temp.name}</div>
-                        <div class="template-category">${temp.category} • ${temp.width}x${temp.height}</div>
+                        <div class="template-category">${temp.cat} • ${temp.w}x${temp.h}</div>
                     </div>
                 `;
-                card.onclick = () => handleTemplateClick(temp);
                 grid.appendChild(card);
             });
         }
@@ -244,11 +305,54 @@
         }
 
         function handleTemplateClick(temp) {
-            if (temp.pro && !user.isPro) return openModal('proModal');
-            openEditor(temp.name, temp.width, temp.height, true, temp);
+            if (temp.pro && !user.isPro) return openModal('paymentModal');
+            openEditor(temp.name, temp.w, temp.h, true, temp);
         }
 
-        // --- 4. GELİŞMİŞ EDİTÖR (Fabric.js) ---
+        // --- SANAL POS / ÖDEME SİMÜLASYONU ---
+        // Kart numarasını formata sokma (her 4 rakamda bir boşluk)
+        document.getElementById('ccNum').addEventListener('input', function (e) {
+            e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+        });
+        document.getElementById('ccExp').addEventListener('input', function (e) {
+            e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{2})/, '$1/').trim().substring(0,5);
+        });
+
+        function processPayment() {
+            if(!user.isLoggedIn) { closeModal('paymentModal'); return openModal('loginModal'); }
+            
+            const num = document.getElementById('ccNum').value;
+            const exp = document.getElementById('ccExp').value;
+            const cvc = document.getElementById('ccCvc').value;
+            
+            if(num.length < 19 || exp.length < 5 || cvc.length < 3) {
+                return alert("Lütfen kart bilgilerini eksiksiz girin.");
+            }
+
+            // Ödeme animasyonu başlat
+            document.getElementById('payBtn').style.display = 'none';
+            document.getElementById('paymentLoader').style.display = 'block';
+
+            // 2 Saniye sonra ödemeyi onayla
+            setTimeout(() => {
+                document.getElementById('paymentLoader').style.display = 'none';
+                document.getElementById('payBtn').style.display = 'block';
+                
+                user.isPro = true;
+                saveUser();
+                closeModal('paymentModal');
+                alert("Ödeme Başarılı! LegacyCanvas PRO özelliklerine artık sahipsiniz.");
+                renderGallery('Tümü'); // Kilitleri açmak için yenile
+                
+                // Formu temizle
+                document.getElementById('ccNum').value = '';
+                document.getElementById('ccExp').value = '';
+                document.getElementById('ccCvc').value = '';
+                document.getElementById('ccName').value = '';
+            }, 2000);
+        }
+
+        // --- GELİŞMİŞ EDİTÖR (Fabric.js) ---
         let canvas;
         function initCanvas() {
             if(!canvas) canvas = new fabric.Canvas('bannerCanvas', { preserveObjectStacking: true });
@@ -264,8 +368,13 @@
             canvas.setHeight(h);
             
             if (isTemplate && templateData) {
-                canvas.setBackgroundColor(templateData.color, canvas.renderAll.bind(canvas));
-                addText(templateData.text, 50, 'Impact', w/2 - 100, h/2 - 30);
+                canvas.setBackgroundColor(templateData.bg, canvas.renderAll.bind(canvas));
+                
+                // Hareketli banner bildirimi
+                if(templateData.anim) {
+                    addText("🎬 [Hareketli/Animasyon Efekti İndirmede Aktif Olacaktır]", 16, 'Arial', 10, 10);
+                }
+                addText(templateData.txt, 40, 'Impact', w/4, h/3);
             } else {
                 canvas.setBackgroundColor('#ffffff', canvas.renderAll.bind(canvas));
             }
@@ -276,7 +385,6 @@
             document.getElementById(panelId).style.display = 'flex';
         }
 
-        // Tasarım Fonksiyonları
         function addText(txt, size, font, left=50, top=50) {
             const t = new fabric.IText(txt, { left: left, top: top, fontFamily: font, fill: '#ffffff', fontSize: size, shadow: new fabric.Shadow({color:'rgba(0,0,0,0.5)', blur:5}) });
             canvas.add(t); canvas.setActiveObject(t);
@@ -291,7 +399,7 @@
 
         function changeBgColor(color) { canvas.backgroundImage = null; canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas)); }
 
-        // Yüklemeler
+        // Dosya Yüklemeleri
         document.getElementById('imgUpload').addEventListener('change', function(e) {
             const f = e.target.files[0]; if(!f) return; const r = new FileReader();
             r.onload = (ev) => { fabric.Image.fromURL(ev.target.result, (img) => { img.scaleToWidth(200); canvas.add(img); }); };
@@ -305,17 +413,6 @@
             });}; r.readAsDataURL(f); e.target.value = '';
         });
 
-        // AI, Silme ve İndirme
-        function useAI() {
-            if (!user.isLoggedIn) return openModal('loginModal');
-            if (!user.isPro) {
-                if (user.aiUsage >= 1) return openModal('proModal');
-                user.aiUsage++; saveUser(); alert("1 Ücretsiz AI Hakkınızı Kullanıyorsunuz!");
-            }
-            canvas.setBackgroundColor('#2c003e', canvas.renderAll.bind(canvas));
-            addText("YAPAY ZEKA TASARIMI", 40, 'Impact', 50, 50);
-        }
-
         window.addEventListener('keydown', (e) => { if (e.key === 'Delete') deleteSelected(); });
         function deleteSelected() { const o = canvas.getActiveObject(); if(o) canvas.remove(o); }
         function downloadBanner() { const a = document.createElement('a'); a.href = canvas.toDataURL('png'); a.download = 'LegacyCanvas.png'; a.click(); }
@@ -324,7 +421,7 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Başlangıç
+        // Başlangıç Yüklemesi
         updateNavbar();
         renderGallery('Tümü');
     </script>
