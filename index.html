@@ -32,6 +32,9 @@
             padding: 10px;
             border-radius: 8px;
             background: #151515;
+            display: flex;
+            gap: 5px;
+            align-items: center;
         }
         button { 
             background: #333; 
@@ -44,10 +47,15 @@
             transition: 0.2s;
         }
         button:hover { background: #555; }
+        .upload-btn { background: #337ab7; border-color: #2e6da4; }
+        .upload-btn:hover { background: #286090; }
         .delete-btn { background: #d9534f; }
         .delete-btn:hover { background: #c9302c; }
         .download-btn { background: #5cb85c; }
         .download-btn:hover { background: #4cae4c; }
+        
+        /* Çirkin dosya seçme inputlarını gizliyoruz */
+        input[type="file"] { display: none; }
     </style>
 </head>
 <body>
@@ -61,16 +69,21 @@
         </div>
 
         <div class="toolbar-group">
-            <!-- URL'leri kendi sitene veya imgur'a yüklediğin şeffaf PNG'lerle değiştirebilirsin -->
-            <button onclick="addImage('https://cdn-icons-png.flaticon.com/512/324/324128.png', 0.15)">🦅 Kartal Logosu</button>
-            <button onclick="addImage('https://cdn-icons-png.flaticon.com/512/3132/3132791.png', 0.15)">⚡ Şimşek</button>
+            <button onclick="addImage('https://cdn-icons-png.flaticon.com/512/324/324128.png', 0.15)">🦅 Kartal</button>
             <button onclick="addImage('https://cdn-icons-png.flaticon.com/512/3074/3074064.png', 0.2)">🔫 CS Karakteri</button>
+            
+            <!-- Bilgisayardan Görsel Yükleme -->
+            <button class="upload-btn" onclick="document.getElementById('imageUploader').click()">📁 Kendi Logonu Yükle</button>
+            <input type="file" id="imageUploader" accept="image/*">
         </div>
 
         <div class="toolbar-group">
-            <button onclick="changeBackground('#001f3f')">❄️ Kış Arka Plan</button>
-            <button onclick="changeBackground('#8b0000')">🔴 Kan Kırmızı</button>
-            <button onclick="changeBackground('#1a1a1a')">⚫ Koyu Tema</button>
+            <button onclick="changeBackground('#001f3f')">❄️ Kış</button>
+            <button onclick="changeBackground('#8b0000')">🔴 Savaş</button>
+            
+            <!-- Bilgisayardan Arka Plan Yükleme -->
+            <button class="upload-btn" onclick="document.getElementById('bgUploader').click()">🖼️ Arka Plan Yükle</button>
+            <input type="file" id="bgUploader" accept="image/*">
         </div>
 
         <div class="toolbar-group">
@@ -79,7 +92,6 @@
         </div>
     </div>
 
-    <!-- TS3 / CS 1.6 için standart banner alanı -->
     <canvas id="bannerCanvas" width="800" height="200"></canvas>
     
     <p style="color: #aaa; margin-top: 15px;">İpucu: Objeleri seçip "Delete" tuşuyla silebilir, köşelerinden boyutlandırabilirsin.</p>
@@ -87,7 +99,7 @@
     <script>
         const canvas = new fabric.Canvas('bannerCanvas');
 
-        // Klavyeden Delete tuşu ile silme özelliği
+        // Klavyeden Delete tuşu ile silme
         window.addEventListener('keydown', function(e) {
             if (e.key === 'Delete') {
                 deleteSelected();
@@ -107,24 +119,64 @@
             canvas.setActiveObject(text);
         }
 
-        // Yeni Eklenen: Görsel/Logo Yükleme Fonksiyonu
+        // İnternetten Hazır Görsel Ekleme
         function addImage(url, scale) {
             fabric.Image.fromURL(url, function(img) {
                 img.scale(scale);
-                img.set({ 
-                    left: 50, 
-                    top: 20,
-                    // Görsellere hafif bir parlama efekti verelim
-                    shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.5)', blur: 10, offsetX: 0, offsetY: 0 })
-                });
+                img.set({ left: 50, top: 20 });
                 canvas.add(img);
                 canvas.setActiveObject(img);
-            }, { crossOrigin: 'anonymous' }); // İndirme hatası vermemesi için hayati ayar
+            }, { crossOrigin: 'anonymous' });
         }
 
+        // --- YENİ: Bilgisayardan Obje/Logo Yükleme ---
+        document.getElementById('imageUploader').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const imgObj = new Image();
+                imgObj.src = event.target.result;
+                imgObj.onload = function() {
+                    const img = new fabric.Image(imgObj);
+                    // Resim çok büyükse tuvale sığacak şekilde küçült
+                    if (img.width > 300) {
+                        img.scaleToWidth(200);
+                    }
+                    img.set({ left: 100, top: 50 });
+                    canvas.add(img);
+                    canvas.setActiveObject(img);
+                }
+            };
+            reader.readAsDataURL(file);
+            e.target.value = ''; // Aynı dosyayı tekrar seçebilmek için inputu sıfırla
+        });
+
+        // Düz Renk Arka Plan
         function changeBackground(color) {
+            canvas.backgroundImage = null; // Varsa eski resmi kaldır
             canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
         }
+
+        // --- YENİ: Bilgisayardan Arka Plan Resmi Yükleme ---
+        document.getElementById('bgUploader').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                fabric.Image.fromURL(event.target.result, function(img) {
+                    // Yüklenen resmi 800x200 canvas boyutuna tam sığdır
+                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                        scaleX: canvas.width / img.width,
+                        scaleY: canvas.height / img.height
+                    });
+                });
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        });
 
         function deleteSelected() {
             const activeObject = canvas.getActiveObject();
