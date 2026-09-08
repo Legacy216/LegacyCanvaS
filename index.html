@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -186,13 +186,14 @@
         </div>
     </div>
 
+    <!-- GÜNCELLENEN YÖNETİCİ GİRİŞ EKRANI -->
     <div id="adminAuthModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('adminAuthModal')">&times;</span>
             <h3 class="modal-title" style="color: var(--secondary);">Yönetici Girişi</h3>
             <div class="input-group">
                 <label>Kullanıcı Adı</label>
-                <input type="text" id="adminUsername" placeholder="UmutReis">
+                <input type="text" id="adminUsername" placeholder="Umut Designer">
             </div>
             <div class="input-group">
                 <label>Şifre</label>
@@ -237,12 +238,6 @@
         let currentUser = localStorage.getItem('umutCurrentUser');
         let isAdmin = localStorage.getItem('umutIsAdmin') === 'true';
         let pendingOrderPackage = "";
-
-        // SİSTEM STATÜLERİ:
-        // 1. "Odeme_Bekliyor" -> Müşteri siparişi verdi, onay bekliyor.
-        // 2. "Yapim_Asamasinda" -> Admin parayı onayladı.
-        // 3. "Teslim_Edildi" -> Admin linki verdi.
-        // 4. "Iptal" -> Admin parayı alamadı, reddetti.
 
         // SAYFA YÜKLENDİĞİNDE OTOMATİK YÖNLENDİRME
         window.onload = () => {
@@ -408,12 +403,12 @@
             document.getElementById('mainSite').classList.remove('hidden');
         }
 
-        // YÖNETİCİ İŞLEMLERİ
+        // GÜNCELLENEN YÖNETİCİ GİRİŞ İŞLEMİ (ŞİFRE VE İSİM BURADA)
         function handleAdminLogin() {
-            const user = document.getElementById('adminUsername').value;
-            const pass = document.getElementById('adminPassword').value;
+            const user = document.getElementById('adminUsername').value.trim();
+            const pass = document.getElementById('adminPassword').value.trim();
 
-            if (user === 'UmutReis' && pass === '123') {
+            if (user === 'Umut Designer' && pass === 'umutneisterse') {
                 isAdmin = true;
                 localStorage.setItem('umutIsAdmin', 'true');
                 closeModal('adminAuthModal');
