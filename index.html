@@ -28,7 +28,6 @@
         .nav-links { display: flex; align-items: center; gap: 20px; }
         .nav-links a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 14px; transition: 0.3s; cursor: pointer; }
         .nav-links a:hover { color: var(--secondary); }
-        .user-menu { background: rgba(138, 43, 226, 0.2); border: 1px solid var(--primary); padding: 5px 15px; border-radius: 5px; color: #fff; }
 
         /* HERO SECTION */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, rgba(138,43,226,0.15) 0%, rgba(10,10,15,1) 70%); padding: 0 20px; }
@@ -58,25 +57,33 @@
         
         /* MODALLAR */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); padding: 20px; }
-        .modal-content { background: var(--bg-card); padding: 30px; border-radius: 12px; width: 100%; max-width: 450px; border: 1px solid var(--primary); position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: var(--bg-card); padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; border: 1px solid var(--primary); position: relative; max-height: 90vh; overflow-y: auto; }
         .modal-title { font-size: 24px; font-weight: 800; margin-bottom: 15px; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        
+        /* TEKLİF FORMU INPUTLARI */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group.full-width { grid-column: 1 / -1; }
         .input-group label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 5px; }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; background: #0a0a0f; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 6px; outline: none; font-family: 'Poppins', sans-serif; }
-        .input-group input:focus, .input-group textarea:focus { border-color: var(--secondary); }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 12px; background: #0a0a0f; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 6px; outline: none; font-family: 'Poppins', sans-serif; }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus { border-color: var(--secondary); }
+        
         .close-btn { position: absolute; top: 15px; right: 20px; color: #ff4757; font-size: 24px; font-weight: bold; cursor: pointer; }
 
-        /* YÖNETİCİ PANELİ & KULLANICI PANELİ */
-        .dashboard { display: none; padding: 100px 20px; max-width: 1000px; margin: 0 auto; min-height: 100vh; }
-        .order-card { background: #12121a; padding: 20px; border-radius: 8px; border-left: 4px solid var(--secondary); margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .badge-warning { background: #f39c12; color: #000; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .badge-info { background: #00d2ff; color: #000; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .badge-success { background: #2ecc71; color: #000; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .badge-danger { background: #e74c3c; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-
-        .admin-section-title { font-size: 18px; font-weight: 800; margin: 30px 0 15px 0; padding-bottom: 5px; }
+        /* YÖNETİCİ PANELİ */
+        .dashboard { display: none; padding: 100px 20px; max-width: 1200px; margin: 0 auto; min-height: 100vh; }
+        .lead-card { background: #12121a; padding: 25px; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; position: relative; }
+        .lead-card.contacted { border-left-color: #2ecc71; opacity: 0.7; }
+        
+        .contact-info { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px; background: #0a0a0f; padding: 10px; border-radius: 5px; }
+        .contact-info span { font-size: 13px; color: var(--secondary); }
+        .contact-info span i { color: #94a3b8; }
+        
+        .admin-section-title { font-size: 20px; font-weight: 800; margin: 30px 0 15px 0; padding-bottom: 5px; color: #fff; border-bottom: 2px solid var(--primary); }
         
         .hidden { display: none !important; }
+
+        footer { text-align: center; padding: 25px; background: #050508; color: #64748b; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
@@ -87,108 +94,111 @@
         <div class="nav-links">
             <a href="#home" onclick="showMainSite()">Ana Sayfa</a>
             <a href="#banners" onclick="showMainSite()">Paketler</a>
-            
-            <div id="guestMenu">
-                <a onclick="openModal('authModal')" class="user-menu">Giriş Yap / Kayıt Ol</a>
-                <a onclick="openModal('adminAuthModal')" style="font-size: 12px; color: #555;">(Yönetici)</a>
-            </div>
-            
-            <div id="userMenu" class="hidden">
-                <span id="userNameDisplay" style="color: var(--secondary); font-weight: bold;"></span>
-                <a onclick="openUserPanel()" class="user-menu" style="border-color: var(--secondary);">Siparişlerim</a>
-                <a onclick="logout()" style="color: #ff4757;">Çıkış</a>
-            </div>
+            <a onclick="openQuoteForm('')" class="user-menu" style="background: var(--primary); border:none;">Proje Başlat</a>
         </div>
     </nav>
 
     <!-- ANA SİTE İÇERİĞİ -->
     <div id="mainSite">
         <div class="hero" id="home">
-            <h1>Profesyonel Tasarım & <span class="highlight">VDS</span></h1>
-            <p>Sisteme üye olun, siparişinizi detaylandırın ve en kaliteli tasarımlara anında ulaşın.</p>
+            <h1>Hayalinizdeki Tasarıma <br><span class="highlight">Kavuşun.</span></h1>
+            <p>Projelerinizi bir üst seviyeye taşıyın! Formu doldurun, size en uygun teklifle hemen dönüş yapalım.</p>
             <div style="display: flex; gap: 15px;">
-                <a href="#banners" class="btn btn-primary">Paketleri İncele</a>
+                <a onclick="openQuoteForm('')" class="btn btn-primary">Hemen Teklif Al</a>
+                <a href="#banners" class="btn btn-secondary">Hizmetleri İncele</a>
             </div>
         </div>
 
         <div class="section" id="banners">
-            <h2 class="section-title">Hizmetlerimiz & <span>Fiyatlar</span></h2>
+            <h2 class="section-title">Neye İhtiyacınız <span>Var?</span></h2>
             <div class="grid-container">
                 
                 <div class="card">
                     <h3>Discord Sunucu Paketi</h3>
                     <p>Sunucunuza özel hareketli (GIF) banner, profil fotoğrafı ve kanal içi tasarımlar.</p>
                     <span class="price">800 ₺'den başlayan</span>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="startOrder('Discord Sunucu Paketi')">Sipariş Ver</button>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="openQuoteForm('Discord Sunucu Paketi')">Teklif İste</button>
                 </div>
 
                 <div class="card">
                     <h3>Oyun Sunucusu Tasarımı</h3>
                     <p>FiveM, CS 1.6 veya Minecraft sunucularınız için loading screen, logo, banner.</p>
                     <span class="price">800 ₺'den başlayan</span>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="startOrder('Oyun Sunucusu Tasarımı')">Sipariş Ver</button>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="openQuoteForm('Oyun Sunucusu Tasarımı')">Teklif İste</button>
                 </div>
 
                 <div class="card" style="border-color: var(--secondary);">
                     <h3>Performans VDS Paketi</h3>
                     <p>8 GB RAM, 4 CPU, 80 GB NVMe, TR Lokasyon. Projeleriniz için kesintisiz güç.</p>
                     <span class="price">400 ₺ / Ay</span>
-                    <button class="btn btn-secondary" style="width: 100%;" onclick="startOrder('Performans VDS')">Sipariş Ver</button>
+                    <button class="btn btn-secondary" style="width: 100%;" onclick="openQuoteForm('Performans VDS Paketi')">Teklif İste</button>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- MÜŞTERİ PANELİ -->
-    <div id="userDashboard" class="dashboard">
-        <h2 class="section-title">Müşteri <span>Panelim</span></h2>
-        <div id="myOrderContent"></div>
-    </div>
-
-    <!-- YÖNETİCİ PANELİ (YENİ SİSTEM) -->
+    <!-- YÖNETİCİ PANELİ -->
     <div id="adminDashboard" class="dashboard">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px;">
-            <h2 style="color: #fff;">YÖNETİCİ <span style="color: var(--primary);">PANELİ</span></h2>
-            <button class="btn btn-secondary" onclick="logout()">Çıkış Yap</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="color: #fff;">GELEN TEKLİF <span style="color: var(--primary);">TALEPLERİ</span></h2>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" onclick="showMainSite()">Siteye Dön</button>
+                <button class="btn btn-danger" onclick="logoutAdmin()">Çıkış Yap</button>
+            </div>
         </div>
 
-        <!-- 1. BÖLÜM: ÖDEME ONAYI BEKLEYENLER -->
-        <h3 class="admin-section-title" style="color: #f39c12; border-bottom: 1px solid #f39c12;">🟡 ÖDEME ONAYI BEKLEYEN SİPARİŞLER</h3>
-        <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">İlk gelen siparişler buraya düşer. Bankanıza paranın gelip gelmediğini kontrol edin.</p>
-        <div id="adminPendingPayments"></div>
+        <h3 class="admin-section-title">🔴 Yeni Talepler (Bekleyenler)</h3>
+        <div id="adminNewLeads"></div>
 
-        <!-- 2. BÖLÜM: TESLİMAT BEKLEYENLER -->
-        <h3 class="admin-section-title" style="color: #00d2ff; border-bottom: 1px solid #00d2ff; margin-top: 40px;">🔵 YAPIM AŞAMASINDAKİLER (Teslimat Bekleyenler)</h3>
-        <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">Ödemesini onayladığınız siparişler buradadır. Tasarım bitince teslim edin.</p>
-        <div id="adminInProgress"></div>
-
-        <!-- 3. BÖLÜM: TAMAMLANANLAR -->
-        <h3 class="admin-section-title" style="color: #2ecc71; border-bottom: 1px solid #2ecc71; margin-top: 40px;">🟢 TAMAMLANAN / İPTAL EDİLEN SİPARİŞLER</h3>
-        <div id="adminCompleted"></div>
+        <h3 class="admin-section-title" style="border-color: #2ecc71; margin-top: 40px;">🟢 İletişime Geçilenler (Arşiv)</h3>
+        <div id="adminContactedLeads"></div>
     </div>
 
     <!-- MODALLAR -->
-    <div id="authModal" class="modal">
+
+    <!-- Proje Talep / Teklif Formu Modalı -->
+    <div id="quoteModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('authModal')">&times;</span>
-            <h3 class="modal-title">Giriş / Kayıt Ol</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">Sistemde kaydınız yoksa otomatik oluşturulacaktır.</p>
-            <div class="input-group">
-                <label>Kullanıcı Adı</label>
-                <input type="text" id="authUsername" placeholder="Örn: byumut">
-            </div>
-            <div class="input-group">
-                <label>Şifre</label>
-                <input type="password" id="authPassword" placeholder="******">
-            </div>
-            <button class="btn btn-primary" style="width: 100%;" onclick="handleAuth()">Devam Et</button>
+            <span class="close-btn" onclick="closeModal('quoteModal')">&times;</span>
+            <h3 class="modal-title">Proje Talep Formu</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Lütfen aşağıdaki formu doldurunuz. En kısa sürede tarafınıza dönüş yapılacaktır.</p>
+            
+            <form id="proposalForm" onsubmit="submitQuoteForm(event)">
+                <div class="input-group full-width">
+                    <label>Adınız Soyadınız (gerekli)</label>
+                    <input type="text" id="qName" required placeholder="Örn: Ahmet Yılmaz">
+                </div>
+                
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>E-posta adresiniz</label>
+                        <input type="email" id="qEmail" required placeholder="ornek@mail.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Telefon Numaranız</label>
+                        <input type="tel" id="qPhone" required placeholder="0555 555 55 55">
+                    </div>
+                </div>
+
+                <div class="input-group full-width">
+                    <label>İhtiyacınız (Örn. Logo, Banner, VDS vs.)</label>
+                    <input type="text" id="qNeed" required placeholder="Neye ihtiyacınız var?">
+                </div>
+
+                <div class="input-group full-width">
+                    <label>Projeniz hakkında kısaca bilgi verir misiniz?</label>
+                    <textarea id="qDetails" rows="4" required placeholder="Renkler, hayalinizdeki konsept veya sunucu detayları..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px;">Talebi Gönder</button>
+            </form>
         </div>
     </div>
 
-    <!-- GÜNCELLENEN YÖNETİCİ GİRİŞ EKRANI -->
+    <!-- Yönetici Giriş Modalı -->
     <div id="adminAuthModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 400px;">
             <span class="close-btn" onclick="closeModal('adminAuthModal')">&times;</span>
             <h3 class="modal-title" style="color: var(--secondary);">Yönetici Girişi</h3>
             <div class="input-group">
@@ -203,207 +213,68 @@
         </div>
     </div>
 
-    <div id="orderModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('orderModal')">&times;</span>
-            <h3 class="modal-title">Sipariş Detayları</h3>
-            <p id="selectedPackageName" style="color: var(--secondary); font-weight: bold; margin-bottom: 15px;"></p>
-            <div class="input-group">
-                <label>Nasıl bir tasarım / hizmet istiyorsunuz?</label>
-                <textarea id="orderDetails" rows="4" placeholder="Örnek: Renkler neon mavi olsun, ikon olarak kurukafa istiyorum, sunucu ismi 'DarkCity', yazılar hareketli olsun..."></textarea>
-            </div>
-            <button class="btn btn-primary" style="width: 100%;" onclick="proceedToPayment()">Ödeme Adımına Geç</button>
-        </div>
-    </div>
-
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('paymentModal')">&times;</span>
-            <h3 class="modal-title">Ödeme & Onay</h3>
-            <div style="background: rgba(138,43,226,0.1); padding: 15px; border-radius: 6px; border: 1px solid var(--primary); margin-bottom: 15px;">
-                <p style="font-size: 13px; color: #ccc;">Lütfen aşağıdaki IBAN numarasına sipariş tutarınızı gönderin.</p>
-                <h4 style="margin: 10px 0; color: #fff; letter-spacing: 1px;">TR99 0000 1111 2222 3333 4444 55</h4>
-                <p style="font-size: 12px; color: var(--secondary);">Alıcı: Umut Tasarım Teknolojileri</p>
-            </div>
-            <div class="input-group">
-                <label>Gönderici Adı ve Soyadı</label>
-                <input type="text" id="paymentName" placeholder="Bankadan parayı gönderen kişi">
-            </div>
-            <button class="btn btn-primary" style="width: 100%; background: #2ecc71;" onclick="completeOrder()">Ödemeyi Yaptım, Siparişi Tamamla</button>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2026 UmutDesigner. Tüm Hakları Saklıdır.</p>
+        <p style="margin-top: 10px;"><a onclick="openModal('adminAuthModal')" style="color: #444; font-size: 11px; text-decoration: none; cursor: pointer;">Yönetici Girişi</a></p>
+    </footer>
 
     <script>
-        // GLOBAL DEĞİŞKENLER
-        let currentUser = localStorage.getItem('umutCurrentUser');
+        // GLOBAL DURUM
         let isAdmin = localStorage.getItem('umutIsAdmin') === 'true';
-        let pendingOrderPackage = "";
 
-        // SAYFA YÜKLENDİĞİNDE OTOMATİK YÖNLENDİRME
         window.onload = () => {
             if (isAdmin) {
                 showAdminPanel();
-            } else if (currentUser) {
-                updateNavForUser();
             }
         };
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // ÜYELİK İŞLEMLERİ
-        function handleAuth() {
-            let users = JSON.parse(localStorage.getItem('umutUsers')) || {}; 
-            const user = document.getElementById('authUsername').value.trim();
-            const pass = document.getElementById('authPassword').value.trim();
-            
-            if(!user || !pass) return alert("Kullanıcı adı ve şifre boş olamaz!");
-
-            if(users[user]) {
-                if(users[user] !== pass) return alert("Hatalı Şifre!");
-            } else {
-                users[user] = pass;
-                localStorage.setItem('umutUsers', JSON.stringify(users));
-                alert("Kayıt oluşturuldu ve giriş yapıldı!");
-            }
-
-            currentUser = user;
-            localStorage.setItem('umutCurrentUser', user);
-            closeModal('authModal');
-            updateNavForUser();
-        }
-
-        function updateNavForUser() {
-            document.getElementById('guestMenu').classList.add('hidden');
-            document.getElementById('userMenu').classList.remove('hidden');
-            document.getElementById('userNameDisplay').innerText = "Hoşgeldin, " + currentUser;
-        }
-
-        function logout() {
-            localStorage.removeItem('umutCurrentUser');
-            localStorage.removeItem('umutIsAdmin');
-            location.reload();
-        }
-
-        // KULLANICI SİPARİŞİ OLUŞTURMA
-        function startOrder(packageName) {
-            if (!currentUser) {
-                alert("Sipariş vermek için önce giriş yapmalı veya kayıt olmalısınız.");
-                openModal('authModal');
-                return;
-            }
-
-            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
-            const hasActiveOrder = currentOrders.find(o => o.username === currentUser && (o.status === 'Odeme_Bekliyor' || o.status === 'Yapim_Asamasinda'));
-            
-            if (hasActiveOrder) {
-                alert("Mevcut bir siparişiniz bulunuyor! Yenisini vermek için eskisinin sonuçlanmasını bekleyin.");
-                openUserPanel();
-                return;
-            }
-
-            pendingOrderPackage = packageName;
-            document.getElementById('selectedPackageName').innerText = "Seçilen: " + packageName;
-            openModal('orderModal');
-        }
-
-        function proceedToPayment() {
-            const details = document.getElementById('orderDetails').value.trim();
-            if(!details) return alert("Lütfen sipariş detaylarını (nasıl bir tasarım istediğinizi) yazın!");
-            localStorage.setItem('tempOrderDetails', details);
-            closeModal('orderModal');
-            openModal('paymentModal');
-        }
-
-        function completeOrder() {
-            const paymentName = document.getElementById('paymentName').value.trim();
-            if(!paymentName) return alert("Lütfen parayı gönderen kişinin adını ve soyadını yazın!");
-
-            const details = localStorage.getItem('tempOrderDetails');
-            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
-
-            const newOrder = {
-                id: Date.now(),
-                username: currentUser,
-                packageName: pendingOrderPackage,
-                details: details,
-                paymentName: paymentName,
-                status: 'Odeme_Bekliyor', // İLK DURUM
-                deliveryLink: ''
-            };
-
-            currentOrders.push(newOrder);
-            localStorage.setItem('umutOrders', JSON.stringify(currentOrders));
-            localStorage.removeItem('tempOrderDetails');
-
-            alert("Siparişiniz başarıyla alındı! Ödeme onayından sonra yapım aşamasına geçilecektir.");
-            document.getElementById('orderDetails').value = '';
-            document.getElementById('paymentName').value = '';
-            closeModal('paymentModal');
-            openUserPanel();
-        }
-
-        // KULLANICI PANELİ
-        function openUserPanel() {
-            document.getElementById('mainSite').classList.add('hidden');
-            document.getElementById('adminDashboard').style.display = 'none';
-            document.getElementById('userDashboard').style.display = 'block';
-
-            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
-            const content = document.getElementById('myOrderContent');
-            const userOrders = currentOrders.filter(o => o.username === currentUser).reverse();
-
-            if (userOrders.length === 0) {
-                content.innerHTML = '<p style="color: #94a3b8;">Henüz verilmiş bir siparişiniz bulunmuyor.</p>';
-                return;
-            }
-
-            content.innerHTML = '';
-            userOrders.forEach(o => {
-                let statusHtml = "";
-                let deliveryHtml = "";
-
-                if (o.status === 'Odeme_Bekliyor') {
-                    statusHtml = `<span class="badge-warning">🟡 Ödeme Onayı Bekliyor</span>`;
-                    deliveryHtml = `<p style="font-size: 12px; color: #f39c12; margin-top:10px;">Yönetici banka hesaplarını kontrol ediyor, ödeme ulaşınca siparişiniz başlayacak.</p>`;
-                } 
-                else if (o.status === 'Yapim_Asamasinda') {
-                    statusHtml = `<span class="badge-info">🔵 Yapım Aşamasında</span>`;
-                    deliveryHtml = `<p style="font-size: 12px; color: #00d2ff; margin-top:10px;">Ödemeniz onaylandı! Tasarımınız yapılıyor.</p>`;
-                } 
-                else if (o.status === 'Teslim_Edildi') {
-                    statusHtml = `<span class="badge-success">🟢 Teslim Edildi</span>`;
-                    deliveryHtml = `
-                        <div style="background: rgba(46, 204, 113, 0.1); padding: 15px; border: 1px solid #2ecc71; border-radius: 6px; margin-top: 15px;">
-                            <p style="color: #2ecc71; font-weight: bold; margin-bottom: 5px;">🎉 Tasarımınız Teslim Edildi!</p>
-                            <a href="${o.deliveryLink}" target="_blank" class="btn btn-primary" style="background: #2ecc71; border: none; font-size:12px;">Dosyayı / Tasarımı İndir</a>
-                        </div>`;
-                }
-                else if (o.status === 'Iptal') {
-                    statusHtml = `<span class="badge-danger">🔴 İptal Edildi</span>`;
-                    deliveryHtml = `<p style="font-size: 12px; color: #e74c3c; margin-top:10px;">Ödeme hesabımıza ulaşmadığı için sipariş iptal edildi.</p>`;
-                }
-
-                content.innerHTML += `
-                    <div class="order-card" style="border-left-color: ${o.status === 'Teslim_Edildi' ? '#2ecc71' : (o.status === 'Iptal' ? '#e74c3c' : 'var(--secondary)')}">
-                        <div style="display: flex; justify-content: space-between;">
-                            <h3 style="color: var(--secondary);">${o.packageName}</h3>
-                            ${statusHtml}
-                        </div>
-                        <p style="font-size: 13px; color: #ccc;"><b>Talebiniz:</b> ${o.details}</p>
-                        ${deliveryHtml}
-                    </div>
-                `;
-            });
-        }
-
         function showMainSite() {
-            document.getElementById('userDashboard').style.display = 'none';
             document.getElementById('adminDashboard').style.display = 'none';
             document.getElementById('mainSite').classList.remove('hidden');
         }
 
-        // GÜNCELLENEN YÖNETİCİ GİRİŞ İŞLEMİ (ŞİFRE VE İSİM BURADA)
+        // TEKLİF FORMU İŞLEMLERİ
+        function openQuoteForm(packagePreFill) {
+            document.getElementById('qNeed').value = packagePreFill; // Seçilen paketi otomatik yazar
+            openModal('quoteModal');
+        }
+
+        function submitQuoteForm(e) {
+            e.preventDefault(); // Sayfanın yenilenmesini engeller
+
+            const name = document.getElementById('qName').value.trim();
+            const email = document.getElementById('qEmail').value.trim();
+            const phone = document.getElementById('qPhone').value.trim();
+            const need = document.getElementById('qNeed').value.trim();
+            const details = document.getElementById('qDetails').value.trim();
+
+            let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
+
+            const newQuote = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                phone: phone,
+                need: need,
+                details: details,
+                date: new Date().toLocaleString('tr-TR'),
+                status: 'Bekliyor' // 'Bekliyor' veya 'Cevaplandi'
+            };
+
+            quotes.push(newQuote);
+            localStorage.setItem('umutQuotes', JSON.stringify(quotes));
+
+            alert("Talebiniz başarıyla alınmıştır! İletişim bilgileriniz üzerinden en kısa sürede dönüş yapılacaktır.");
+            
+            // Formu temizle ve kapat
+            document.getElementById('proposalForm').reset();
+            closeModal('quoteModal');
+        }
+
+        // YÖNETİCİ İŞLEMLERİ
         function handleAdminLogin() {
             const user = document.getElementById('adminUsername').value.trim();
             const pass = document.getElementById('adminPassword').value.trim();
@@ -414,104 +285,93 @@
                 closeModal('adminAuthModal');
                 showAdminPanel();
             } else {
-                alert("Yönetici bilgileri hatalı!");
+                alert("Hatalı Kullanıcı Adı veya Şifre!");
             }
         }
 
-        // YÖNETİCİ PANELİ (3 KATEGORİLİ SİSTEM)
+        function logoutAdmin() {
+            isAdmin = false;
+            localStorage.removeItem('umutIsAdmin');
+            location.reload();
+        }
+
         function showAdminPanel() {
             document.getElementById('mainSite').classList.add('hidden');
-            document.getElementById('userDashboard').style.display = 'none';
             document.getElementById('adminDashboard').style.display = 'block';
 
-            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
+            let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
             
-            const divPending = document.getElementById('adminPendingPayments');
-            const divInProgress = document.getElementById('adminInProgress');
-            const divCompleted = document.getElementById('adminCompleted');
+            const divNew = document.getElementById('adminNewLeads');
+            const divContacted = document.getElementById('adminContactedLeads');
 
-            divPending.innerHTML = '';
-            divInProgress.innerHTML = '';
-            divCompleted.innerHTML = '';
+            divNew.innerHTML = '';
+            divContacted.innerHTML = '';
 
-            let hasPending = false, hasInProgress = false, hasCompleted = false;
+            let hasNew = false, hasContacted = false;
 
-            [...currentOrders].reverse().forEach(o => {
+            [...quotes].reverse().forEach(q => {
                 let cardHtml = `
-                    <div class="order-card" style="background: #1a1a24;">
-                        <div style="display: flex; justify-content: space-between;">
-                            <h4>Müşteri: <span style="color: var(--primary);">${o.username}</span></h4>
-                            <span style="font-size:12px; color:#aaa;">Gönderici (Banka): <b style="color:#fff;">${o.paymentName}</b></span>
+                    <div class="lead-card ${q.status === 'Cevaplandi' ? 'contacted' : ''}">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="font-size: 18px; color: #fff;">${q.name} <span style="font-size: 12px; color: #64748b; font-weight: normal; margin-left: 10px;">${q.date}</span></h4>
+                            <span style="font-size: 14px; font-weight: bold; color: ${q.status === 'Bekliyor' ? '#e74c3c' : '#2ecc71'};">
+                                ${q.status === 'Bekliyor' ? '🔴 Yeni Talep' : '🟢 İletişime Geçildi'}
+                            </span>
                         </div>
-                        <p style="color: var(--secondary); margin-bottom:5px;"><b>Paket:</b> ${o.packageName}</p>
-                        <p style="font-size: 13px; color: #ccc; background:#0a0a0f; padding:10px; border-radius:5px;">${o.details}</p>
+                        
+                        <div class="contact-info">
+                            <span><i>İhtiyaç:</i> <b style="color:#fff;">${q.need}</b></span> | 
+                            <span><i>Tel:</i> <a href="tel:${q.phone}" style="color:var(--secondary); text-decoration:none;">${q.phone}</a></span> | 
+                            <span><i>E-posta:</i> <a href="mailto:${q.email}" style="color:var(--secondary); text-decoration:none;">${q.email}</a></span>
+                        </div>
+                        
+                        <p style="font-size: 14px; color: #cbd5e1; background: #0a0a0f; padding: 15px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                            "${q.details}"
+                        </p>
                 `;
 
-                // DURUMA GÖRE BUTONLARI EKLİYORUZ
-                if (o.status === 'Odeme_Bekliyor') {
-                    hasPending = true;
+                if (q.status === 'Bekliyor') {
+                    hasNew = true;
                     cardHtml += `
-                        <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; gap: 10px;">
-                            <button class="btn btn-success" style="flex:1;" onclick="updateOrderStatus(${o.id}, 'Yapim_Asamasinda')">✔️ Para Geldi (Onayla)</button>
-                            <button class="btn btn-danger" style="flex:1;" onclick="updateOrderStatus(${o.id}, 'Iptal')">❌ Para Gelmedi (İptal)</button>
+                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            <a href="https://wa.me/${q.phone.replace(/\s+/g, '').replace(/^0/, '90')}" target="_blank" class="btn btn-success" style="padding: 8px 15px; font-size:13px;">WhatsApp'tan Yaz</a>
+                            <button class="btn btn-primary" style="padding: 8px 15px; font-size:13px;" onclick="markAsContacted(${q.id})">İletişime Geçildi Olarak İşaretle</button>
+                            <button class="btn btn-danger" style="padding: 8px 15px; font-size:13px;" onclick="deleteQuote(${q.id})">Talebi Sil</button>
                         </div>
-                    `;
-                    divPending.innerHTML += cardHtml + `</div>`;
-                } 
-                else if (o.status === 'Yapim_Asamasinda') {
-                    hasInProgress = true;
+                    </div>`;
+                    divNew.innerHTML += cardHtml;
+                } else {
+                    hasContacted = true;
                     cardHtml += `
-                        <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                            <input type="text" id="link_${o.id}" placeholder="Tasarım Dosyasının Linki (Imgur, Drive vb.)" style="width: 100%; padding: 10px; border-radius: 4px; background: #0a0a0f; color: #fff; border: 1px solid var(--secondary); margin-bottom: 10px;">
-                            <button class="btn btn-primary" style="background: #00d2ff; color:#000; width:100%;" onclick="deliverOrder(${o.id})">Tasarımı Teslim Et</button>
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="btn btn-danger" style="padding: 5px 10px; font-size:12px; background: transparent; border: 1px solid #e74c3c; color: #e74c3c;" onclick="deleteQuote(${q.id})">Kalıcı Olarak Sil</button>
                         </div>
-                    `;
-                    divInProgress.innerHTML += cardHtml + `</div>`;
-                } 
-                else {
-                    hasCompleted = true; // Teslim_Edildi veya Iptal
-                    cardHtml += `
-                        <p style="color: ${o.status === 'Teslim_Edildi' ? '#2ecc71' : '#e74c3c'}; font-weight: bold; font-size:13px; margin-top:10px;">
-                            ${o.status === 'Teslim_Edildi' ? '✔️ Teslim Edildi' : '❌ İptal Edildi'}
-                        </p>
-                    `;
-                    divCompleted.innerHTML += cardHtml + `</div>`;
+                    </div>`;
+                    divContacted.innerHTML += cardHtml;
                 }
             });
 
-            if(!hasPending) divPending.innerHTML = '<p style="color:#666;">Onay bekleyen ödeme yok.</p>';
-            if(!hasInProgress) divInProgress.innerHTML = '<p style="color:#666;">Yapım aşamasında sipariş yok.</p>';
-            if(!hasCompleted) divCompleted.innerHTML = '<p style="color:#666;">Geçmiş sipariş yok.</p>';
+            if(!hasNew) divNew.innerHTML = '<p style="color:#64748b; font-style: italic;">Şu an bekleyen yeni bir teklif talebi bulunmuyor.</p>';
+            if(!hasContacted) divContacted.innerHTML = '<p style="color:#64748b; font-style: italic;">Geçmiş veya arşivlenmiş talep bulunmuyor.</p>';
         }
 
-        // ADMİN DURUM GÜNCELLEME (Onay/İptal)
-        function updateOrderStatus(orderId, newStatus) {
-            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
-            currentOrders = currentOrders.map(o => {
-                if(o.id === orderId) o.status = newStatus;
-                return o;
+        function markAsContacted(id) {
+            let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
+            quotes = quotes.map(q => {
+                if(q.id === id) q.status = 'Cevaplandi';
+                return q;
             });
-            localStorage.setItem('umutOrders', JSON.stringify(currentOrders));
-            showAdminPanel(); // Anında yenile
+            localStorage.setItem('umutQuotes', JSON.stringify(quotes));
+            showAdminPanel(); // Listeyi yenile
         }
 
-        // ADMİN TESLİMAT YAPMA
-        function deliverOrder(orderId) {
-            const linkInput = document.getElementById(`link_${orderId}`).value.trim();
-            if(!linkInput) return alert("Lütfen teslim edilecek dosyanın/tasarımın linkini giriniz!");
-
-            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
-            currentOrders = currentOrders.map(o => {
-                if(o.id === orderId) {
-                    o.status = 'Teslim_Edildi';
-                    o.deliveryLink = linkInput;
-                }
-                return o;
-            });
-
-            localStorage.setItem('umutOrders', JSON.stringify(currentOrders));
-            alert("Tasarım müşteriye başarıyla teslim edildi!");
-            showAdminPanel(); // Anında yenile
+        function deleteQuote(id) {
+            if(confirm("Bu talebi tamamen silmek istediğinize emin misiniz?")) {
+                let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
+                quotes = quotes.filter(q => q.id !== id);
+                localStorage.setItem('umutQuotes', JSON.stringify(quotes));
+                showAdminPanel(); // Listeyi yenile
+            }
         }
     </script>
 </body>
