@@ -3,375 +3,664 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UmutDesigner | Banner & VDS Çözümleri</title>
+    <title>UmutDesigner | Tasarım & Sunucu Hizmetleri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
-
         :root {
-            --primary: #8a2be2; 
-            --secondary: #00d2ff; 
-            --bg-dark: #0a0a0f;
-            --bg-card: #14141f;
-            --text-light: #e2e8f0;
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #ec4899;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
 
-        /* NAVBAR */
-        nav { position: fixed; top: 0; width: 100%; background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(10px); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; border-bottom: 1px solid rgba(138, 43, 226, 0.3); }
-        .logo { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: 1px; }
-        .logo span { background: linear-gradient(45deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-links { display: flex; align-items: center; gap: 20px; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 14px; transition: 0.3s; cursor: pointer; }
-        .nav-links a:hover { color: var(--secondary); }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
 
-        /* HERO SECTION */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, rgba(138,43,226,0.15) 0%, rgba(10,10,15,1) 70%); padding: 0 20px; }
-        .hero h1 { font-size: 55px; font-weight: 800; margin-bottom: 20px; line-height: 1.1; }
-        .hero h1 .highlight { color: var(--secondary); text-shadow: 0 0 20px rgba(0, 210, 255, 0.5); }
-        .hero p { font-size: 16px; color: #94a3b8; max-width: 600px; margin-bottom: 30px; }
-        .btn { padding: 12px 25px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; text-decoration: none; transition: all 0.3s ease; border: none; display: inline-block; text-align: center; }
-        .btn-primary { background: linear-gradient(45deg, var(--primary), #b535f6); color: #fff; box-shadow: 0 0 20px rgba(138, 43, 226, 0.4); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(138, 43, 226, 0.7); }
-        .btn-secondary { background: transparent; color: var(--secondary); border: 2px solid var(--secondary); }
-        .btn-secondary:hover { background: rgba(0, 210, 255, 0.1); transform: translateY(-3px); }
-        .btn-success { background: #2ecc71; color: #fff; }
-        .btn-danger { background: #e74c3c; color: #fff; }
+        /* Navigasyon */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-        /* SECTIONS COMMON */
-        .section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 32px; font-weight: 800; margin-bottom: 40px; text-transform: uppercase; }
-        .section-title span { color: var(--primary); }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
 
-        /* BANNER & VDS CARDS */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; position: relative; padding: 25px; text-align: center; }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2); }
-        .card h3 { font-size: 22px; margin-bottom: 10px; color: #fff; }
-        .card p { font-size: 13px; color: #94a3b8; margin-bottom: 20px; }
-        .price { font-size: 24px; font-weight: 800; color: var(--secondary); margin-bottom: 20px; display: block; }
-        
-        /* MODALLAR */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); padding: 20px; }
-        .modal-content { background: var(--bg-card); padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; border: 1px solid var(--primary); position: relative; max-height: 90vh; overflow-y: auto; }
-        .modal-title { font-size: 24px; font-weight: 800; margin-bottom: 15px; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        
-        /* TEKLİF FORMU INPUTLARI */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group.full-width { grid-column: 1 / -1; }
-        .input-group label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 5px; }
-        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 12px; background: #0a0a0f; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 6px; outline: none; font-family: 'Poppins', sans-serif; }
-        .input-group input:focus, .input-group textarea:focus, .input-group select:focus { border-color: var(--secondary); }
-        
-        .close-btn { position: absolute; top: 15px; right: 20px; color: #ff4757; font-size: 24px; font-weight: bold; cursor: pointer; }
+        .logo span {
+            color: var(--primary);
+        }
 
-        /* YÖNETİCİ PANELİ */
-        .dashboard { display: none; padding: 100px 20px; max-width: 1200px; margin: 0 auto; min-height: 100vh; }
-        .lead-card { background: #12121a; padding: 25px; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; position: relative; }
-        .lead-card.contacted { border-left-color: #2ecc71; opacity: 0.7; }
-        
-        .contact-info { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px; background: #0a0a0f; padding: 10px; border-radius: 5px; }
-        .contact-info span { font-size: 13px; color: var(--secondary); }
-        .contact-info span i { color: #94a3b8; }
-        
-        .admin-section-title { font-size: 20px; font-weight: 800; margin: 30px 0 15px 0; padding-bottom: 5px; color: #fff; border-bottom: 2px solid var(--primary); }
-        
-        .hidden { display: none !important; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
 
-        footer { text-align: center; padding: 25px; background: #050508; color: #64748b; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            color: white !important;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Alanı */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 70px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Paketler */
+        .packages-section {
+            padding: 80px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 50px;
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .card .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .card button {
+            width: 100%;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid var(--primary);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Modal Pencereleri */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 35px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 26px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        .modal h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .modal p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #0b0f19;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        /* Yönetici Paneli */
+        #adminPanel {
+            display: none;
+            padding: 60px 8%;
+            background: #080b12;
+            border-top: 1px solid var(--border);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .order-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .order-card.archived {
+            opacity: 0.6;
+            border-left: 4px solid var(--success);
+        }
+
+        .order-card.pending {
+            border-left: 4px solid var(--danger);
+        }
+
+        .order-info h4 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .order-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-archive { background: var(--success); color: white; }
+        .btn-delete { background: var(--danger); color: white; }
+
+        footer {
+            padding: 40px 8%;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        footer a {
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- Navigasyon -->
     <nav>
         <div class="logo">Umut<span>Designer</span></div>
         <div class="nav-links">
-            <a href="#home" onclick="showMainSite()">Ana Sayfa</a>
-            <a href="#banners" onclick="showMainSite()">Paketler</a>
-            <a onclick="openQuoteForm('')" class="user-menu" style="background: var(--primary); border:none;">Proje Başlat</a>
+            <a href="#home">Ana Sayfa</a>
+            <a href="#banners">Paketler</a>
+            <a class="nav-btn" onclick="openOrderModal()">Proje Başlat</a>
         </div>
     </nav>
 
-    <!-- ANA SİTE İÇERİĞİ -->
-    <div id="mainSite">
-        <div class="hero" id="home">
-            <h1>Hayalinizdeki Tasarıma <br><span class="highlight">Kavuşun.</span></h1>
-            <p>Projelerinizi bir üst seviyeye taşıyın! Formu doldurun, size en uygun teklifle hemen dönüş yapalım.</p>
-            <div style="display: flex; gap: 15px;">
-                <a onclick="openQuoteForm('')" class="btn btn-primary">Hemen Teklif Al</a>
-                <a href="#banners" class="btn btn-secondary">Hizmetleri İncele</a>
-            </div>
+    <!-- Hero Bölümü -->
+    <section class="hero" id="home">
+        <h1>Hayalinizdeki Tasarıma <br><span>Kavuşun.</span></h1>
+        <p>Projelerinizi bir üst seviyeye taşıyın! Formu doldurun, talebiniz anında bize ulaşsın ve size en uygun teklifle dönüş yapalım.</p>
+        <div class="hero-actions">
+            <button class="btn-primary" onclick="openOrderModal()">Hemen Teklif Al</button>
+            <a href="#banners" class="btn-secondary">Hizmetleri İncele</a>
         </div>
+    </section>
 
-        <div class="section" id="banners">
-            <h2 class="section-title">Neye İhtiyacınız <span>Var?</span></h2>
-            <div class="grid-container">
-                
-                <div class="card">
-                    <h3>Discord Sunucu Paketi</h3>
-                    <p>Sunucunuza özel hareketli (GIF) banner, profil fotoğrafı ve kanal içi tasarımlar.</p>
-                    <span class="price">800 ₺'den başlayan</span>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="openQuoteForm('Discord Sunucu Paketi')">Teklif İste</button>
-                </div>
-
-                <div class="card">
-                    <h3>Oyun Sunucusu Tasarımı</h3>
-                    <p>FiveM, CS 1.6 veya Minecraft sunucularınız için loading screen, logo, banner.</p>
-                    <span class="price">800 ₺'den başlayan</span>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="openQuoteForm('Oyun Sunucusu Tasarımı')">Teklif İste</button>
-                </div>
-
-                <div class="card" style="border-color: var(--secondary);">
-                    <h3>Performans VDS Paketi</h3>
-                    <p>8 GB RAM, 4 CPU, 80 GB NVMe, TR Lokasyon. Projeleriniz için kesintisiz güç.</p>
-                    <span class="price">400 ₺ / Ay</span>
-                    <button class="btn btn-secondary" style="width: 100%;" onclick="openQuoteForm('Performans VDS Paketi')">Teklif İste</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- YÖNETİCİ PANELİ -->
-    <div id="adminDashboard" class="dashboard">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="color: #fff;">GELEN TEKLİF <span style="color: var(--primary);">TALEPLERİ</span></h2>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-secondary" onclick="showMainSite()">Siteye Dön</button>
-                <button class="btn btn-danger" onclick="logoutAdmin()">Çıkış Yap</button>
-            </div>
-        </div>
-
-        <h3 class="admin-section-title">🔴 Yeni Talepler (Bekleyenler)</h3>
-        <div id="adminNewLeads"></div>
-
-        <h3 class="admin-section-title" style="border-color: #2ecc71; margin-top: 40px;">🟢 İletişime Geçilenler (Arşiv)</h3>
-        <div id="adminContactedLeads"></div>
-    </div>
-
-    <!-- MODALLAR -->
-
-    <!-- Proje Talep / Teklif Formu Modalı -->
-    <div id="quoteModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('quoteModal')">&times;</span>
-            <h3 class="modal-title">Proje Talep Formu</h3>
-            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Lütfen aşağıdaki formu doldurunuz. En kısa sürede tarafınıza dönüş yapılacaktır.</p>
+    <!-- Paketler Bölümü -->
+    <section class="packages-section" id="banners">
+        <h2 class="section-title">Neye İhtiyacınız <span>Var?</span></h2>
+        <div class="grid">
             
-            <form id="proposalForm" onsubmit="submitQuoteForm(event)">
-                <div class="input-group full-width">
-                    <label>Adınız Soyadınız (gerekli)</label>
-                    <input type="text" id="qName" required placeholder="Örn: Ahmet Yılmaz">
+            <div class="card">
+                <div>
+                    <h3>Discord Sunucu Paketi</h3>
+                    <p>Sunucunuza özel hareketli (GIF) banner, profil fotoğrafı ve kanal içi kurallar/duyuru tasarımları.</p>
                 </div>
-                
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>E-posta adresiniz</label>
-                        <input type="email" id="qEmail" required placeholder="ornek@mail.com">
-                    </div>
-                    <div class="input-group">
-                        <label>Telefon Numaranız</label>
-                        <input type="tel" id="qPhone" required placeholder="0555 555 55 55">
-                    </div>
+                <div>
+                    <div class="price">800 ₺'den başlayan</div>
+                    <button onclick="openOrderModal('Discord Sunucu Paketi')">Sipariş Ver</button>
                 </div>
+            </div>
 
-                <div class="input-group full-width">
-                    <label>İhtiyacınız (Örn. Logo, Banner, VDS vs.)</label>
-                    <input type="text" id="qNeed" required placeholder="Neye ihtiyacınız var?">
+            <div class="card">
+                <div>
+                    <h3>Oyun Sunucusu Tasarımı</h3>
+                    <p>FiveM, CS 1.6 veya Minecraft sunucularınız için loading screen, logo, scoreboard ve sosyal medya tasarımları.</p>
                 </div>
-
-                <div class="input-group full-width">
-                    <label>Projeniz hakkında kısaca bilgi verir misiniz?</label>
-                    <textarea id="qDetails" rows="4" required placeholder="Renkler, hayalinizdeki konsept veya sunucu detayları..."></textarea>
+                <div>
+                    <div class="price">800 ₺'den başlayan</div>
+                    <button onclick="openOrderModal('Oyun Sunucusu Tasarımı')">Sipariş Ver</button>
                 </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px;">Talebi Gönder</button>
+            <div class="card">
+                <div>
+                    <h3>Performans VDS Paketi</h3>
+                    <p>8 GB RAM, 4 CPU, 80 GB NVMe, TR Lokasyon. Oyun ve bot projeleriniz için kesintisiz yüksek performans.</p>
+                </div>
+                <div>
+                    <div class="price">400 ₺ / Ay</div>
+                    <button onclick="openOrderModal('Performans VDS Paketi')">Hemen Kirala</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Yönetici Paneli Alanı -->
+    <section id="adminPanel">
+        <div class="admin-header">
+            <h2>GELEN TEKLİF <span>TALEPLERİ</span></h2>
+            <button class="btn-secondary" onclick="logoutAdmin()">Çıkış Yap</button>
+        </div>
+
+        <h3 style="margin-bottom: 15px;">🔴 Bekleyen Talepler</h3>
+        <div id="pendingOrdersList">Henüz bekleyen sipariş yok.</div>
+
+        <h3 style="margin-top: 30px; margin-bottom: 15px;">🟢 İletişime Geçilenler</h3>
+        <div id="archivedOrdersList">Arşivlenmiş sipariş yok.</div>
+    </section>
+
+    <!-- Sipariş Talep Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <span class="modal-close" onclick="closeOrderModal()">&times;</span>
+            <h3>Proje Talep Formu</h3>
+            <p>Lütfen bilgileri doldurun. En kısa sürede tarafınıza geri dönüş yapılacaktır.</p>
+
+            <form id="orderForm">
+                <div class="form-group">
+                    <label>Adınız Soyadınız / Nick</label>
+                    <input type="text" id="custName" placeholder="Örn: Umut" required>
+                </div>
+                <div class="form-group">
+                    <label>İletişim (Discord Kullanıcı Adı veya WhatsApp / Telefon)</label>
+                    <input type="text" id="custContact" placeholder="Örn: umut#0001 veya 05xx xxx xx xx" required>
+                </div>
+                <div class="form-group">
+                    <label>İlgilendiğiniz Paket</label>
+                    <select id="custPackage">
+                        <option value="Discord Sunucu Paketi">Discord Sunucu Paketi</option>
+                        <option value="Oyun Sunucusu Tasarımı">Oyun Sunucusu Tasarımı</option>
+                        <option value="Performans VDS Paketi">Performans VDS Paketi</option>
+                        <option value="Özel Tasarım / Diğer">Özel Tasarım / Diğer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Proje Detayları & Notlar</label>
+                    <textarea id="custDetails" rows="3" placeholder="Renk tercihleri, sunucu ismi vb. detaylar"></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;" id="submitBtn">Talebi Gönder</button>
             </form>
         </div>
     </div>
 
-    <!-- Yönetici Giriş Modalı -->
-    <div id="adminAuthModal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
-            <span class="close-btn" onclick="closeModal('adminAuthModal')">&times;</span>
-            <h3 class="modal-title" style="color: var(--secondary);">Yönetici Girişi</h3>
-            <div class="input-group">
-                <label>Kullanıcı Adı</label>
-                <input type="text" id="adminUsername" placeholder="Umut Designer">
-            </div>
-            <div class="input-group">
-                <label>Şifre</label>
-                <input type="password" id="adminPassword" placeholder="***">
-            </div>
-            <button class="btn btn-secondary" style="width: 100%;" onclick="handleAdminLogin()">Giriş Yap</button>
-        </div>
-    </div>
-
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 UmutDesigner. Tüm Hakları Saklıdır.</p>
-        <p style="margin-top: 10px;"><a onclick="openModal('adminAuthModal')" style="color: #444; font-size: 11px; text-decoration: none; cursor: pointer;">Yönetici Girişi</a></p>
+        <p>©️ 2026 UmutDesigner. Tüm Hakları Saklıdır.</p>
+        <p><a onclick="checkAdminLogin()">Yönetici Girişi</a></p>
     </footer>
 
+    <!-- Script Kodları -->
     <script>
-        // GLOBAL DURUM
-        let isAdmin = localStorage.getItem('umutIsAdmin') === 'true';
+        // ==========================================
+        // AYARLAR: Discord Webhook URL'nizi buraya yazın
+        // ==========================================
+        const DISCORD_WEBHOOK_URL = "BURAYA_DISCORD_WEBHOOK_LINKINI_YAPISTIR";
+        const ADMIN_PASSWORD = "admin123"; // Yönetici paneli şifreniz
 
-        window.onload = () => {
-            if (isAdmin) {
-                showAdminPanel();
+        // Modal Aç/Kapat
+        function openOrderModal(selectedPackage = null) {
+            document.getElementById("orderModal").style.display = "flex";
+            if (selectedPackage) {
+                document.getElementById("custPackage").value = selectedPackage;
             }
-        };
-
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        function showMainSite() {
-            document.getElementById('adminDashboard').style.display = 'none';
-            document.getElementById('mainSite').classList.remove('hidden');
         }
 
-        // TEKLİF FORMU İŞLEMLERİ
-        function openQuoteForm(packagePreFill) {
-            document.getElementById('qNeed').value = packagePreFill; // Seçilen paketi otomatik yazar
-            openModal('quoteModal');
+        function closeOrderModal() {
+            document.getElementById("orderModal").style.display = "none";
         }
 
-        function submitQuoteForm(e) {
-            e.preventDefault(); // Sayfanın yenilenmesini engeller
+        // Sipariş Gönderme Mantığı
+        document.getElementById("orderForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
 
-            const name = document.getElementById('qName').value.trim();
-            const email = document.getElementById('qEmail').value.trim();
-            const phone = document.getElementById('qPhone').value.trim();
-            const need = document.getElementById('qNeed').value.trim();
-            const details = document.getElementById('qDetails').value.trim();
+            const name = document.getElementById("custName").value.trim();
+            const contact = document.getElementById("custContact").value.trim();
+            const packageType = document.getElementById("custPackage").value;
+            const details = document.getElementById("custDetails").value.trim() || "Belirtilmedi";
 
-            let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Gönderiliyor...";
 
-            const newQuote = {
+            // 1. Tarayıcı Hafızasına Siparişi Ekle (Admin Paneli İçin)
+            const newOrder = {
                 id: Date.now(),
                 name: name,
-                email: email,
-                phone: phone,
-                need: need,
+                contact: contact,
+                packageType: packageType,
                 details: details,
-                date: new Date().toLocaleString('tr-TR'),
-                status: 'Bekliyor' // 'Bekliyor' veya 'Cevaplandi'
+                status: 'pending',
+                date: new Date().toLocaleString("tr-TR")
             };
 
-            quotes.push(newQuote);
-            localStorage.setItem('umutQuotes', JSON.stringify(quotes));
+            let orders = JSON.parse(localStorage.getItem("designer_orders") || "[]");
+            orders.unshift(newOrder);
+            localStorage.setItem("designer_orders", JSON.stringify(orders));
 
-            alert("Talebiniz başarıyla alınmıştır! İletişim bilgileriniz üzerinden en kısa sürede dönüş yapılacaktır.");
-            
-            // Formu temizle ve kapat
-            document.getElementById('proposalForm').reset();
-            closeModal('quoteModal');
-        }
+            // 2. Discord Webhook'a Bildirim Gönder (Telefona/PC'ye anında bildirim)
+            if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL.startsWith("http")) {
+                const payload = {
+                    username: "LegacyCanvaS Bot",
+                    embeds: [{
+                        title: "🚀 Yeni Sipariş Talebi Geldi!",
+                        color: 6513905, // Mor tonu
+                        fields: [
+                            { name: "👤 Müşteri", value: name, inline: true },
+                            { name: "📞 İletişim", value: contact, inline: true },
+                            { name: "📦 Seçilen Paket", value: packageType, inline: false },
+                            { name: "📝 Detaylar", value: details, inline: false },
+                            { name: "🕒 Tarih", value: newOrder.date, inline: false }
+                        ]
+                    }]
+                };
 
-        // YÖNETİCİ İŞLEMLERİ
-        function handleAdminLogin() {
-            const user = document.getElementById('adminUsername').value.trim();
-            const pass = document.getElementById('adminPassword').value.trim();
+                try {
+                    await fetch(DISCORD_WEBHOOK_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (err) {
+                    console.error("Webhook gönderim hatası:", err);
+                }
+            }
 
-            if (user === 'Umut Designer' && pass === 'umutneisterse') {
-                isAdmin = true;
-                localStorage.setItem('umutIsAdmin', 'true');
-                closeModal('adminAuthModal');
-                showAdminPanel();
-            } else {
-                alert("Hatalı Kullanıcı Adı veya Şifre!");
+            alert("Talebiniz başarıyla iletildi! En kısa sürede sizinle iletişime geçeceğiz.");
+            document.getElementById("orderForm").reset();
+            closeOrderModal();
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Talebi Gönder";
+
+            renderOrders();
+        });
+
+        // Yönetici Paneli Giriş & Listeleme
+        function checkAdminLogin() {
+            const pass = prompt("Yönetici Şifresini Giriniz:");
+            if (pass === ADMIN_PASSWORD) {
+                document.getElementById("adminPanel").style.display = "block";
+                window.location.hash = "#adminPanel";
+                renderOrders();
+            } else if (pass !== null) {
+                alert("Hatalı şifre!");
             }
         }
 
         function logoutAdmin() {
-            isAdmin = false;
-            localStorage.removeItem('umutIsAdmin');
-            location.reload();
+            document.getElementById("adminPanel").style.display = "none";
+            window.location.hash = "#home";
         }
 
-        function showAdminPanel() {
-            document.getElementById('mainSite').classList.add('hidden');
-            document.getElementById('adminDashboard').style.display = 'block';
+        function renderOrders() {
+            const orders = JSON.parse(localStorage.getItem("designer_orders") || "[]");
+            const pendingList = document.getElementById("pendingOrdersList");
+            const archivedList = document.getElementById("archivedOrdersList");
 
-            let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
-            
-            const divNew = document.getElementById('adminNewLeads');
-            const divContacted = document.getElementById('adminContactedLeads');
+            const pending = orders.filter(o => o.status === 'pending');
+            const archived = orders.filter(o => o.status === 'archived');
 
-            divNew.innerHTML = '';
-            divContacted.innerHTML = '';
+            pendingList.innerHTML = pending.length ? "" : "<p style='color: #94a3b8;'>Bekleyen talep yok.</p>";
+            archivedList.innerHTML = archived.length ? "" : "<p style='color: #94a3b8;'>İletişime geçilen talep yok.</p>";
 
-            let hasNew = false, hasContacted = false;
-
-            [...quotes].reverse().forEach(q => {
-                let cardHtml = `
-                    <div class="lead-card ${q.status === 'Cevaplandi' ? 'contacted' : ''}">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h4 style="font-size: 18px; color: #fff;">${q.name} <span style="font-size: 12px; color: #64748b; font-weight: normal; margin-left: 10px;">${q.date}</span></h4>
-                            <span style="font-size: 14px; font-weight: bold; color: ${q.status === 'Bekliyor' ? '#e74c3c' : '#2ecc71'};">
-                                ${q.status === 'Bekliyor' ? '🔴 Yeni Talep' : '🟢 İletişime Geçildi'}
-                            </span>
-                        </div>
-                        
-                        <div class="contact-info">
-                            <span><i>İhtiyaç:</i> <b style="color:#fff;">${q.need}</b></span> | 
-                            <span><i>Tel:</i> <a href="tel:${q.phone}" style="color:var(--secondary); text-decoration:none;">${q.phone}</a></span> | 
-                            <span><i>E-posta:</i> <a href="mailto:${q.email}" style="color:var(--secondary); text-decoration:none;">${q.email}</a></span>
-                        </div>
-                        
-                        <p style="font-size: 14px; color: #cbd5e1; background: #0a0a0f; padding: 15px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                            "${q.details}"
-                        </p>
-                `;
-
-                if (q.status === 'Bekliyor') {
-                    hasNew = true;
-                    cardHtml += `
-                        <div style="margin-top: 10px; display: flex; gap: 10px;">
-                            <a href="https://wa.me/${q.phone.replace(/\s+/g, '').replace(/^0/, '90')}" target="_blank" class="btn btn-success" style="padding: 8px 15px; font-size:13px;">WhatsApp'tan Yaz</a>
-                            <button class="btn btn-primary" style="padding: 8px 15px; font-size:13px;" onclick="markAsContacted(${q.id})">İletişime Geçildi Olarak İşaretle</button>
-                            <button class="btn btn-danger" style="padding: 8px 15px; font-size:13px;" onclick="deleteQuote(${q.id})">Talebi Sil</button>
-                        </div>
-                    </div>`;
-                    divNew.innerHTML += cardHtml;
-                } else {
-                    hasContacted = true;
-                    cardHtml += `
-                        <div style="margin-top: 10px; text-align: right;">
-                            <button class="btn btn-danger" style="padding: 5px 10px; font-size:12px; background: transparent; border: 1px solid #e74c3c; color: #e74c3c;" onclick="deleteQuote(${q.id})">Kalıcı Olarak Sil</button>
-                        </div>
-                    </div>`;
-                    divContacted.innerHTML += cardHtml;
-                }
+            pending.forEach(order => {
+                pendingList.innerHTML += createOrderCardHtml(order, false);
             });
 
-            if(!hasNew) divNew.innerHTML = '<p style="color:#64748b; font-style: italic;">Şu an bekleyen yeni bir teklif talebi bulunmuyor.</p>';
-            if(!hasContacted) divContacted.innerHTML = '<p style="color:#64748b; font-style: italic;">Geçmiş veya arşivlenmiş talep bulunmuyor.</p>';
-        }
-
-        function markAsContacted(id) {
-            let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
-            quotes = quotes.map(q => {
-                if(q.id === id) q.status = 'Cevaplandi';
-                return q;
+            archived.forEach(order => {
+                archivedList.innerHTML += createOrderCardHtml(order, true);
             });
-            localStorage.setItem('umutQuotes', JSON.stringify(quotes));
-            showAdminPanel(); // Listeyi yenile
         }
 
-        function deleteQuote(id) {
-            if(confirm("Bu talebi tamamen silmek istediğinize emin misiniz?")) {
-                let quotes = JSON.parse(localStorage.getItem('umutQuotes')) || [];
-                quotes = quotes.filter(q => q.id !== id);
-                localStorage.setItem('umutQuotes', JSON.stringify(quotes));
-                showAdminPanel(); // Listeyi yenile
+        function createOrderCardHtml(order, isArchived) {
+            return `
+                <div class="order-card ${isArchived ? 'archived' : 'pending'}">
+                    <div class="order-info">
+                        <h4>${escapeHtml(order.name)} <span style="font-size:12px; color: #818cf8;">(${escapeHtml(order.packageType)})</span></h4>
+                        <p><strong>İletişim:</strong> ${escapeHtml(order.contact)}</p>
+                        <p><strong>Açıklama:</strong> ${escapeHtml(order.details)}</p>
+                        <p style="font-size: 11px;"><strong>Tarih:</strong> ${order.date}</p>
+                    </div>
+                    <div class="order-actions">
+                        ${!isArchived ? `<button class="btn-action btn-archive" onclick="changeStatus(${order.id}, 'archived')">İletişime Geçildi</button>` : ''}
+                        <button class="btn-action btn-delete" onclick="deleteOrder(${order.id})">Sil</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function changeStatus(id, newStatus) {
+            let orders = JSON.parse(localStorage.getItem("designer_orders") || "[]");
+            orders = orders.map(o => o.id === id ? { ...o, status: newStatus } : o);
+            localStorage.setItem("designer_orders", JSON.stringify(orders));
+            renderOrders();
+        }
+
+        function deleteOrder(id) {
+            if (confirm("Bu talebi silmek istediğinize emin misiniz?")) {
+                let orders = JSON.parse(localStorage.getItem("designer_orders") || "[]");
+                orders = orders.filter(o => o.id !== id);
+                localStorage.setItem("designer_orders", JSON.stringify(orders));
+                renderOrders();
             }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = text;
+            return div.innerHTML;
         }
     </script>
 </body>
