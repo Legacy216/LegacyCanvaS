@@ -112,7 +112,6 @@
             <h2 class="section-title">Hizmetlerimiz & <span>Fiyatlar</span></h2>
             <div class="grid-container">
                 
-                <!-- Banner Paketleri -->
                 <div class="card">
                     <h3>Discord Sunucu Paketi</h3>
                     <p>Sunucunuza özel hareketli (GIF) banner, profil fotoğrafı ve kanal içi tasarımlar.</p>
@@ -127,7 +126,6 @@
                     <button class="btn btn-primary" style="width: 100%;" onclick="startOrder('Oyun Sunucusu Tasarımı')">Sipariş Ver</button>
                 </div>
 
-                <!-- Örnek VDS -->
                 <div class="card" style="border-color: var(--secondary);">
                     <h3>Performans VDS Paketi</h3>
                     <p>8 GB RAM, 4 CPU, 80 GB NVMe, TR Lokasyon. Projeleriniz için kesintisiz güç.</p>
@@ -142,9 +140,7 @@
     <!-- MÜŞTERİ PANELİ (Sipariş Durumu) -->
     <div id="userDashboard" class="dashboard">
         <h2 class="section-title">Müşteri <span>Panelim</span></h2>
-        <div id="myOrderContent">
-            <!-- JS ile doldurulacak -->
-        </div>
+        <div id="myOrderContent"></div>
     </div>
 
     <!-- YÖNETİCİ PANELİ -->
@@ -153,14 +149,10 @@
             <h2 style="color: #fff;">YÖNETİCİ <span style="color: var(--primary);">PANELİ</span></h2>
             <button class="btn btn-secondary" onclick="logout()">Çıkış Yap</button>
         </div>
-        <div id="allOrdersContent">
-            <!-- JS ile doldurulacak -->
-        </div>
+        <div id="allOrdersContent"></div>
     </div>
 
     <!-- MODALLAR -->
-
-    <!-- Üyelik (Giriş/Kayıt) Modalı -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('authModal')">&times;</span>
@@ -178,7 +170,6 @@
         </div>
     </div>
 
-    <!-- Admin Giriş Modalı -->
     <div id="adminAuthModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('adminAuthModal')">&times;</span>
@@ -195,7 +186,6 @@
         </div>
     </div>
 
-    <!-- Sipariş Detay Modalı -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('orderModal')">&times;</span>
@@ -209,7 +199,6 @@
         </div>
     </div>
 
-    <!-- Ödeme (IBAN) Modalı -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('paymentModal')">&times;</span>
@@ -228,15 +217,12 @@
     </div>
 
     <script>
-        // --- VERİTABANI (LOCALSTORAGE) SİMÜLASYONU ---
-        let users = JSON.parse(localStorage.getItem('umutUsers')) || {}; 
-        let orders = JSON.parse(localStorage.getItem('umutOrders')) || [];
+        // GLOBAL DEĞİŞKENLER
         let currentUser = localStorage.getItem('umutCurrentUser');
         let isAdmin = localStorage.getItem('umutIsAdmin') === 'true';
+        let pendingOrderPackage = "";
 
-        let pendingOrderPackage = ""; // Geçici sipariş paketi hafızası
-
-        // --- BAŞLANGIÇ YÜKLEMESİ ---
+        // SAYFA YÜKLENDİĞİNDE OTOMATİK YÖNLENDİRME
         window.onload = () => {
             if (isAdmin) {
                 showAdminPanel();
@@ -245,12 +231,13 @@
             }
         };
 
-        // --- MODAL KONTROLLERİ ---
+        // MODAL FONKSİYONLARI
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // --- ÜYELİK İŞLEMLERİ ---
+        // ÜYELİK
         function handleAuth() {
+            let users = JSON.parse(localStorage.getItem('umutUsers')) || {}; 
             const user = document.getElementById('authUsername').value.trim();
             const pass = document.getElementById('authPassword').value.trim();
             
@@ -259,7 +246,7 @@
             if(users[user]) {
                 if(users[user] !== pass) return alert("Hatalı Şifre!");
             } else {
-                users[user] = pass; // Yeni kayıt
+                users[user] = pass;
                 localStorage.setItem('umutUsers', JSON.stringify(users));
                 alert("Kayıt oluşturuldu ve giriş yapıldı!");
             }
@@ -277,14 +264,12 @@
         }
 
         function logout() {
-            currentUser = null;
-            isAdmin = false;
             localStorage.removeItem('umutCurrentUser');
             localStorage.removeItem('umutIsAdmin');
             location.reload();
         }
 
-        // --- SİPARİŞ İŞLEMLERİ (KULLANICI) ---
+        // KULLANICI SİPARİŞİ OLUŞTURMA
         function startOrder(packageName) {
             if (!currentUser) {
                 alert("Sipariş vermek için önce giriş yapmalı veya kayıt olmalısınız.");
@@ -292,8 +277,9 @@
                 return;
             }
 
-            // 1 Sipariş kontrolü (Tamamlanmamış siparişi var mı?)
-            const hasActiveOrder = orders.find(o => o.username === currentUser && o.status !== 'Teslim Edildi');
+            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
+            const hasActiveOrder = currentOrders.find(o => o.username === currentUser && o.status !== 'Teslim Edildi');
+            
             if (hasActiveOrder) {
                 alert("Mevcut bir siparişiniz bulunuyor! Panelinizden durumunu kontrol edebilirsiniz. Yenisini vermek için eskisinin teslim edilmesini bekleyin.");
                 openUserPanel();
@@ -309,7 +295,6 @@
             const details = document.getElementById('orderDetails').value.trim();
             if(!details) return alert("Lütfen sipariş detaylarını (nasıl bir tasarım istediğinizi) yazın!");
             
-            // Veriyi geçici kaydet ve ödemeye geç
             localStorage.setItem('tempOrderDetails', details);
             closeModal('orderModal');
             openModal('paymentModal');
@@ -321,33 +306,42 @@
 
             const details = localStorage.getItem('tempOrderDetails');
             
-            // Siparişi oluştur
+            // VERİYİ ANLIK OLARAK ÇEK Kİ ÜSTÜNE YAZSIN
+            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
+
             const newOrder = {
                 id: Date.now(),
                 username: currentUser,
                 packageName: pendingOrderPackage,
                 details: details,
                 paymentName: paymentName,
-                status: 'Ödeme Onayı / Yapım Aşamasında', // İlk durum
+                status: 'Ödeme Onayı Bekleniyor',
                 deliveryLink: ''
             };
 
-            orders.push(newOrder);
-            localStorage.setItem('umutOrders', JSON.stringify(orders));
-            localStorage.removeItem('tempOrderDetails');
+            currentOrders.push(newOrder);
+            localStorage.setItem('umutOrders', JSON.stringify(currentOrders)); // SİSTEME KAYDET
+            localStorage.removeItem('tempOrderDetails'); // TEMİZLE
 
-            alert("Siparişiniz başarıyla alındı! Yöneticimiz ödemeyi onaylayıp tasarımı panele yükleyecektir.");
+            alert("Siparişiniz başarıyla alındı! Yönetici ödemeyi onayladığında siparişiniz başlayacaktır.");
+            
+            document.getElementById('orderDetails').value = '';
+            document.getElementById('paymentName').value = '';
+            
             closeModal('paymentModal');
             openUserPanel();
         }
 
-        // --- KULLANICI PANELİ GÖSTERİMİ ---
+        // KULLANICI PANELİ
         function openUserPanel() {
             document.getElementById('mainSite').classList.add('hidden');
+            document.getElementById('adminDashboard').style.display = 'none';
             document.getElementById('userDashboard').style.display = 'block';
 
+            // VERİYİ ANLIK ÇEK (ÖNEMLİ)
+            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
             const content = document.getElementById('myOrderContent');
-            const userOrders = orders.filter(o => o.username === currentUser).reverse();
+            const userOrders = currentOrders.filter(o => o.username === currentUser).reverse();
 
             if (userOrders.length === 0) {
                 content.innerHTML = '<p style="color: #94a3b8;">Henüz verilmiş bir siparişiniz bulunmuyor.</p>';
@@ -384,7 +378,7 @@
             document.getElementById('mainSite').classList.remove('hidden');
         }
 
-        // --- YÖNETİCİ İŞLEMLERİ ---
+        // YÖNETİCİ GİRİŞİ
         function handleAdminLogin() {
             const user = document.getElementById('adminUsername').value;
             const pass = document.getElementById('adminPassword').value;
@@ -399,22 +393,23 @@
             }
         }
 
+        // YÖNETİCİ PANELİ (ANLIK GÜNCELLENEN)
         function showAdminPanel() {
             document.getElementById('mainSite').classList.add('hidden');
             document.getElementById('userDashboard').style.display = 'none';
             document.getElementById('adminDashboard').style.display = 'block';
 
+            // DİREKT TARAYICI HAFIZASINDAN TAZELENMİŞ VERİYİ ÇEKİYORUZ
+            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
             const content = document.getElementById('allOrdersContent');
             
-            if (orders.length === 0) {
+            if (currentOrders.length === 0) {
                 content.innerHTML = '<p style="color: #94a3b8;">Sistemde henüz hiç sipariş yok.</p>';
                 return;
             }
 
             content.innerHTML = '';
-            // En yeni sipariş üstte
-            [...orders].reverse().forEach(o => {
-                
+            [...currentOrders].reverse().forEach(o => {
                 let actionArea = "";
                 if (o.status !== 'Teslim Edildi') {
                     actionArea = `
@@ -441,12 +436,14 @@
             });
         }
 
+        // TESLİMAT İŞLEMİ
         function deliverOrder(orderId) {
             const linkInput = document.getElementById(`link_${orderId}`).value.trim();
             if(!linkInput) return alert("Lütfen teslim edilecek dosyanın/tasarımın linkini giriniz!");
 
-            // İlgili siparişi bul ve güncelle
-            orders = orders.map(o => {
+            let currentOrders = JSON.parse(localStorage.getItem('umutOrders')) || [];
+            
+            currentOrders = currentOrders.map(o => {
                 if(o.id === orderId) {
                     o.status = 'Teslim Edildi';
                     o.deliveryLink = linkInput;
@@ -454,9 +451,9 @@
                 return o;
             });
 
-            localStorage.setItem('umutOrders', JSON.stringify(orders));
-            alert("Tasarım müşteriye teslim edildi!");
-            showAdminPanel(); // Sayfayı yenile
+            localStorage.setItem('umutOrders', JSON.stringify(currentOrders));
+            alert("Tasarım müşteriye başarıyla teslim edildi!");
+            showAdminPanel(); // Listeyi anında yeniler
         }
     </script>
 </body>
